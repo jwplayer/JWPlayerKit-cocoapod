@@ -1114,6 +1114,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit5JWCue")
 @property (nonatomic, readonly, strong) JWCueTime * _Nullable end;
 /// Text to display in the timeline.
 @property (nonatomic, readonly, copy) NSString * _Nonnull text;
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -2774,8 +2775,8 @@ enum JWVideoGravity : NSInteger;
 /// A view for displaying a player. It automatically handles enlarging the player to the size of this container view, and displaying the player.
 SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerView")
 @interface JWPlayerView : UIView
-/// The player associated with the view. If no config has been set, player will be nil.
-@property (nonatomic, readonly, strong) id <JWPlayer> _Null_unspecified player;
+/// The player associated with the view.
+@property (nonatomic, readonly, strong) id <JWPlayer> _Nonnull player;
 /// The delegate which will receive events related to the JWPlayerView.
 @property (nonatomic, weak) id <JWPlayerViewDelegate> _Nullable delegate;
 /// The currently defined style for captions. If nil, it reverts to default settings as specified within the SDK or the user’s accessibility settings.
@@ -2974,6 +2975,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
+
 
 
 
@@ -4503,6 +4505,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit5JWCue")
 @property (nonatomic, readonly, strong) JWCueTime * _Nullable end;
 /// Text to display in the timeline.
 @property (nonatomic, readonly, copy) NSString * _Nonnull text;
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -6163,8 +6166,8 @@ enum JWVideoGravity : NSInteger;
 /// A view for displaying a player. It automatically handles enlarging the player to the size of this container view, and displaying the player.
 SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerView")
 @interface JWPlayerView : UIView
-/// The player associated with the view. If no config has been set, player will be nil.
-@property (nonatomic, readonly, strong) id <JWPlayer> _Null_unspecified player;
+/// The player associated with the view.
+@property (nonatomic, readonly, strong) id <JWPlayer> _Nonnull player;
 /// The delegate which will receive events related to the JWPlayerView.
 @property (nonatomic, weak) id <JWPlayerViewDelegate> _Nullable delegate;
 /// The currently defined style for captions. If nil, it reverts to default settings as specified within the SDK or the user’s accessibility settings.
@@ -6363,6 +6366,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
+
 
 
 

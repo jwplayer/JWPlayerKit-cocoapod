@@ -17,6 +17,7 @@ import MediaAccessibility
 import MediaPlayer
 import Swift
 import SystemConfiguration
+import UIKit.UIAccessibility
 import UIKit.UIColor
 import UIKit
 import libxml2
@@ -519,7 +520,9 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   }
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWPlayerView : UIKit.UIView {
-  @objc final public let player: JWPlayerKit.JWPlayer!
+  @objc public var player: JWPlayerKit.JWPlayer {
+    @objc get
+  }
   @objc weak public var delegate: JWPlayerKit.JWPlayerViewDelegate?
   @objc public var captionStyle: JWPlayerKit.JWCaptionStyle? {
     @objc get
@@ -800,6 +803,7 @@ public typealias JSONPayload = [Swift.AnyHashable : Any]
   @objc final public let end: JWPlayerKit.JWCueTime?
   @objc final public let text: Swift.String
   public static func == (lhs: JWPlayerKit.JWCue, rhs: JWPlayerKit.JWCue) -> Swift.Bool
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   required public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
   @objc deinit
