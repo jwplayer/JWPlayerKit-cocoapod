@@ -21,7 +21,7 @@ import SystemConfiguration
 import UIKit.UIAccessibility
 import UIKit.UIColor
 import UIKit
-import _Concurrency
+
 import libxml2
 import os.log
 import os
@@ -534,29 +534,29 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     get
   }
 }
-@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor(unsafe) public class JWPlayerView : UIKit.UIView {
-  @objc @_Concurrency.MainActor(unsafe) public var player: JWPlayerKit.JWPlayer {
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWPlayerView : UIKit.UIView {
+  @objc public var player: JWPlayerKit.JWPlayer {
     @objc get
   }
-  @objc @_Concurrency.MainActor(unsafe) weak public var delegate: JWPlayerKit.JWPlayerViewDelegate?
-  @objc @_Concurrency.MainActor(unsafe) public var captionStyle: JWPlayerKit.JWCaptionStyle? {
-    @objc get
-    @objc set
-  }
-  @objc @_Concurrency.MainActor(unsafe) public var captionInsets: UIKit.UIEdgeInsets {
+  @objc weak public var delegate: JWPlayerKit.JWPlayerViewDelegate?
+  @objc public var captionStyle: JWPlayerKit.JWCaptionStyle? {
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var pictureInPictureController: AVKit.AVPictureInPictureController? {
-    @objc get
-  }
-  @objc @_Concurrency.MainActor(unsafe) public var videoGravity: JWPlayerKit.JWVideoGravity {
+  @objc public var captionInsets: UIKit.UIEdgeInsets {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc public var pictureInPictureController: AVKit.AVPictureInPictureController? {
+    @objc get
+  }
+  @objc public var videoGravity: JWPlayerKit.JWVideoGravity {
+    @objc get
+    @objc set
+  }
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
   @objc deinit
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func layoutSubviews()
+  @objc override dynamic public func layoutSubviews()
 }
 @objc public enum JWRelatedOnComplete : Swift.Int {
   case show
@@ -647,107 +647,107 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc func onMediaTimeEvent(_ time: JWPlayerKit.JWTimeData)
   @objc func onAdTimeEvent(_ time: JWPlayerKit.JWTimeData)
 }
-@objc @_inheritsConvenienceInitializers @objcMembers @_Concurrency.MainActor(unsafe) open class JWPlayerViewController : UIKit.UIViewController, AVKit.AVPictureInPictureControllerDelegate, JWPlayerKit.JWPlayerViewDelegate, JWPlayerKit.JWPlayerDelegate, JWPlayerKit.JWPlayerStateDelegate, JWPlayerKit.JWAVDelegate, JWPlayerKit.JWAdDelegate, JWPlayerKit.JWMediaMetadataDelegate, JWPlayerKit.JWCastDelegate, JWPlayerKit.JWTimeEventListener, UIKit.UIPopoverPresentationControllerDelegate {
-  @objc @_Concurrency.MainActor(unsafe) weak public var delegate: JWPlayerKit.JWPlayerViewControllerDelegate?
-  @objc @_Concurrency.MainActor(unsafe) public var playerView: JWPlayerKit.JWPlayerView {
+@objc @_inheritsConvenienceInitializers @objcMembers open class JWPlayerViewController : UIKit.UIViewController, AVKit.AVPictureInPictureControllerDelegate, JWPlayerKit.JWPlayerViewDelegate, JWPlayerKit.JWPlayerDelegate, JWPlayerKit.JWPlayerStateDelegate, JWPlayerKit.JWAVDelegate, JWPlayerKit.JWAdDelegate, JWPlayerKit.JWMediaMetadataDelegate, JWPlayerKit.JWCastDelegate, JWPlayerKit.JWTimeEventListener, UIKit.UIPopoverPresentationControllerDelegate {
+  @objc weak public var delegate: JWPlayerKit.JWPlayerViewControllerDelegate?
+  @objc public var playerView: JWPlayerKit.JWPlayerView {
     @objc get
   }
-  @objc @_Concurrency.MainActor(unsafe) public var interfaceBehavior: JWPlayerKit.JWInterfaceBehavior {
-    @objc get
-    @objc set
-  }
-  @objc @_Concurrency.MainActor(unsafe) public var playbackRates: [Swift.Double] {
+  @objc public var interfaceBehavior: JWPlayerKit.JWInterfaceBehavior {
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var enableLockScreenControls: Swift.Bool {
+  @objc public var playbackRates: [Swift.Double] {
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var interfaceFadeDelay: Swift.Double
-  @objc @_Concurrency.MainActor(unsafe) public var offlinePosterImage: UIKit.UIImage? {
+  @objc public var enableLockScreenControls: Swift.Bool {
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var offlineMessage: Swift.String {
+  @objc public var interfaceFadeDelay: Swift.Double
+  @objc public var offlinePosterImage: UIKit.UIImage? {
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var player: JWPlayerKit.JWPlayer {
-    @objc get
-  }
-  @objc @_Concurrency.MainActor(unsafe) public var adInterfaceStyle: JWPlayerKit.JWAdInterfaceStyle
-  @objc @_Concurrency.MainActor(unsafe) public var forceFullScreenOnLandscape: Swift.Bool
-  @objc @_Concurrency.MainActor(unsafe) public var forceLandscapeOnFullScreen: Swift.Bool
-  @objc @_Concurrency.MainActor(unsafe) public var styling: JWPlayerKit.JWPlayerSkin? {
+  @objc public var offlineMessage: Swift.String {
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var nextUpStyle: JWPlayerKit.JWNextUpStyle?
+  @objc public var player: JWPlayerKit.JWPlayer {
+    @objc get
+  }
+  @objc public var adInterfaceStyle: JWPlayerKit.JWAdInterfaceStyle
+  @objc public var forceFullScreenOnLandscape: Swift.Bool
+  @objc public var forceLandscapeOnFullScreen: Swift.Bool
+  @objc public var styling: JWPlayerKit.JWPlayerSkin? {
+    @objc get
+    @objc set
+  }
+  @objc public var nextUpStyle: JWPlayerKit.JWNextUpStyle?
   @objc deinit
-  @objc @_Concurrency.MainActor(unsafe) public var logo: JWPlayerKit.JWLogo? {
+  @objc public var logo: JWPlayerKit.JWLogo? {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func didMove(toParent parent: UIKit.UIViewController?)
-  @objc @_Concurrency.MainActor(unsafe) public static func registerController()
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillTransition(to size: CoreGraphics.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
-  @_Concurrency.MainActor(unsafe) @objc open func playerView(_ view: JWPlayerKit.JWPlayerView, sizeChangedFrom oldSize: CoreGraphics.CGSize, to newSize: CoreGraphics.CGSize)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayerIsReady(_ player: JWPlayerKit.JWPlayer)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, failedWithError code: Swift.UInt, message: Swift.String)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, failedWithSetupError code: Swift.UInt, message: Swift.String)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, encounteredWarning code: Swift.UInt, message: Swift.String)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, encounteredAdError code: Swift.UInt, message: Swift.String)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, encounteredAdWarning code: Swift.UInt, message: Swift.String)
-  @_Concurrency.MainActor(unsafe) @objc open func onMediaTimeEvent(_ time: JWPlayerKit.JWTimeData)
-  @_Concurrency.MainActor(unsafe) @objc open func onAdTimeEvent(_ time: JWPlayerKit.JWTimeData)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayerContentWillComplete(_ player: JWPlayerKit.JWPlayer)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, willPlayWithReason reason: JWPlayerKit.JWPlayReason)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayerContentIsBuffering(_ player: JWPlayerKit.JWPlayer)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, updatedBuffer percent: Swift.Double, position time: JWPlayerKit.JWTimeData)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayerContentDidComplete(_ player: JWPlayerKit.JWPlayer)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didFinishLoadingWithTime loadTime: Foundation.TimeInterval)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, isPlayingWithReason reason: JWPlayerKit.JWPlayReason)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, isAttemptingToPlay playlistItem: JWPlayerKit.JWPlayerItem, reason: JWPlayerKit.JWPlayReason)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didPauseWithReason reason: JWPlayerKit.JWPauseReason)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didBecomeIdleWithReason reason: JWPlayerKit.JWIdleReason)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, usesMediaType type: JWPlayerKit.JWMediaType)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, isVisible: Swift.Bool)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didLoadPlaylist playlist: [JWPlayerKit.JWPlayerItem])
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didLoadPlaylistItem item: JWPlayerKit.JWPlayerItem, at index: Swift.UInt)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayerPlaylistHasCompleted(_ player: JWPlayerKit.JWPlayer)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, seekedFrom oldPosition: Foundation.TimeInterval, to newPosition: Foundation.TimeInterval)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayerHasSeeked(_ player: JWPlayerKit.JWPlayer)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, playbackRateChangedTo rate: Swift.Double, at time: Foundation.TimeInterval)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didReceiveMediaMetadata metadata: JWPlayerKit.JWMediaMetadata)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, audioTracksUpdated levels: [JWPlayerKit.JWMediaSelectionOption])
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, audioTrackChanged currentLevel: Swift.Int)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, qualityLevelsUpdated levels: [JWPlayerKit.JWVideoSource])
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, qualityLevelChanged currentLevel: Swift.Int)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, updatedCaptionList options: [JWPlayerKit.JWMediaSelectionOption])
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, captionTrackChanged index: Swift.Int)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, captionPresented caption: [Swift.String], at time: JWPlayerKit.JWTimeData)
-  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: Swift.AnyObject, adEvent event: JWPlayerKit.JWAdEvent)
-  @_Concurrency.MainActor(unsafe) @objc open func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
-  @_Concurrency.MainActor(unsafe) @objc open func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
-  @_Concurrency.MainActor(unsafe) @objc open func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
-  @_Concurrency.MainActor(unsafe) @objc open func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
-  @_Concurrency.MainActor(unsafe) @objc open func pictureInPictureController(_ pictureInPictureController: AVKit.AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Swift.Bool) -> Swift.Void)
-  @_Concurrency.MainActor(unsafe) @objc open func pictureInPictureController(_ pictureInPictureController: AVKit.AVPictureInPictureController, failedToStartPictureInPictureWithError error: Swift.Error)
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, devicesAvailable devices: [JWPlayerKit.JWCastingDevice])
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, connectedTo device: JWPlayerKit.JWCastingDevice)
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, disconnectedWithError error: Swift.Error?)
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, connectionSuspendedWithDevice device: JWPlayerKit.JWCastingDevice)
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, connectionRecoveredWithDevice device: JWPlayerKit.JWCastingDevice)
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, connectionFailedWithError error: Swift.Error)
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, castingBeganWithDevice device: JWPlayerKit.JWCastingDevice)
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, castingFailedWithError error: Swift.Error)
-  @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, castingEndedWithError error: Swift.Error?)
-  @_Concurrency.MainActor(unsafe) @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
-  @_Concurrency.MainActor(unsafe) @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: UIKit.UIViewControllerTransitionCoordinator?)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic open func viewDidLoad()
+  @objc override dynamic open func didMove(toParent parent: UIKit.UIViewController?)
+  @objc public static func registerController()
+  @objc override dynamic open func viewWillTransition(to size: CoreGraphics.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+  @objc open func playerView(_ view: JWPlayerKit.JWPlayerView, sizeChangedFrom oldSize: CoreGraphics.CGSize, to newSize: CoreGraphics.CGSize)
+  @objc open func jwplayerIsReady(_ player: JWPlayerKit.JWPlayer)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, failedWithError code: Swift.UInt, message: Swift.String)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, failedWithSetupError code: Swift.UInt, message: Swift.String)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, encounteredWarning code: Swift.UInt, message: Swift.String)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, encounteredAdError code: Swift.UInt, message: Swift.String)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, encounteredAdWarning code: Swift.UInt, message: Swift.String)
+  @objc open func onMediaTimeEvent(_ time: JWPlayerKit.JWTimeData)
+  @objc open func onAdTimeEvent(_ time: JWPlayerKit.JWTimeData)
+  @objc open func jwplayerContentWillComplete(_ player: JWPlayerKit.JWPlayer)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, willPlayWithReason reason: JWPlayerKit.JWPlayReason)
+  @objc open func jwplayerContentIsBuffering(_ player: JWPlayerKit.JWPlayer)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, updatedBuffer percent: Swift.Double, position time: JWPlayerKit.JWTimeData)
+  @objc open func jwplayerContentDidComplete(_ player: JWPlayerKit.JWPlayer)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didFinishLoadingWithTime loadTime: Foundation.TimeInterval)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, isPlayingWithReason reason: JWPlayerKit.JWPlayReason)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, isAttemptingToPlay playlistItem: JWPlayerKit.JWPlayerItem, reason: JWPlayerKit.JWPlayReason)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didPauseWithReason reason: JWPlayerKit.JWPauseReason)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didBecomeIdleWithReason reason: JWPlayerKit.JWIdleReason)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, usesMediaType type: JWPlayerKit.JWMediaType)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, isVisible: Swift.Bool)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didLoadPlaylist playlist: [JWPlayerKit.JWPlayerItem])
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didLoadPlaylistItem item: JWPlayerKit.JWPlayerItem, at index: Swift.UInt)
+  @objc open func jwplayerPlaylistHasCompleted(_ player: JWPlayerKit.JWPlayer)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, seekedFrom oldPosition: Foundation.TimeInterval, to newPosition: Foundation.TimeInterval)
+  @objc open func jwplayerHasSeeked(_ player: JWPlayerKit.JWPlayer)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, playbackRateChangedTo rate: Swift.Double, at time: Foundation.TimeInterval)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didReceiveMediaMetadata metadata: JWPlayerKit.JWMediaMetadata)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, audioTracksUpdated levels: [JWPlayerKit.JWMediaSelectionOption])
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, audioTrackChanged currentLevel: Swift.Int)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, qualityLevelsUpdated levels: [JWPlayerKit.JWVideoSource])
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, qualityLevelChanged currentLevel: Swift.Int)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, updatedCaptionList options: [JWPlayerKit.JWMediaSelectionOption])
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, captionTrackChanged index: Swift.Int)
+  @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, captionPresented caption: [Swift.String], at time: JWPlayerKit.JWTimeData)
+  @objc open func jwplayer(_ player: Swift.AnyObject, adEvent event: JWPlayerKit.JWAdEvent)
+  @objc open func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
+  @objc open func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
+  @objc open func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
+  @objc open func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
+  @objc open func pictureInPictureController(_ pictureInPictureController: AVKit.AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+  @objc open func pictureInPictureController(_ pictureInPictureController: AVKit.AVPictureInPictureController, failedToStartPictureInPictureWithError error: Swift.Error)
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, devicesAvailable devices: [JWPlayerKit.JWCastingDevice])
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, connectedTo device: JWPlayerKit.JWCastingDevice)
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, disconnectedWithError error: Swift.Error?)
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, connectionSuspendedWithDevice device: JWPlayerKit.JWCastingDevice)
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, connectionRecoveredWithDevice device: JWPlayerKit.JWCastingDevice)
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, connectionFailedWithError error: Swift.Error)
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, castingBeganWithDevice device: JWPlayerKit.JWCastingDevice)
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, castingFailedWithError error: Swift.Error)
+  @objc open func castController(_ controller: JWPlayerKit.JWCastController, castingEndedWithError error: Swift.Error?)
+  @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
+  @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: UIKit.UIViewControllerTransitionCoordinator?)
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
 }
 public typealias JSONPayload = [Swift.AnyHashable : Any]
 @_hasMissingDesignatedInitializers @objc public class JWAdOffset : ObjectiveC.NSObject {
@@ -759,16 +759,16 @@ public typealias JSONPayload = [Swift.AnyHashable : Any]
   @objc public func asString() -> Swift.String
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @objcMembers @_Concurrency.MainActor(unsafe) open class JWFullScreenViewController : UIKit.UIViewController, UIKit.UIPopoverPresentationControllerDelegate {
-  @objc @_Concurrency.MainActor(unsafe) public var displayInLandscape: Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public var preferredInterfaceOrientationForPresentation: UIKit.UIInterfaceOrientation {
-    @_Concurrency.MainActor(unsafe) @objc get
+@objc @_inheritsConvenienceInitializers @objcMembers open class JWFullScreenViewController : UIKit.UIViewController, UIKit.UIPopoverPresentationControllerDelegate {
+  @objc public var displayInLandscape: Swift.Bool
+  @objc override dynamic public var preferredInterfaceOrientationForPresentation: UIKit.UIInterfaceOrientation {
+    @objc get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
-  @_Concurrency.MainActor(unsafe) @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
-  @_Concurrency.MainActor(unsafe) @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: UIKit.UIViewControllerTransitionCoordinator?)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic public func viewDidLoad()
+  @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
+  @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: UIKit.UIViewControllerTransitionCoordinator?)
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWVideoSource : ObjectiveC.NSObject {

@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		vGgKsl2BGMob2VU1/wSShtLuE/8=
+		cXk8lu56szylAZuLpzyeZ7Qgt9M=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -110,7 +110,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<data>
-		vmSKJtCeYyvnfDpMsueKaBOjo8Q=
+		QwV6p+PWN+jnpen4K51KjgCTt84=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftdoc</key>
 		<data>
@@ -122,7 +122,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftmodule</key>
 		<data>
-		vmSKJtCeYyvnfDpMsueKaBOjo8Q=
+		QwV6p+PWN+jnpen4K51KjgCTt84=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -134,7 +134,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		LCbtsZRgthLnHHwIj0rQjOlVO5c=
+		mq6bT6z3kZzss46iESuev0uqu6w=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -146,7 +146,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		LCbtsZRgthLnHHwIj0rQjOlVO5c=
+		mq6bT6z3kZzss46iESuev0uqu6w=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -594,11 +594,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vmSKJtCeYyvnfDpMsueKaBOjo8Q=
+			QwV6p+PWN+jnpen4K51KjgCTt84=
 			</data>
 			<key>hash2</key>
 			<data>
-			nvZPNqZzn3hvD6uf9xQIN36jq90koKB4tfzEry0RsmU=
+			Ui1n/DJKqaMXr18J8hR8qGwsDjcV9wsl5B/om6GeHG4=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftdoc</key>
@@ -627,11 +627,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vmSKJtCeYyvnfDpMsueKaBOjo8Q=
+			QwV6p+PWN+jnpen4K51KjgCTt84=
 			</data>
 			<key>hash2</key>
 			<data>
-			nvZPNqZzn3hvD6uf9xQIN36jq90koKB4tfzEry0RsmU=
+			Ui1n/DJKqaMXr18J8hR8qGwsDjcV9wsl5B/om6GeHG4=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -660,11 +660,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LCbtsZRgthLnHHwIj0rQjOlVO5c=
+			mq6bT6z3kZzss46iESuev0uqu6w=
 			</data>
 			<key>hash2</key>
 			<data>
-			NBJM53pKIaSqvaATneFeQSs7/CK9U68vwlt59TjmFzs=
+			sphsMV1a/kTy8yJn4sLwW5smVSh3UVDFRCE8hvw5V7E=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftdoc</key>
@@ -693,11 +693,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LCbtsZRgthLnHHwIj0rQjOlVO5c=
+			mq6bT6z3kZzss46iESuev0uqu6w=
 			</data>
 			<key>hash2</key>
 			<data>
-			NBJM53pKIaSqvaATneFeQSs7/CK9U68vwlt59TjmFzs=
+			sphsMV1a/kTy8yJn4sLwW5smVSh3UVDFRCE8hvw5V7E=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
