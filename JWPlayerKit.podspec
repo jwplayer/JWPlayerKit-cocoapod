@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.authors      = { "JW Player" => "support@jwplayer.com" }
 
   s.platform     = :ios, "10.0"
-  s.documentation_url = "http://developer.jwplayer.com/sdk/ios/docs/developer-guide/"
+  s.documentation_url = "https://developer.jwplayer.com/sdk/ios/docs/developer-guide/"
   s.source       = { :git => "https://github.com/jwplayer/JWPlayerKit-cocoapod.git", :tag => s.version.to_s }
 
   s.ios.vendored_frameworks = "JWPlayerKit.xcframework"
@@ -19,8 +19,8 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/jwplayer'
   s.social_media_url = 'https://twitter.com/jwpsupport'
 
-  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator14.*]' => 'arm64' }
-  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator14.*]' => 'arm64' }
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
   s.requires_arc = true
 
