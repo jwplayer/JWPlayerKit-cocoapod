@@ -22,6 +22,7 @@ JWPlayerDelegate,
 JWPlayerStateDelegate,
 JWAVDelegate,
 JWAdDelegate,
+JWAirPlayDelegate,
 JWMediaMetadataDelegate,
 JWCastDelegate,
 JWTimeEventListener>

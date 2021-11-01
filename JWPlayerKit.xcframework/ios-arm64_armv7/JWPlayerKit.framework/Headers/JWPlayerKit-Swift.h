@@ -324,6 +324,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit27JWAccessLogMetadataDelegate_")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveAccessLogMetadata:(JWAccessLogMetadata * _Nonnull)metadata;
 @end
 
+@class NSURL;
 @class JWAdOffset;
 enum JWAdType : NSInteger;
 
@@ -332,8 +333,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
 @interface JWAdBreak : NSObject
 /// Contains the VAST ad assembled urls used by our player to retrieve ads.
 /// note:
-/// If you are calling this from Swift, use the <code>tags</code> property instead.
-@property (nonatomic, readonly, strong) NSArray * _Nonnull tagArray;
+/// If you are calling this from Objective-C, use <code>tagArray</code> instead.
+@property (nonatomic, readonly, copy) NSArray<NSURL *> * _Nonnull tags;
 /// The offset describes the point in time at which to play the ad.
 /// note:
 /// Supported formats are:
@@ -364,7 +365,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-@class NSURL;
 
 /// The builder for JWAdBreak.
 SWIFT_CLASS("_TtC11JWPlayerKit16JWAdBreakBuilder")
@@ -515,6 +515,8 @@ typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
   JWAdEventKeyType = 21,
 /// The position of the ad within the content. The values can be <code>pre</code>, <code>post</code>, and <code>mid</code>. This can be used in conjuntion with <code>JWAdPosition</code>.
   JWAdEventKeyAdPosition = 22,
+/// The number of seconds before the user is allowed to skip the ad.
+  JWAdEventKeySkipOffset = 23,
 };
 
 /// Constants denoting a type of ad event.
@@ -845,6 +847,35 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWAdvertisingConfig")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+enum JWAirPlayStatus : NSInteger;
+
+/// Reports AirPlay events
+SWIFT_PROTOCOL("_TtP11JWPlayerKit17JWAirPlayDelegate_")
+@protocol JWAirPlayDelegate
+/// Reports when the player’s AirPlay connection status changes.
+/// \param player The player affected by the AirPlay connection status change.
+///
+/// \param status The status of the player’s AirPlay connection.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player airPlayStatusChanged:(enum JWAirPlayStatus)status;
+@end
+
+/// The status of the player’s AirPlay connection
+typedef SWIFT_ENUM(NSInteger, JWAirPlayStatus, open) {
+/// The player is connected to an AirPlay device.
+  JWAirPlayStatusConnected = 0,
+/// The player isn’t connected to any AirPlay devices.
+  JWAirPlayStatusDisconnected = 1,
+};
+
+/// Reasons why the player buffers.
+typedef SWIFT_ENUM(NSInteger, JWBufferReason, open) {
+/// The player is buffering expectedly as it tries to play after an action (e.g. scrubbing or a play attempt).
+  JWBufferReasonLoading = 0,
+/// The player is buffering unexpectedly as it waits to continue playing.
+  JWBufferReasonStalled = 1,
+};
 
 /// Constants defining the border style of the caption.
 typedef SWIFT_ENUM(NSInteger, JWCaptionEdgeStyle, open) {
@@ -1447,6 +1478,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 @interface JWFullScreenViewController : UIViewController <UIPopoverPresentationControllerDelegate>
 /// If true, all full screen views are forced into landscape orientation. True by default.
 @property (nonatomic) BOOL displayInLandscape;
+@property (nonatomic, readonly) BOOL prefersHomeIndicatorAutoHidden;
 /// The interface orientation to use when presenting the view controller.
 @property (nonatomic, readonly) UIInterfaceOrientation preferredInterfaceOrientationForPresentation;
 /// Called after the controller’s view is loaded into memory.
@@ -1801,8 +1833,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWLogoBuilder")
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink;
 /// Sets the amount of space between the logo and the edge of the screen. Defaults to 8.
-/// note:
-/// If the <code>position</code> is on the control bar, the margin is ignored.
 /// \param margin The desired amount of space between the logo and edge of the player.
 ///
 ///
@@ -1831,10 +1861,6 @@ typedef SWIFT_ENUM(NSInteger, JWLogoPosition, open) {
   JWLogoPositionBottomRight = 2,
 /// The top-left corner of the player.
   JWLogoPositionBottomLeft = 3,
-/// The left side of the control bar.
-  JWLogoPositionControlBarLeft = 4,
-/// The right side of the control bar.
-  JWLogoPositionControlBarRight = 5,
 };
 
 @class JWTimeRange;
@@ -2145,6 +2171,14 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 - (void)next;
 /// Stops the current content, and plays the previous video in the playlist.
 - (void)previous;
+/// Plays an ad immediately, which is primarily useful for situations where the built-in ad schedule of JW Player cannot be used.
+/// warning:
+/// If Google IMA DAI is specified as the client, a warning will be thrown.
+/// \param tag The VAST tag URL that should be loaded into the player.
+///
+/// \param client The ad client to use. This feature is not supported by Google IMA DAI.
+///
+- (void)playWithAd:(NSURL * _Nonnull)tag client:(enum JWAdClient)client;
 /// Skips the currently playing ad.
 - (void)skipAd;
 /// Returns the state of the player.
@@ -2181,8 +2215,28 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 /// \param cues An array of Cues.
 ///
 - (void)addCues:(NSArray<JWCue *> * _Nonnull)cues;
+/// Set the captions the index of the currently active captions track. A value of -1 means there is no captions track will be in use.
+/// <ul>
+///   <li>
+///     parameters index: The caption index to be set.
+///   </li>
+/// </ul>
+///
+/// throws:
+/// If an error is encountered, a JWError is thrown.
+- (BOOL)setCaptionTrackWithIndex:(NSInteger)index error:(NSError * _Nullable * _Nullable)error;
+/// Set the captions track by its locale. If the locale for this track does not exist, this throws a warning. If the locale is set to <code>nil</code> then no captions track will be used.
+/// <ul>
+///   <li>
+///     parameters locale: The caption locale to be set.
+///   </li>
+/// </ul>
+///
+/// throws:
+/// If an error is encountered, a JWError is thrown.
+- (BOOL)setCaptionTrackWithLocale:(NSString * _Nullable)locale error:(NSError * _Nullable * _Nullable)error;
 /// The index of the currently active captions track. A value of -1 means there is no captions track in use.
-@property (nonatomic) NSInteger currentCaptionsTrack;
+@property (nonatomic) NSInteger currentCaptionsTrack SWIFT_DEPRECATED_MSG("Instead use the setCaptionTrack(locale:q) method.");
 /// Returns an array of objects based on available captions. Information for each object may vary depending on the caption types.
 @property (nonatomic, readonly, copy) NSArray<JWMediaSelectionOption *> * _Nonnull captionsTracks;
 /// The index of the currently active audio track.
@@ -2201,6 +2255,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 @property (nonatomic, strong) id <JWAdDelegate> _Nullable adDelegate;
 /// A delegate which listens for events for video quality, captions, and audio.
 @property (nonatomic, strong) id <JWAVDelegate> _Nullable avDelegate;
+/// A delegate which listens for AirPlay events.
+@property (nonatomic, strong) id <JWAirPlayDelegate> _Nullable airPlayDelegate;
 /// An interface to  add/remove friendly obstructions
 @property (nonatomic, readonly, strong) id <JWFriendlyObstructionManager> _Nonnull friendlyObstructions;
 /// This closure is called during all ad time events. The current position and duration of the current ad content is supplied as an argument.
@@ -2727,6 +2783,12 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// \param reason The reason play will begin.
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player willPlayWithReason:(enum JWPlayReason)reason;
+/// Reports when the player is buffering.
+/// \param player The player that is buffering.
+///
+/// \param reason The reason the player is buffering.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player isBufferingWithReason:(enum JWBufferReason)reason;
 /// Reports when the content is buffering.
 /// note:
 /// Analagous to the <code>onBuffer</code> event in version 3.x.
@@ -2824,7 +2886,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// \param player The player emitting the event.
 ///
 - (void)jwplayerPlaylistHasCompleted:(id <JWPlayer> _Nonnull)player;
-/// Reports when type of media has been loaded..
+/// Reports when type of media has been loaded.
 /// \param player The player emitting the event.
 ///
 /// \param type The type of media content being played.
@@ -2857,6 +2919,12 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// \param time The position in the content, expressed in seconds, at which the playback rate changed.
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player playbackRateChangedTo:(double)rate at:(NSTimeInterval)time;
+/// Reports when the cue points have been updated.
+/// \param player The player emitting the event.
+///
+/// \param cues The new list of cues.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCues:(NSArray<JWCue *> * _Nonnull)cues;
 @end
 
 @protocol JWPlayerViewDelegate;
@@ -2925,7 +2993,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewDelegate_")
 /// note:
 /// If you are writing in Objective-C and want to subclass this ViewController, refer to <code>JWPlayerObjViewController</code> and subclass that instead.
 SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
-@interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAdDelegate, JWCastDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
+@interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAdDelegate, JWAirPlayDelegate, JWCastDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
 /// The delegate to receive JWPlayerViewController events.
 @property (nonatomic, weak) id <JWPlayerViewControllerDelegate> _Nullable delegate;
 /// The view containing the player.
@@ -2987,6 +3055,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)onAdTimeEvent:(JWTimeData * _Nonnull)time;
 - (void)jwplayerContentWillComplete:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player willPlayWithReason:(enum JWPlayReason)reason;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player isBufferingWithReason:(enum JWBufferReason)reason;
 - (void)jwplayerContentIsBuffering:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedBuffer:(double)percent position:(JWTimeData * _Nonnull)time;
 - (void)jwplayerContentDidComplete:(id <JWPlayer> _Nonnull)player;
@@ -3003,7 +3072,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player seekedFrom:(NSTimeInterval)oldPosition to:(NSTimeInterval)newPosition;
 - (void)jwplayerHasSeeked:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player playbackRateChangedTo:(double)rate at:(NSTimeInterval)time;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCues:(NSArray<JWCue *> * _Nonnull)cues;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveMediaMetadata:(JWMediaMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player airPlayStatusChanged:(enum JWAirPlayStatus)status;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player audioTracksUpdated:(NSArray<JWMediaSelectionOption *> * _Nonnull)levels;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player audioTrackChanged:(NSInteger)currentLevel;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player qualityLevelsUpdated:(NSArray<JWVideoSource *> * _Nonnull)levels;
@@ -3475,6 +3546,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 
 
 
+
+
+@class UIEvent;
+
+@interface UIStackView (SWIFT_EXTENSION(JWPlayerKit))
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent * _Nullable)event SWIFT_WARN_UNUSED_RESULT;
+@end
 
 
 
@@ -3815,6 +3893,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit27JWAccessLogMetadataDelegate_")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveAccessLogMetadata:(JWAccessLogMetadata * _Nonnull)metadata;
 @end
 
+@class NSURL;
 @class JWAdOffset;
 enum JWAdType : NSInteger;
 
@@ -3823,8 +3902,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
 @interface JWAdBreak : NSObject
 /// Contains the VAST ad assembled urls used by our player to retrieve ads.
 /// note:
-/// If you are calling this from Swift, use the <code>tags</code> property instead.
-@property (nonatomic, readonly, strong) NSArray * _Nonnull tagArray;
+/// If you are calling this from Objective-C, use <code>tagArray</code> instead.
+@property (nonatomic, readonly, copy) NSArray<NSURL *> * _Nonnull tags;
 /// The offset describes the point in time at which to play the ad.
 /// note:
 /// Supported formats are:
@@ -3855,7 +3934,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-@class NSURL;
 
 /// The builder for JWAdBreak.
 SWIFT_CLASS("_TtC11JWPlayerKit16JWAdBreakBuilder")
@@ -4006,6 +4084,8 @@ typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
   JWAdEventKeyType = 21,
 /// The position of the ad within the content. The values can be <code>pre</code>, <code>post</code>, and <code>mid</code>. This can be used in conjuntion with <code>JWAdPosition</code>.
   JWAdEventKeyAdPosition = 22,
+/// The number of seconds before the user is allowed to skip the ad.
+  JWAdEventKeySkipOffset = 23,
 };
 
 /// Constants denoting a type of ad event.
@@ -4336,6 +4416,35 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWAdvertisingConfig")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+enum JWAirPlayStatus : NSInteger;
+
+/// Reports AirPlay events
+SWIFT_PROTOCOL("_TtP11JWPlayerKit17JWAirPlayDelegate_")
+@protocol JWAirPlayDelegate
+/// Reports when the player’s AirPlay connection status changes.
+/// \param player The player affected by the AirPlay connection status change.
+///
+/// \param status The status of the player’s AirPlay connection.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player airPlayStatusChanged:(enum JWAirPlayStatus)status;
+@end
+
+/// The status of the player’s AirPlay connection
+typedef SWIFT_ENUM(NSInteger, JWAirPlayStatus, open) {
+/// The player is connected to an AirPlay device.
+  JWAirPlayStatusConnected = 0,
+/// The player isn’t connected to any AirPlay devices.
+  JWAirPlayStatusDisconnected = 1,
+};
+
+/// Reasons why the player buffers.
+typedef SWIFT_ENUM(NSInteger, JWBufferReason, open) {
+/// The player is buffering expectedly as it tries to play after an action (e.g. scrubbing or a play attempt).
+  JWBufferReasonLoading = 0,
+/// The player is buffering unexpectedly as it waits to continue playing.
+  JWBufferReasonStalled = 1,
+};
 
 /// Constants defining the border style of the caption.
 typedef SWIFT_ENUM(NSInteger, JWCaptionEdgeStyle, open) {
@@ -4938,6 +5047,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 @interface JWFullScreenViewController : UIViewController <UIPopoverPresentationControllerDelegate>
 /// If true, all full screen views are forced into landscape orientation. True by default.
 @property (nonatomic) BOOL displayInLandscape;
+@property (nonatomic, readonly) BOOL prefersHomeIndicatorAutoHidden;
 /// The interface orientation to use when presenting the view controller.
 @property (nonatomic, readonly) UIInterfaceOrientation preferredInterfaceOrientationForPresentation;
 /// Called after the controller’s view is loaded into memory.
@@ -5292,8 +5402,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWLogoBuilder")
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink;
 /// Sets the amount of space between the logo and the edge of the screen. Defaults to 8.
-/// note:
-/// If the <code>position</code> is on the control bar, the margin is ignored.
 /// \param margin The desired amount of space between the logo and edge of the player.
 ///
 ///
@@ -5322,10 +5430,6 @@ typedef SWIFT_ENUM(NSInteger, JWLogoPosition, open) {
   JWLogoPositionBottomRight = 2,
 /// The top-left corner of the player.
   JWLogoPositionBottomLeft = 3,
-/// The left side of the control bar.
-  JWLogoPositionControlBarLeft = 4,
-/// The right side of the control bar.
-  JWLogoPositionControlBarRight = 5,
 };
 
 @class JWTimeRange;
@@ -5636,6 +5740,14 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 - (void)next;
 /// Stops the current content, and plays the previous video in the playlist.
 - (void)previous;
+/// Plays an ad immediately, which is primarily useful for situations where the built-in ad schedule of JW Player cannot be used.
+/// warning:
+/// If Google IMA DAI is specified as the client, a warning will be thrown.
+/// \param tag The VAST tag URL that should be loaded into the player.
+///
+/// \param client The ad client to use. This feature is not supported by Google IMA DAI.
+///
+- (void)playWithAd:(NSURL * _Nonnull)tag client:(enum JWAdClient)client;
 /// Skips the currently playing ad.
 - (void)skipAd;
 /// Returns the state of the player.
@@ -5672,8 +5784,28 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 /// \param cues An array of Cues.
 ///
 - (void)addCues:(NSArray<JWCue *> * _Nonnull)cues;
+/// Set the captions the index of the currently active captions track. A value of -1 means there is no captions track will be in use.
+/// <ul>
+///   <li>
+///     parameters index: The caption index to be set.
+///   </li>
+/// </ul>
+///
+/// throws:
+/// If an error is encountered, a JWError is thrown.
+- (BOOL)setCaptionTrackWithIndex:(NSInteger)index error:(NSError * _Nullable * _Nullable)error;
+/// Set the captions track by its locale. If the locale for this track does not exist, this throws a warning. If the locale is set to <code>nil</code> then no captions track will be used.
+/// <ul>
+///   <li>
+///     parameters locale: The caption locale to be set.
+///   </li>
+/// </ul>
+///
+/// throws:
+/// If an error is encountered, a JWError is thrown.
+- (BOOL)setCaptionTrackWithLocale:(NSString * _Nullable)locale error:(NSError * _Nullable * _Nullable)error;
 /// The index of the currently active captions track. A value of -1 means there is no captions track in use.
-@property (nonatomic) NSInteger currentCaptionsTrack;
+@property (nonatomic) NSInteger currentCaptionsTrack SWIFT_DEPRECATED_MSG("Instead use the setCaptionTrack(locale:q) method.");
 /// Returns an array of objects based on available captions. Information for each object may vary depending on the caption types.
 @property (nonatomic, readonly, copy) NSArray<JWMediaSelectionOption *> * _Nonnull captionsTracks;
 /// The index of the currently active audio track.
@@ -5692,6 +5824,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 @property (nonatomic, strong) id <JWAdDelegate> _Nullable adDelegate;
 /// A delegate which listens for events for video quality, captions, and audio.
 @property (nonatomic, strong) id <JWAVDelegate> _Nullable avDelegate;
+/// A delegate which listens for AirPlay events.
+@property (nonatomic, strong) id <JWAirPlayDelegate> _Nullable airPlayDelegate;
 /// An interface to  add/remove friendly obstructions
 @property (nonatomic, readonly, strong) id <JWFriendlyObstructionManager> _Nonnull friendlyObstructions;
 /// This closure is called during all ad time events. The current position and duration of the current ad content is supplied as an argument.
@@ -6218,6 +6352,12 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// \param reason The reason play will begin.
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player willPlayWithReason:(enum JWPlayReason)reason;
+/// Reports when the player is buffering.
+/// \param player The player that is buffering.
+///
+/// \param reason The reason the player is buffering.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player isBufferingWithReason:(enum JWBufferReason)reason;
 /// Reports when the content is buffering.
 /// note:
 /// Analagous to the <code>onBuffer</code> event in version 3.x.
@@ -6315,7 +6455,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// \param player The player emitting the event.
 ///
 - (void)jwplayerPlaylistHasCompleted:(id <JWPlayer> _Nonnull)player;
-/// Reports when type of media has been loaded..
+/// Reports when type of media has been loaded.
 /// \param player The player emitting the event.
 ///
 /// \param type The type of media content being played.
@@ -6348,6 +6488,12 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// \param time The position in the content, expressed in seconds, at which the playback rate changed.
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player playbackRateChangedTo:(double)rate at:(NSTimeInterval)time;
+/// Reports when the cue points have been updated.
+/// \param player The player emitting the event.
+///
+/// \param cues The new list of cues.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCues:(NSArray<JWCue *> * _Nonnull)cues;
 @end
 
 @protocol JWPlayerViewDelegate;
@@ -6416,7 +6562,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewDelegate_")
 /// note:
 /// If you are writing in Objective-C and want to subclass this ViewController, refer to <code>JWPlayerObjViewController</code> and subclass that instead.
 SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
-@interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAdDelegate, JWCastDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
+@interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAdDelegate, JWAirPlayDelegate, JWCastDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
 /// The delegate to receive JWPlayerViewController events.
 @property (nonatomic, weak) id <JWPlayerViewControllerDelegate> _Nullable delegate;
 /// The view containing the player.
@@ -6478,6 +6624,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)onAdTimeEvent:(JWTimeData * _Nonnull)time;
 - (void)jwplayerContentWillComplete:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player willPlayWithReason:(enum JWPlayReason)reason;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player isBufferingWithReason:(enum JWBufferReason)reason;
 - (void)jwplayerContentIsBuffering:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedBuffer:(double)percent position:(JWTimeData * _Nonnull)time;
 - (void)jwplayerContentDidComplete:(id <JWPlayer> _Nonnull)player;
@@ -6494,7 +6641,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player seekedFrom:(NSTimeInterval)oldPosition to:(NSTimeInterval)newPosition;
 - (void)jwplayerHasSeeked:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player playbackRateChangedTo:(double)rate at:(NSTimeInterval)time;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCues:(NSArray<JWCue *> * _Nonnull)cues;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveMediaMetadata:(JWMediaMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player airPlayStatusChanged:(enum JWAirPlayStatus)status;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player audioTracksUpdated:(NSArray<JWMediaSelectionOption *> * _Nonnull)levels;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player audioTrackChanged:(NSInteger)currentLevel;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player qualityLevelsUpdated:(NSArray<JWVideoSource *> * _Nonnull)levels;
@@ -6966,6 +7115,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 
 
 
+
+
+@class UIEvent;
+
+@interface UIStackView (SWIFT_EXTENSION(JWPlayerKit))
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent * _Nullable)event SWIFT_WARN_UNUSED_RESULT;
+@end
 
 
 
