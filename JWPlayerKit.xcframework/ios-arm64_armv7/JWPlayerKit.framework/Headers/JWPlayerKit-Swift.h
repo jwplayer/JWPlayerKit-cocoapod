@@ -1316,13 +1316,15 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit27JWDateRangeMetadataDelegate_")
 
 @class NSCoder;
 
-/// This is a descriptive representation of an error.
+/// A custom error class.
 SWIFT_CLASS("_TtC11JWPlayerKit7JWError")
 @interface JWError : NSError
 /// A single-word description of the error to make this error easy to key off of.
 @property (nonatomic, readonly, copy) NSString * _Nonnull key;
 /// A detailed description of the error.
 @property (nonatomic, readonly, copy) NSString * _Nonnull errorDescription;
+/// A localized description of the error.
+@property (nonatomic, readonly, copy) NSString * _Nonnull localizedDescription;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
 - (nonnull instancetype)initWithDomain:(NSString * _Nonnull)domain code:(NSInteger)code userInfo:(NSDictionary<NSString *, id> * _Nullable)dict SWIFT_UNAVAILABLE;
 @end
@@ -1596,6 +1598,7 @@ typedef SWIFT_ENUM(NSInteger, JWIdleReason, open) {
   JWIdleReasonUnknown = 2,
 };
 
+@class JWImaSettings;
 
 /// Used to build a <code>JWAdvertisingConfig</code> object to play ads using the IMA client.
 SWIFT_CLASS("_TtC11JWPlayerKit29JWImaAdvertisingConfigBuilder")
@@ -1651,7 +1654,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWImaAdvertisingConfigBuilder")
 /// If the friendly obstructions array is modified, it will be registered until the next ad schedule is loaded or the current playlist item is replayed.
 /// seealso:
 /// <a href="x-source-tag://FriendlyObstructionsContainer">FriendlyObstructionsContainer.swift</a>
+///
+/// returns:
+/// The builder, so setters can be chained.
 - (JWImaAdvertisingConfigBuilder * _Nonnull)friendlyObstructionsContainer:(JWFriendlyObstructionsContainer * _Nonnull)container;
+/// The Google IMA SDK settings.
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaAdvertisingConfigBuilder * _Nonnull)imaSettings:(JWImaSettings * _Nonnull)imaSettings;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1686,6 +1697,34 @@ SWIFT_CLASS("_TtC11JWPlayerKit32JWImaDaiAdvertisingConfigBuilder")
 /// \param container The container with obstructions that should be marked as friendly.
 ///
 - (JWImaDaiAdvertisingConfigBuilder * _Nonnull)friendlyObstructionsContainer:(JWFriendlyObstructionsContainer * _Nonnull)container;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// The <code>JWImaSettings</code> class encompasses the Google IMA SDK settings.
+SWIFT_CLASS("_TtC11JWPlayerKit13JWImaSettings")
+@interface JWImaSettings : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// The builder for <code>JWImaSettings</code>, object used to configure the Google IMA SDK.
+SWIFT_CLASS("_TtC11JWPlayerKit20JWImaSettingsBuilder")
+@interface JWImaSettingsBuilder : NSObject
+/// Builds a <code>JWImaSettings</code> structure for configure the Google IMA SDK.
+/// <ul>
+///   <li>
+///     returns A <code>JWImaSettings</code> object.
+///   </li>
+/// </ul>
+- (JWImaSettings * _Nonnull)build SWIFT_WARN_UNUSED_RESULT;
+/// Sets the desired language for Google IMA SDK.
+/// \param locale The language code used to localize the UI provided by the Google IMA SDK.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaSettingsBuilder * _Nonnull)locale:(NSString * _Nonnull)locale;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2236,7 +2275,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 /// If an error is encountered, a JWError is thrown.
 - (BOOL)setCaptionTrackWithLocale:(NSString * _Nullable)locale error:(NSError * _Nullable * _Nullable)error;
 /// The index of the currently active captions track. A value of -1 means there is no captions track in use.
-@property (nonatomic) NSInteger currentCaptionsTrack SWIFT_DEPRECATED_MSG("Instead use the setCaptionTrack(locale:q) method.");
+@property (nonatomic) NSInteger currentCaptionsTrack;
 /// Returns an array of objects based on available captions. Information for each object may vary depending on the caption types.
 @property (nonatomic, readonly, copy) NSArray<JWMediaSelectionOption *> * _Nonnull captionsTracks;
 /// The index of the currently active audio track.
@@ -2934,6 +2973,8 @@ enum JWVideoGravity : NSInteger;
 /// A view for displaying a player. It automatically handles enlarging the player to the size of this container view, and displaying the player.
 SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerView")
 @interface JWPlayerView : UIView
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layerClass;)
++ (Class _Nonnull)layerClass SWIFT_WARN_UNUSED_RESULT;
 /// The player associated with the view.
 @property (nonatomic, readonly, strong) id <JWPlayer> _Nonnull player;
 /// The delegate which will receive events related to the JWPlayerView.
@@ -2952,10 +2993,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerView")
 /// \param frame The frame rectangle for the view.
 ///
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+/// This init is required, so it is here.
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
 /// Lays out subviews.
 - (void)layoutSubviews;
 @end
+
 
 
 /// A protocol for listening to time events through the JWPlayerViewController.
@@ -4885,13 +4928,15 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit27JWDateRangeMetadataDelegate_")
 
 @class NSCoder;
 
-/// This is a descriptive representation of an error.
+/// A custom error class.
 SWIFT_CLASS("_TtC11JWPlayerKit7JWError")
 @interface JWError : NSError
 /// A single-word description of the error to make this error easy to key off of.
 @property (nonatomic, readonly, copy) NSString * _Nonnull key;
 /// A detailed description of the error.
 @property (nonatomic, readonly, copy) NSString * _Nonnull errorDescription;
+/// A localized description of the error.
+@property (nonatomic, readonly, copy) NSString * _Nonnull localizedDescription;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
 - (nonnull instancetype)initWithDomain:(NSString * _Nonnull)domain code:(NSInteger)code userInfo:(NSDictionary<NSString *, id> * _Nullable)dict SWIFT_UNAVAILABLE;
 @end
@@ -5165,6 +5210,7 @@ typedef SWIFT_ENUM(NSInteger, JWIdleReason, open) {
   JWIdleReasonUnknown = 2,
 };
 
+@class JWImaSettings;
 
 /// Used to build a <code>JWAdvertisingConfig</code> object to play ads using the IMA client.
 SWIFT_CLASS("_TtC11JWPlayerKit29JWImaAdvertisingConfigBuilder")
@@ -5220,7 +5266,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWImaAdvertisingConfigBuilder")
 /// If the friendly obstructions array is modified, it will be registered until the next ad schedule is loaded or the current playlist item is replayed.
 /// seealso:
 /// <a href="x-source-tag://FriendlyObstructionsContainer">FriendlyObstructionsContainer.swift</a>
+///
+/// returns:
+/// The builder, so setters can be chained.
 - (JWImaAdvertisingConfigBuilder * _Nonnull)friendlyObstructionsContainer:(JWFriendlyObstructionsContainer * _Nonnull)container;
+/// The Google IMA SDK settings.
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaAdvertisingConfigBuilder * _Nonnull)imaSettings:(JWImaSettings * _Nonnull)imaSettings;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -5255,6 +5309,34 @@ SWIFT_CLASS("_TtC11JWPlayerKit32JWImaDaiAdvertisingConfigBuilder")
 /// \param container The container with obstructions that should be marked as friendly.
 ///
 - (JWImaDaiAdvertisingConfigBuilder * _Nonnull)friendlyObstructionsContainer:(JWFriendlyObstructionsContainer * _Nonnull)container;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// The <code>JWImaSettings</code> class encompasses the Google IMA SDK settings.
+SWIFT_CLASS("_TtC11JWPlayerKit13JWImaSettings")
+@interface JWImaSettings : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// The builder for <code>JWImaSettings</code>, object used to configure the Google IMA SDK.
+SWIFT_CLASS("_TtC11JWPlayerKit20JWImaSettingsBuilder")
+@interface JWImaSettingsBuilder : NSObject
+/// Builds a <code>JWImaSettings</code> structure for configure the Google IMA SDK.
+/// <ul>
+///   <li>
+///     returns A <code>JWImaSettings</code> object.
+///   </li>
+/// </ul>
+- (JWImaSettings * _Nonnull)build SWIFT_WARN_UNUSED_RESULT;
+/// Sets the desired language for Google IMA SDK.
+/// \param locale The language code used to localize the UI provided by the Google IMA SDK.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaSettingsBuilder * _Nonnull)locale:(NSString * _Nonnull)locale;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -5805,7 +5887,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 /// If an error is encountered, a JWError is thrown.
 - (BOOL)setCaptionTrackWithLocale:(NSString * _Nullable)locale error:(NSError * _Nullable * _Nullable)error;
 /// The index of the currently active captions track. A value of -1 means there is no captions track in use.
-@property (nonatomic) NSInteger currentCaptionsTrack SWIFT_DEPRECATED_MSG("Instead use the setCaptionTrack(locale:q) method.");
+@property (nonatomic) NSInteger currentCaptionsTrack;
 /// Returns an array of objects based on available captions. Information for each object may vary depending on the caption types.
 @property (nonatomic, readonly, copy) NSArray<JWMediaSelectionOption *> * _Nonnull captionsTracks;
 /// The index of the currently active audio track.
@@ -6503,6 +6585,8 @@ enum JWVideoGravity : NSInteger;
 /// A view for displaying a player. It automatically handles enlarging the player to the size of this container view, and displaying the player.
 SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerView")
 @interface JWPlayerView : UIView
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layerClass;)
++ (Class _Nonnull)layerClass SWIFT_WARN_UNUSED_RESULT;
 /// The player associated with the view.
 @property (nonatomic, readonly, strong) id <JWPlayer> _Nonnull player;
 /// The delegate which will receive events related to the JWPlayerView.
@@ -6521,10 +6605,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerView")
 /// \param frame The frame rectangle for the view.
 ///
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+/// This init is required, so it is here.
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
 /// Lays out subviews.
 - (void)layoutSubviews;
 @end
+
 
 
 /// A protocol for listening to time events through the JWPlayerViewController.

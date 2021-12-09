@@ -106,7 +106,6 @@ public let sdkVersion: Swift.String
   }
 }
 public let JWMediaSelectionOptionDefault: Swift.Int
-public let JWMediaSelectionOptionDefaultLocale: Swift.String
 @objc @_hasMissingDesignatedInitializers @objcMembers public class JWTimeData : ObjectiveC.NSObject {
   @objc public var position: Foundation.TimeInterval
   @objc public var duration: Foundation.TimeInterval
@@ -119,11 +118,6 @@ public let JWMediaSelectionOptionDefaultLocale: Swift.String
   @objc override dynamic public var hash: Swift.Int {
     @objc get
   }
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers @objc public class JWError : Foundation.NSError {
-  @objc final public let key: Swift.String
-  @objc final public let errorDescription: Swift.String
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWAdImpression : ObjectiveC.NSObject {
@@ -495,6 +489,18 @@ public let JWMediaSelectionOptionDefaultLocale: Swift.String
   @objc override dynamic public init()
   @objc deinit
 }
+@_inheritsConvenienceInitializers @objc public class JWImaSettings : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class JWImaSettingsBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
+  public typealias Output = JWPlayerKit.JWImaSettings
+  @objc public func build() -> JWPlayerKit.JWImaSettings
+  @objc @discardableResult
+  public func locale(_ locale: Swift.String) -> JWPlayerKit.JWImaSettingsBuilder
+  @objc override dynamic public init()
+  @objc deinit
+}
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class JWPlayerConfiguration : ObjectiveC.NSObject {
   @objc deinit
 }
@@ -537,6 +543,9 @@ public let JWMediaSelectionOptionDefaultLocale: Swift.String
   }
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor(unsafe) public class JWPlayerView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override public static var layerClass: Swift.AnyClass {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
   @objc @_Concurrency.MainActor(unsafe) public var player: JWPlayerKit.JWPlayer {
     @objc get
   }
@@ -986,8 +995,7 @@ public protocol JWBuilder {
   @objc func addCues(_ cues: [JWPlayerKit.JWCue])
   @objc func setCaptionTrack(index: Swift.Int) throws
   @objc func setCaptionTrack(locale: Swift.String?) throws
-  @objc @available(*, deprecated, message: "Instead use the setCaptionTrack(locale:q) method.")
-  var currentCaptionsTrack: Swift.Int { get set }
+  @objc var currentCaptionsTrack: Swift.Int { get set }
   @objc var captionsTracks: [JWPlayerKit.JWMediaSelectionOption] { get }
   @objc var currentAudioTrack: Swift.Int { get set }
   @objc var audioTracks: [JWPlayerKit.JWMediaSelectionOption] { get }
@@ -1090,6 +1098,14 @@ public let JWAccessLogMetadataUnknownDroppedFrames: Swift.Int
 }
 @objc public protocol JWID3MetadataDelegate {
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, id3Metadata metadata: JWPlayerKit.JWID3Metadata)
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class JWError : Foundation.NSError {
+  @objc final public let key: Swift.String
+  @objc final public let errorDescription: Swift.String
+  @objc override dynamic public var localizedDescription: Swift.String {
+    @objc get
+  }
+  @objc deinit
 }
 extension UIKit.UIStackView {
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func point(inside point: CoreGraphics.CGPoint, with event: UIKit.UIEvent?) -> Swift.Bool
@@ -1243,6 +1259,8 @@ extension UIKit.UIStackView {
   public func adRules(_ adRules: JWPlayerKit.JWAdRules) -> JWPlayerKit.JWImaAdvertisingConfigBuilder
   @objc @discardableResult
   public func friendlyObstructionsContainer(_ container: JWPlayerKit.JWFriendlyObstructionsContainer) -> JWPlayerKit.JWImaAdvertisingConfigBuilder
+  @objc @discardableResult
+  public func imaSettings(_ imaSettings: JWPlayerKit.JWImaSettings) -> JWPlayerKit.JWImaAdvertisingConfigBuilder
   @objc override dynamic public init()
   @objc deinit
 }
