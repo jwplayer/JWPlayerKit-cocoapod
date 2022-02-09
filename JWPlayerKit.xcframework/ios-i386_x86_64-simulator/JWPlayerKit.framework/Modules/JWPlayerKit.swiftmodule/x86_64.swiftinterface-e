@@ -573,6 +573,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   case show
   case hide
   case autoplay
+  case none
   public init?(rawValue: Swift.Int)
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
@@ -660,6 +661,9 @@ public let JWMediaSelectionOptionDefault: Swift.Int
 }
 @objc @_inheritsConvenienceInitializers @objcMembers @_Concurrency.MainActor(unsafe) open class JWPlayerViewController : UIKit.UIViewController, AVKit.AVPictureInPictureControllerDelegate, JWPlayerKit.JWPlayerViewDelegate, JWPlayerKit.JWPlayerDelegate, JWPlayerKit.JWPlayerStateDelegate, JWPlayerKit.JWAVDelegate, JWPlayerKit.JWAdDelegate, JWPlayerKit.JWAirPlayDelegate, JWPlayerKit.JWMediaMetadataDelegate, JWPlayerKit.JWCastDelegate, JWPlayerKit.JWTimeEventListener, UIKit.UIPopoverPresentationControllerDelegate {
   @objc @_Concurrency.MainActor(unsafe) weak public var delegate: JWPlayerKit.JWPlayerViewControllerDelegate?
+  @objc @_Concurrency.MainActor(unsafe) public var isFullScreen: Swift.Bool {
+    @objc get
+  }
   @objc @_Concurrency.MainActor(unsafe) public var playerView: JWPlayerKit.JWPlayerView {
     @objc get
   }
@@ -694,16 +698,24 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var nextUpStyle: JWPlayerKit.JWNextUpStyle?
+  @objc @_Concurrency.MainActor(unsafe) public var nextUpStyle: JWPlayerKit.JWNextUpStyle? {
+    @objc get
+    @objc set
+  }
   @objc deinit
   @objc @_Concurrency.MainActor(unsafe) public var logo: JWPlayerKit.JWLogo? {
     @objc get
     @objc set
   }
+  @objc dynamic public init()
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func didMove(toParent parent: UIKit.UIViewController?)
   @objc @_Concurrency.MainActor(unsafe) public static func registerController()
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillTransition(to size: CoreGraphics.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
+  @objc @_Concurrency.MainActor(unsafe) public func transitionToFullScreen(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @objc @_Concurrency.MainActor(unsafe) public func dismissFullScreen(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) @objc open func playerView(_ view: JWPlayerKit.JWPlayerView, sizeChangedFrom oldSize: CoreGraphics.CGSize, to newSize: CoreGraphics.CGSize)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayerIsReady(_ player: JWPlayerKit.JWPlayer)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, failedWithError code: Swift.UInt, message: Swift.String)
@@ -760,8 +772,6 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, castingEndedWithError error: Swift.Error?)
   @_Concurrency.MainActor(unsafe) @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
   @_Concurrency.MainActor(unsafe) @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: UIKit.UIViewControllerTransitionCoordinator?)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
 }
 public typealias JSONPayload = [Swift.AnyHashable : Any]
 @_hasMissingDesignatedInitializers @objc public class JWAdOffset : ObjectiveC.NSObject {
@@ -986,6 +996,7 @@ public protocol JWBuilder {
   @objc func previous()
   @objc func play(ad tag: Foundation.URL, client: JWPlayerKit.JWAdClient)
   @objc func skipAd()
+  @objc func openAdClickthrough()
   @objc func getState() -> JWPlayerKit.JWPlayerState
   @objc func loadPlaylist(_ playlist: [JWPlayerKit.JWPlayerItem])
   @objc func loadPlayerItemAt(index: Swift.Int)
@@ -1128,10 +1139,10 @@ extension UIKit.UIStackView {
   @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWLockScreenManager : ObjectiveC.NSObject {
+@objc @_hasMissingDesignatedInitializers @objcMembers public class JWLockScreenManager : ObjectiveC.NSObject {
   @objc public static let shared: JWPlayerKit.JWLockScreenManager
-  @objc public func activeLockScreenPlayer(_ player: JWPlayerKit.JWPlayer?)
-  @objc public func removePlayer(_ player: JWPlayerKit.JWPlayer?)
+  @objc public func activeLockScreenPlayer(_ player: JWPlayerKit.JWPlayer)
+  @objc public func removePlayer(_ player: JWPlayerKit.JWPlayer)
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class JWAdTrackerConfig : ObjectiveC.NSObject {
@@ -1157,7 +1168,7 @@ extension UIKit.UIStackView {
     get
   }
 }
-@objc @_hasMissingDesignatedInitializers @objcMembers public class JWCastController : ObjectiveC.NSObject {
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWCastController : ObjectiveC.NSObject {
   @objc weak public var delegate: JWPlayerKit.JWCastDelegate? {
     @objc get
     @objc set
@@ -1233,6 +1244,8 @@ extension UIKit.UIStackView {
   case type
   case adPosition
   case skipOffset
+  case sequence
+  case podCount
   public var description: Swift.String {
     get
   }

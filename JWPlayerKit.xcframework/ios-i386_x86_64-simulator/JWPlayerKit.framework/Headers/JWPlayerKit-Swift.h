@@ -220,6 +220,21 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class NSNumber;
@@ -517,6 +532,10 @@ typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
   JWAdEventKeyAdPosition = 22,
 /// The number of seconds before the user is allowed to skip the ad.
   JWAdEventKeySkipOffset = 23,
+/// The current ad pod.
+  JWAdEventKeySequence = 24,
+/// The pod count total.
+  JWAdEventKeyPodCount = 25,
 };
 
 /// Constants denoting a type of ad event.
@@ -600,6 +619,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit25JWAdInterfaceStyleBuilder")
 /// </ul>
 - (JWAdInterfaceStyle * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 /// The text to display in the countdown until the ad ends. Defaults to “This ad will end in xx”.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param text The desired text. Optionally, insert ‘xx’ where the countdown should be displayed.
 ///
 ///
@@ -607,6 +628,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit25JWAdInterfaceStyleBuilder")
 /// The builder, so setters can be chained.
 - (JWAdInterfaceStyleBuilder * _Nonnull)countdownText:(NSString * _Nonnull)text;
 /// The text to display while skipping is disabled. Defaults to “Skip ad in xx”.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param text The desired text. Optionally, insert ‘xx’ where the countdown to skipping enabled should be displayed.
 ///
 ///
@@ -614,13 +637,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit25JWAdInterfaceStyleBuilder")
 /// The builder, so setters can be chained.
 - (JWAdInterfaceStyleBuilder * _Nonnull)skipDelayText:(NSString * _Nonnull)text;
 /// The text to display on the skip button when the user can tap it to skip the ad. Defaults to “Skip Ad”.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param text The desired text.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWAdInterfaceStyleBuilder * _Nonnull)skipText:(NSString * _Nonnull)text;
-/// The number of seconds to delay the ability to skip the ad. Defaults to 0 (no delay).
+/// The number of seconds to delay the ability to skip the ad. Defaults to nil (skip button won’t be shown).
 /// \param seconds The number of seconds to delay the ability to skip.
 ///
 ///
@@ -1004,6 +1029,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionTrackBuilder")
 /// Sets the label to be shown in the player in the captions pop-up.
 /// note:
 /// Not shown if only 1 caption track is provided.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param label The label to be shown in the player in the captions pop-up.
 ///
 ///
@@ -1036,6 +1063,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit16JWCastController")
 /// note:
 /// <code>startDiscovery</code> must be called in order to start updating the available devices.
 @property (nonatomic, readonly, copy) NSArray<JWCastingDevice *> * _Nonnull availableDevices;
+/// This should only be used for unit tests.
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 /// Initialize the <code>JWCastController</code> with a player. If the <code>Google Cast SDK</code> is not linked, it will return <code>nil</code>.
 /// \param player <code>JWPlayer</code> object currently in use.
 ///
@@ -1064,9 +1094,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit16JWCastController")
 /// note:
 /// Calling this method does not disconnect from the casting device.
 - (void)stopCasting;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 /// Defines methods that a delegate of a <code>JWCastController</code> object can implement to receive casting callbacks.
@@ -1112,7 +1141,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit15JWCastingDevice")
 @property (nonatomic, readonly, copy) NSString * _Nonnull name;
 /// A unique identifier for the casting device.
 @property (nonatomic, readonly, copy) NSString * _Nonnull identifier;
-/// Checks for equality.
 - (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -1799,21 +1827,18 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWLockScreenManager")
 /// A shared instance of the JWLockScreenController.
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) JWLockScreenManager * _Nonnull shared;)
 + (JWLockScreenManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 /// The active player to be synchronized with the NowPlaying Controls.
+/// precondition:
+/// If this player is set to nil then the lockscreen will be disabled.
 /// \param player JWPlayer object to be synchronized with NowPlaying Controls.
-/// <ul>
-///   <li>
-///     <h1>If this parameter is set to nil then the lockscreen will be disabled.</h1>
-///   </li>
-/// </ul>
 ///
-- (void)activeLockScreenPlayer:(id <JWPlayer> _Nullable)player;
+- (void)activeLockScreenPlayer:(id <JWPlayer> _Nonnull)player;
 /// Removes the player if it’s the same that was being tracked for NowPlaying Controls.
 /// \param player JWPlayer object that might been tracked.
 ///
-- (void)removePlayer:(id <JWPlayer> _Nullable)player;
+- (void)removePlayer:(id <JWPlayer> _Nonnull)player;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 
@@ -2220,6 +2245,12 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 - (void)playWithAd:(NSURL * _Nonnull)tag client:(enum JWAdClient)client;
 /// Skips the currently playing ad.
 - (void)skipAd;
+/// Performs a clickthrough on the current advertisement using the default browser.
+/// note:
+/// Does nothing if no ad clickthrough URL is available or no ad is playing.
+/// note:
+/// Only available for JWPlayer ads, a warning will be thrown if it is used for other ad clients.
+- (void)openAdClickthrough;
 /// Returns the state of the player.
 ///
 /// returns:
@@ -2564,6 +2595,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)file:(NSURL * _Nonnull)file;
 /// Sets the title of the player item.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param title A String to display as title.
 ///
 ///
@@ -2571,6 +2604,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)title:(NSString * _Nonnull)title;
 /// Sets the description of the player item.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param description A String to display as description.
 ///
 ///
@@ -3039,6 +3074,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAdDelegate, JWAirPlayDelegate, JWCastDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
 /// The delegate to receive JWPlayerViewController events.
 @property (nonatomic, weak) id <JWPlayerViewControllerDelegate> _Nullable delegate;
+/// Returns true if the player is currently in fullscreen mode, and false if it is not
+@property (nonatomic, readonly) BOOL isFullScreen;
 /// The view containing the player.
 @property (nonatomic, readonly, strong) JWPlayerView * _Nonnull playerView;
 /// The behavior desired for the interface. By default, this is .normal.
@@ -3067,10 +3104,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic) BOOL forceLandscapeOnFullScreen;
 /// The style used to customize the player.
 @property (nonatomic, strong) JWPlayerSkin * _Nullable styling;
-/// The style defining the Next Up card and its behavior. Defaults to nil (no card).
+/// The style defining the Next Up card and its behavior.
+/// note:
+/// If nil is set no Next Up card will be displayed.
 @property (nonatomic, strong) JWNextUpStyle * _Nullable nextUpStyle;
 /// Sets a custom logo to display on the player.
 @property (nonatomic, strong) JWLogo * _Nullable logo;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 /// Called after the controller’s view is loaded into memory. For more information, refer to <code>UIViewController</code> documentation.
 - (void)viewDidLoad;
 /// Called after the view controller is added or removed from a container view controller. For more information, refer to <code>UIViewController</code> documentation.
@@ -3087,6 +3129,21 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// \param coordinator The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress.
 ///
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
+/// This method transitions the player to fullscreen mode. If the player is already in fullscreen mode this method does not perform any actions, and the completion closure will not be executed.
+/// \param animated Set to true if the player should animate into full screen.
+///
+/// \param completion This closure is called when the player is done transitioning to full screen mode.
+///
+- (void)transitionToFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
+/// This method transitions the player away from fullscreen mode. If the player is not in fullscreen mode this method does not perform any actions, and the completion closure will not be executed.
+/// <ul>
+///   <li>
+///     completion: This closure is called when the player is done transitioning away from full screen mode.
+///   </li>
+/// </ul>
+/// \param animated Set to true if the player should animate away from full screen mode.
+///
+- (void)dismissFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 - (void)playerView:(JWPlayerView * _Nonnull)view sizeChangedFrom:(CGSize)oldSize to:(CGSize)newSize;
 - (void)jwplayerIsReady:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player failedWithError:(NSUInteger)code message:(NSString * _Nonnull)message;
@@ -3143,6 +3200,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 ///
 - (void)pictureInPictureControllerDidStopPictureInPicture:(AVPictureInPictureController * _Nonnull)pictureInPictureController;
 /// Tells the delegate when Picture in Picture is about to stop, to give your app an opportunity to restore its video playback user interface.
+/// note:
+/// Make sure to call the completion handler when you have restored the UI, it is important to notify the system of this.
 /// \param pictureInPictureController The Picture in Picture controller to which you’ve assigned the delegate.
 ///
 /// \param completionHandler To allow the system to finish restoring your user interface, you must call the completion handler with a value of <code>true</code>.
@@ -3177,10 +3236,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// \param transitionCoordinator The transition coordinator that is managing the transition.
 ///
 - (void)presentationController:(UIPresentationController * _Nonnull)presentationController willPresentWithAdaptiveStyle:(UIModalPresentationStyle)style transitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nullable)transitionCoordinator;
-- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
-
 
 
 
@@ -3331,6 +3387,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit36JWRelatedContentConfigurationBuilder")
 /// The builder, so setters can be chained.
 - (JWRelatedContentConfigurationBuilder * _Nonnull)url:(NSURL * _Nonnull)url;
 /// Sets the related content heading using a String. Defaults to “Next up”.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param heading The heading String.
 ///
 ///
@@ -3342,13 +3400,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit36JWRelatedContentConfigurationBuilder")
 /// xx will be replaced by the countdown timer
 /// note:
 /// <em>title</em> will be replaced by the next title in the related feed.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param message The string message.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWRelatedContentConfigurationBuilder * _Nonnull)autoplayMessage:(NSString * _Nonnull)message;
-/// Sets the related content onComplete action using a JWRelatedOnComplete. Defaults to <code>.show</code>.
+/// Sets the related content onComplete action using a JWRelatedOnComplete. Defaults to <code>.none</code>.
 /// \param relatedOnComplete the onComplete action
 ///
 ///
@@ -3398,6 +3458,8 @@ typedef SWIFT_ENUM(NSInteger, JWRelatedOnComplete, open) {
   JWRelatedOnCompleteHide = 1,
 /// Shows the related overlay. Automatically plays the next related video in the related feed after a delay.
   JWRelatedOnCompleteAutoplay = 2,
+/// No overlay appears and player automatically advances to the next playlist item. If there is no media item to advance to, the replay button appears.
+  JWRelatedOnCompleteNone = 3,
 };
 
 
@@ -3560,6 +3622,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 /// The builder, so setters can be chained.
 - (JWVideoSourceBuilder * _Nonnull)file:(NSURL * _Nonnull)file;
 /// Sets the label which represents the quality level of the video source.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param label A string to be shown in the quality level menu.
 ///
 ///
@@ -3575,6 +3639,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 - (JWVideoSourceBuilder * _Nonnull)defaultVideo:(BOOL)defaultVideo;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 
 
@@ -3832,6 +3898,21 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class NSNumber;
@@ -4129,6 +4210,10 @@ typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
   JWAdEventKeyAdPosition = 22,
 /// The number of seconds before the user is allowed to skip the ad.
   JWAdEventKeySkipOffset = 23,
+/// The current ad pod.
+  JWAdEventKeySequence = 24,
+/// The pod count total.
+  JWAdEventKeyPodCount = 25,
 };
 
 /// Constants denoting a type of ad event.
@@ -4212,6 +4297,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit25JWAdInterfaceStyleBuilder")
 /// </ul>
 - (JWAdInterfaceStyle * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 /// The text to display in the countdown until the ad ends. Defaults to “This ad will end in xx”.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param text The desired text. Optionally, insert ‘xx’ where the countdown should be displayed.
 ///
 ///
@@ -4219,6 +4306,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit25JWAdInterfaceStyleBuilder")
 /// The builder, so setters can be chained.
 - (JWAdInterfaceStyleBuilder * _Nonnull)countdownText:(NSString * _Nonnull)text;
 /// The text to display while skipping is disabled. Defaults to “Skip ad in xx”.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param text The desired text. Optionally, insert ‘xx’ where the countdown to skipping enabled should be displayed.
 ///
 ///
@@ -4226,13 +4315,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit25JWAdInterfaceStyleBuilder")
 /// The builder, so setters can be chained.
 - (JWAdInterfaceStyleBuilder * _Nonnull)skipDelayText:(NSString * _Nonnull)text;
 /// The text to display on the skip button when the user can tap it to skip the ad. Defaults to “Skip Ad”.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param text The desired text.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWAdInterfaceStyleBuilder * _Nonnull)skipText:(NSString * _Nonnull)text;
-/// The number of seconds to delay the ability to skip the ad. Defaults to 0 (no delay).
+/// The number of seconds to delay the ability to skip the ad. Defaults to nil (skip button won’t be shown).
 /// \param seconds The number of seconds to delay the ability to skip.
 ///
 ///
@@ -4616,6 +4707,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionTrackBuilder")
 /// Sets the label to be shown in the player in the captions pop-up.
 /// note:
 /// Not shown if only 1 caption track is provided.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param label The label to be shown in the player in the captions pop-up.
 ///
 ///
@@ -4648,6 +4741,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit16JWCastController")
 /// note:
 /// <code>startDiscovery</code> must be called in order to start updating the available devices.
 @property (nonatomic, readonly, copy) NSArray<JWCastingDevice *> * _Nonnull availableDevices;
+/// This should only be used for unit tests.
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 /// Initialize the <code>JWCastController</code> with a player. If the <code>Google Cast SDK</code> is not linked, it will return <code>nil</code>.
 /// \param player <code>JWPlayer</code> object currently in use.
 ///
@@ -4676,9 +4772,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit16JWCastController")
 /// note:
 /// Calling this method does not disconnect from the casting device.
 - (void)stopCasting;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 /// Defines methods that a delegate of a <code>JWCastController</code> object can implement to receive casting callbacks.
@@ -4724,7 +4819,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit15JWCastingDevice")
 @property (nonatomic, readonly, copy) NSString * _Nonnull name;
 /// A unique identifier for the casting device.
 @property (nonatomic, readonly, copy) NSString * _Nonnull identifier;
-/// Checks for equality.
 - (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5411,21 +5505,18 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWLockScreenManager")
 /// A shared instance of the JWLockScreenController.
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) JWLockScreenManager * _Nonnull shared;)
 + (JWLockScreenManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 /// The active player to be synchronized with the NowPlaying Controls.
+/// precondition:
+/// If this player is set to nil then the lockscreen will be disabled.
 /// \param player JWPlayer object to be synchronized with NowPlaying Controls.
-/// <ul>
-///   <li>
-///     <h1>If this parameter is set to nil then the lockscreen will be disabled.</h1>
-///   </li>
-/// </ul>
 ///
-- (void)activeLockScreenPlayer:(id <JWPlayer> _Nullable)player;
+- (void)activeLockScreenPlayer:(id <JWPlayer> _Nonnull)player;
 /// Removes the player if it’s the same that was being tracked for NowPlaying Controls.
 /// \param player JWPlayer object that might been tracked.
 ///
-- (void)removePlayer:(id <JWPlayer> _Nullable)player;
+- (void)removePlayer:(id <JWPlayer> _Nonnull)player;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 
@@ -5832,6 +5923,12 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 - (void)playWithAd:(NSURL * _Nonnull)tag client:(enum JWAdClient)client;
 /// Skips the currently playing ad.
 - (void)skipAd;
+/// Performs a clickthrough on the current advertisement using the default browser.
+/// note:
+/// Does nothing if no ad clickthrough URL is available or no ad is playing.
+/// note:
+/// Only available for JWPlayer ads, a warning will be thrown if it is used for other ad clients.
+- (void)openAdClickthrough;
 /// Returns the state of the player.
 ///
 /// returns:
@@ -6176,6 +6273,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)file:(NSURL * _Nonnull)file;
 /// Sets the title of the player item.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param title A String to display as title.
 ///
 ///
@@ -6183,6 +6282,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)title:(NSString * _Nonnull)title;
 /// Sets the description of the player item.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param description A String to display as description.
 ///
 ///
@@ -6651,6 +6752,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAdDelegate, JWAirPlayDelegate, JWCastDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
 /// The delegate to receive JWPlayerViewController events.
 @property (nonatomic, weak) id <JWPlayerViewControllerDelegate> _Nullable delegate;
+/// Returns true if the player is currently in fullscreen mode, and false if it is not
+@property (nonatomic, readonly) BOOL isFullScreen;
 /// The view containing the player.
 @property (nonatomic, readonly, strong) JWPlayerView * _Nonnull playerView;
 /// The behavior desired for the interface. By default, this is .normal.
@@ -6679,10 +6782,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic) BOOL forceLandscapeOnFullScreen;
 /// The style used to customize the player.
 @property (nonatomic, strong) JWPlayerSkin * _Nullable styling;
-/// The style defining the Next Up card and its behavior. Defaults to nil (no card).
+/// The style defining the Next Up card and its behavior.
+/// note:
+/// If nil is set no Next Up card will be displayed.
 @property (nonatomic, strong) JWNextUpStyle * _Nullable nextUpStyle;
 /// Sets a custom logo to display on the player.
 @property (nonatomic, strong) JWLogo * _Nullable logo;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 /// Called after the controller’s view is loaded into memory. For more information, refer to <code>UIViewController</code> documentation.
 - (void)viewDidLoad;
 /// Called after the view controller is added or removed from a container view controller. For more information, refer to <code>UIViewController</code> documentation.
@@ -6699,6 +6807,21 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// \param coordinator The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress.
 ///
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
+/// This method transitions the player to fullscreen mode. If the player is already in fullscreen mode this method does not perform any actions, and the completion closure will not be executed.
+/// \param animated Set to true if the player should animate into full screen.
+///
+/// \param completion This closure is called when the player is done transitioning to full screen mode.
+///
+- (void)transitionToFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
+/// This method transitions the player away from fullscreen mode. If the player is not in fullscreen mode this method does not perform any actions, and the completion closure will not be executed.
+/// <ul>
+///   <li>
+///     completion: This closure is called when the player is done transitioning away from full screen mode.
+///   </li>
+/// </ul>
+/// \param animated Set to true if the player should animate away from full screen mode.
+///
+- (void)dismissFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 - (void)playerView:(JWPlayerView * _Nonnull)view sizeChangedFrom:(CGSize)oldSize to:(CGSize)newSize;
 - (void)jwplayerIsReady:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player failedWithError:(NSUInteger)code message:(NSString * _Nonnull)message;
@@ -6755,6 +6878,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 ///
 - (void)pictureInPictureControllerDidStopPictureInPicture:(AVPictureInPictureController * _Nonnull)pictureInPictureController;
 /// Tells the delegate when Picture in Picture is about to stop, to give your app an opportunity to restore its video playback user interface.
+/// note:
+/// Make sure to call the completion handler when you have restored the UI, it is important to notify the system of this.
 /// \param pictureInPictureController The Picture in Picture controller to which you’ve assigned the delegate.
 ///
 /// \param completionHandler To allow the system to finish restoring your user interface, you must call the completion handler with a value of <code>true</code>.
@@ -6789,10 +6914,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// \param transitionCoordinator The transition coordinator that is managing the transition.
 ///
 - (void)presentationController:(UIPresentationController * _Nonnull)presentationController willPresentWithAdaptiveStyle:(UIModalPresentationStyle)style transitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nullable)transitionCoordinator;
-- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
-
 
 
 
@@ -6943,6 +7065,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit36JWRelatedContentConfigurationBuilder")
 /// The builder, so setters can be chained.
 - (JWRelatedContentConfigurationBuilder * _Nonnull)url:(NSURL * _Nonnull)url;
 /// Sets the related content heading using a String. Defaults to “Next up”.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param heading The heading String.
 ///
 ///
@@ -6954,13 +7078,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit36JWRelatedContentConfigurationBuilder")
 /// xx will be replaced by the countdown timer
 /// note:
 /// <em>title</em> will be replaced by the next title in the related feed.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param message The string message.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWRelatedContentConfigurationBuilder * _Nonnull)autoplayMessage:(NSString * _Nonnull)message;
-/// Sets the related content onComplete action using a JWRelatedOnComplete. Defaults to <code>.show</code>.
+/// Sets the related content onComplete action using a JWRelatedOnComplete. Defaults to <code>.none</code>.
 /// \param relatedOnComplete the onComplete action
 ///
 ///
@@ -7010,6 +7136,8 @@ typedef SWIFT_ENUM(NSInteger, JWRelatedOnComplete, open) {
   JWRelatedOnCompleteHide = 1,
 /// Shows the related overlay. Automatically plays the next related video in the related feed after a delay.
   JWRelatedOnCompleteAutoplay = 2,
+/// No overlay appears and player automatically advances to the next playlist item. If there is no media item to advance to, the replay button appears.
+  JWRelatedOnCompleteNone = 3,
 };
 
 
@@ -7172,6 +7300,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 /// The builder, so setters can be chained.
 - (JWVideoSourceBuilder * _Nonnull)file:(NSURL * _Nonnull)file;
 /// Sets the label which represents the quality level of the video source.
+/// note:
+/// The string provided is displayed as a literal, and is not looked up in a localized string table.
 /// \param label A string to be shown in the quality level menu.
 ///
 ///
@@ -7187,6 +7317,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 - (JWVideoSourceBuilder * _Nonnull)defaultVideo:(BOOL)defaultVideo;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 
 
