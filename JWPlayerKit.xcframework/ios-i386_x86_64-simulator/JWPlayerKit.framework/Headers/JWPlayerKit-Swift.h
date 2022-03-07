@@ -222,19 +222,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class NSNumber;
@@ -1494,6 +1481,16 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 /// \param obstructions An array of <code>JWFriendlyObstructions</code> to initialize the container with.
 ///
 - (nonnull instancetype)initWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nullable)obstructions OBJC_DESIGNATED_INITIALIZER;
+/// Register friendly obstructions.
+/// \param friendlyObstructions Array with friendly obstructions
+///
+- (void)registerWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
+/// Unregister previously registered friendly obstructions.
+/// \param friendlyObstructions Array with friendly obstructions.
+///
+- (void)unregisterWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
+/// Unregister all previously registered friendly obstructions.
+- (void)unregisterAllObstructions;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -1530,6 +1527,18 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /// Used to configure Google DAI streams based on the provided information.
@@ -1615,6 +1624,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWID3MetadataDelegate_")
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player id3Metadata:(JWID3Metadata * _Nonnull)metadata;
 @end
+
 
 /// Constants indicating the reason the player is in the idle state.
 typedef SWIFT_ENUM(NSInteger, JWIdleReason, open) {
@@ -3900,19 +3910,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class NSNumber;
@@ -5172,6 +5169,16 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 /// \param obstructions An array of <code>JWFriendlyObstructions</code> to initialize the container with.
 ///
 - (nonnull instancetype)initWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nullable)obstructions OBJC_DESIGNATED_INITIALIZER;
+/// Register friendly obstructions.
+/// \param friendlyObstructions Array with friendly obstructions
+///
+- (void)registerWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
+/// Unregister previously registered friendly obstructions.
+/// \param friendlyObstructions Array with friendly obstructions.
+///
+- (void)unregisterWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
+/// Unregister all previously registered friendly obstructions.
+- (void)unregisterAllObstructions;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -5208,6 +5215,18 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /// Used to configure Google DAI streams based on the provided information.
@@ -5293,6 +5312,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWID3MetadataDelegate_")
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player id3Metadata:(JWID3Metadata * _Nonnull)metadata;
 @end
+
 
 /// Constants indicating the reason the player is in the idle state.
 typedef SWIFT_ENUM(NSInteger, JWIdleReason, open) {

@@ -9,9 +9,8 @@ import CoreGraphics.CGGeometry
 import CoreGraphics
 import CoreMedia
 import Foundation
-
-
 @_exported import JWPlayerKit
+
 import JavaScriptCore
 import MediaAccessibility
 import MediaPlayer
@@ -388,6 +387,9 @@ public let JWMediaSelectionOptionDefault: Swift.Int
 @objc @objcMembers public class JWFriendlyObstructionsContainer : ObjectiveC.NSObject {
   @objc required public init(obstructions: [JWPlayerKit.JWFriendlyObstruction]? = nil)
   @objc deinit
+  @objc public func register(obstructions: [JWPlayerKit.JWFriendlyObstruction])
+  @objc public func unregister(obstructions: [JWPlayerKit.JWFriendlyObstruction])
+  @objc public func unregisterAllObstructions()
 }
 @objc public enum JWRelatedInteraction : Swift.Int {
   case user
