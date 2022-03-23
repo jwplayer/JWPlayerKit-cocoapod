@@ -222,10 +222,12 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class NSNumber;
 @class JWVideoSource;
+@class JWVisualQuality;
 @class NSString;
 @class JWTimeData;
 
@@ -265,6 +267,14 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit12JWAVDelegate_")
 /// \param currentLevel The currently selected quality level, expressed as an index into the available quality levels.
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player qualityLevelChanged:(NSInteger)currentLevel;
+@optional
+/// Reports when the active quality level is changed for HLS. This is different than qualityLevelChanged since this will trigger when adaptive streaming automatically shifts quality or when user shifts quality manually.
+/// \param player The player emitting the event.
+///
+/// \param currentVisualQuality The current visual quality level.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player visualQualityChanged:(JWVisualQuality * _Nonnull)currentVisualQuality;
+@required
 /// Reports when caption options become available.
 /// note:
 /// Analagous to the <code>onCaptionList</code> event in version 3.x.
@@ -1876,47 +1886,50 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWLogoBuilder")
 ///   </li>
 /// </ul>
 - (JWLogo * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
-/// Sets the logo’s image.
-/// \param image A UIImage to use as a logo.
+/// Sets the logo’s image using the specified UIImage.
+/// The dimensions of the logo will match the dimensions of the image provided without resizing. For example, an image of 100x50 pixels will render a logo of 100x50, regardless of the dimensions of the player window.
+/// note:
+/// If both a URL and a UIImage are provided, the UIImage takes precedence and the URL is ignored. The SDK supports all formats supported by UIImage.
+/// \param image A UIImage to be displayed.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)image:(UIImage * _Nonnull)image;
-/// Sets the logo’s image using a URL.
+/// Sets the logo’s image by downloading the image at the specified URL.
+/// The dimensions of the logo will match the dimensions of the image provided without resizing. For example, an image of 100x50 pixels will render a logo of 100x50, regardless of the dimensions of the player window.
 /// note:
-/// If a UIImage is also supplied, this value is ignored.
+/// If both a URL and a UIImage are provided, the UIImage takes precedence and the URL is ignored. The SDK supports all formats supported by UIImage.
 /// \param imageFile The URL of the image to download and use as a logo.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)imageFile:(NSURL * _Nonnull)imageFile;
-/// Sets the fade behavior. Defaults to false.
-/// \param fades If true, the logo will fade when the interface fades. If false, it will always stay on the screen.`
+/// Determines if the logo appears and disappears with the controls, but only if the controls are set to fade.
+/// If the controls are not set to fade, the logo is visible when the controls are visible and not be visible when the controls are turned off. If unspecified, this parameter defaults to <code>false</code>.
+/// \param fades If true, the logo will fade when the controls fade. If false, the logo will persist.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)fades:(BOOL)fades;
-/// Sets the web link to travel to when the logo is tapped.
-/// \param weblink The URL to open on tap.
+/// URL to which a user is sent when the logo is tapped.
+/// \param weblink The URL to present to the user when the logo is tapped.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink;
-/// Sets the amount of space between the logo and the edge of the screen. Defaults to 8.
-/// \param margin The desired amount of space between the logo and edge of the player.
+/// Distance between the logo and the player’s edge, specified in points. If unspecified, this parameter defaults to 8.
+/// \param margin The desired amount of space between the logo and player’s edge.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)margin:(NSInteger)margin;
-/// Sets he desired position of the logo on the screen. Defaults to <code>.topLeft</code>
-/// note:
-/// If a control bar position is specified, the margin is ignored.
-/// \param position The position of the logo.
+/// Defines the corner on the player in which the logo displays. If unspecified, this parameter defaults to <code>.topLeft</code>
+/// \param position The corner on the player in which the logo displays.
 ///
 ///
 /// returns:
@@ -2165,12 +2178,14 @@ typedef SWIFT_ENUM(NSInteger, JWPauseReason, open) {
   JWPauseReasonInteraction = 1,
 /// Player is paused due to a clickthrough.
   JWPauseReasonClickthrough = 2,
+/// Playback paused due to the player being less than 50% visible.
+  JWPauseReasonViewable = 3,
 /// Player is paused due to user interaction with the settings menu.
-  JWPauseReasonSettingsInteraction = 3,
+  JWPauseReasonSettingsInteraction = 4,
 /// Player is paused due to user interaction with the related menu.
-  JWPauseReasonRelatedInteraction = 4,
+  JWPauseReasonRelatedInteraction = 5,
 /// Unknown reason.
-  JWPauseReasonUnknown = 5,
+  JWPauseReasonUnknown = 6,
 };
 
 /// Constants indicating the reason the player is in the play state.
@@ -2197,23 +2212,17 @@ typedef SWIFT_ENUM(NSInteger, JWPlayReason, open) {
   JWPlayReasonUnknown = 9,
 };
 
-@protocol JWPlayerDelegate;
 enum JWPlayerState : NSInteger;
 @class JWPlayerItem;
-@protocol JWPlayerStateDelegate;
 
-/// This is the public interface into the JWPlayer instance.
-SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
-@protocol JWPlayer
+/// Methods and properties for interfacing with the player to control it, and query information.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
+@protocol JWPlayerProtocol
 /// Sets the initial configuration of the player.
 /// Calling this method will reset the player when it is called, even if it has been called before. Any errors during setup or playback will be reported to the JWPlayerDelegate.
 /// \param configuration The config to initialize the player with.
 ///
 - (void)configurePlayerWith:(JWPlayerConfiguration * _Nonnull)configuration;
-/// The delegate to notify about setup errors, warnings, and success when configuring the player.
-/// note:
-/// Set this property before configuring the player in order to receive errors during configuration.
-@property (nonatomic, strong) id <JWPlayerDelegate> _Nullable delegate;
 /// The volume relative to the volume of the device. All values are clamped from 0.0 (mute) to 1.0 (current volume of the device).
 @property (nonatomic) double volume;
 /// The playback rate at which media is being reproduced. Defaults to 1.0.
@@ -2327,8 +2336,24 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 @property (nonatomic) NSInteger currentVisualQuality;
 /// Returns an array of the playable visual quality levels of the current asset in the player.
 @property (nonatomic, readonly, copy) NSArray<JWVideoSource *> * _Nonnull visualQualityLevels;
+/// The current visual quality source.
+@property (nonatomic, readonly, strong) JWVisualQuality * _Nullable visualQuality;
 /// A data source delegate which requests the necessary keys to decrypt protected content.
 @property (nonatomic, strong) id <JWDRMContentKeyDataSource> _Nullable contentKeyDataSource;
+/// An interface to  add/remove friendly obstructions
+@property (nonatomic, readonly, strong) id <JWFriendlyObstructionManager> _Nonnull friendlyObstructions;
+@end
+
+@protocol JWPlayerDelegate;
+@protocol JWPlayerStateDelegate;
+
+/// This is the public interface into the JWPlayer instance.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
+@protocol JWPlayer <JWPlayerProtocol>
+/// The delegate to notify about setup errors, warnings, and success when configuring the player.
+/// note:
+/// Set this property before configuring the player in order to receive errors during configuration.
+@property (nonatomic, strong) id <JWPlayerDelegate> _Nullable delegate;
 /// A delegate which listens for changes in the player’s state.
 @property (nonatomic, strong) id <JWPlayerStateDelegate> _Nullable playbackStateDelegate;
 /// A delegate which listens for ads events.
@@ -2337,8 +2362,6 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 @property (nonatomic, strong) id <JWAVDelegate> _Nullable avDelegate;
 /// A delegate which listens for AirPlay events.
 @property (nonatomic, strong) id <JWAirPlayDelegate> _Nullable airPlayDelegate;
-/// An interface to  add/remove friendly obstructions
-@property (nonatomic, readonly, strong) id <JWFriendlyObstructionManager> _Nonnull friendlyObstructions;
 /// This closure is called during all ad time events. The current position and duration of the current ad content is supplied as an argument.
 @property (nonatomic, copy) void (^ _Nullable adTimeObserver)(JWTimeData * _Nonnull);
 /// This closure is called during all media playback time events. The current position and duration of the current media content is supplied as an argument.
@@ -2585,6 +2608,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 @end
 
 
+
 /// The builder for JWPlayerItem, ensuring it is built correctly.
 SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 @interface JWPlayerItemBuilder : NSObject
@@ -2723,6 +2747,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWPlayerKitLicense")
 + (void)setLicenseKey:(NSString * _Nonnull)clientKey;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
 
 
 /// Defines a player item which contains the information about the media content.
@@ -3011,13 +3036,29 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCues:(NSArray<JWCue *> * _Nonnull)cues;
 @end
 
-@protocol JWPlayerViewDelegate;
 @class AVPictureInPictureController;
 enum JWVideoGravity : NSInteger;
 
+/// Methods and properties for interfacing with the view of  a <code>JWPlayer</code> instance.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewProtocol_")
+@protocol JWPlayerViewProtocol
+/// The currently defined style for captions. If nil, it reverts to default settings as specified within the SDK or the user’s accessibility settings.
+@property (nonatomic, strong) JWCaptionStyle * _Nullable captionStyle;
+/// The amount of spaced to inset the captions from the edges of the player. Defaults to 0.
+@property (nonatomic) UIEdgeInsets captionInsets;
+/// The picture in picture controller for the player.
+/// note:
+/// Picture in picture works in iOS 14 and above for iPhones, and iOS 13 and above for iPads.
+@property (nonatomic, readonly, strong) AVPictureInPictureController * _Nullable pictureInPictureController;
+/// How to display video content within the bounds of a view.
+@property (nonatomic) enum JWVideoGravity videoGravity;
+@end
+
+@protocol JWPlayerViewDelegate;
+
 /// A view for displaying a player. It automatically handles enlarging the player to the size of this container view, and displaying the player.
 SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerView")
-@interface JWPlayerView : UIView
+@interface JWPlayerView : UIView <JWPlayerViewProtocol>
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layerClass;)
 + (Class _Nonnull)layerClass SWIFT_WARN_UNUSED_RESULT;
 /// The player associated with the view.
@@ -3061,6 +3102,25 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit19JWTimeEventListener_")
 - (void)onAdTimeEvent:(JWTimeData * _Nonnull)time;
 @end
 
+@class JWProgramDateTimeMetadata;
+
+/// Listens for program-date-time metadata events during playback.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit33JWProgramDateTimeMetadataDelegate_")
+@protocol JWProgramDateTimeMetadataDelegate
+/// Triggered once the metadata cue point is buffered.
+/// \param player The player that parsed the program-date-time cue.
+///
+/// \param metadata Contains information about the program-date-time cue.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadataCueParsed:(JWProgramDateTimeMetadata * _Nonnull)metadata;
+/// Triggered when playback enters the time range where new metadata becomes active.
+/// \param player The player that triggered the program-date-time event.
+///
+/// \param metadata Contains information about the active program-date-time metadata.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadata:(JWProgramDateTimeMetadata * _Nonnull)metadata;
+@end
+
 
 /// A delegate for receiving information on changes to the JWPlayerView.
 SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewDelegate_")
@@ -3077,17 +3137,24 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewDelegate_")
 
 @protocol JWPlayerViewControllerDelegate;
 
-/// This ViewController creates a JWPlayerView, and creates a default interface for the content. You can gain access to events by subclassing this, and overriding the methods you are interested in.
+/// This ViewController creates a <code>JWPlayerView</code>, and creates a default interface for the content.
+/// If you are using <code>JWPlayerViewController</code>, do not assign another class as a delegate for <code>JWPlayerView</code> or <code>JWPlayer</code> and its related delegate properties, nor for <code>JWPlayer.adTimeObserver</code> and <code>JWPlayer.mediaTimeObserver</code>. This controller conforms to these delegates already. You can gain access to events by subclassing this, and overriding the methods you are interested in.
 /// note:
 /// If you are writing in Objective-C and want to subclass this ViewController, refer to <code>JWPlayerObjViewController</code> and subclass that instead.
 SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
-@interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAdDelegate, JWAirPlayDelegate, JWCastDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
+@interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAccessLogMetadataDelegate, JWAdDelegate, JWAirPlayDelegate, JWCastDelegate, JWDateRangeMetadataDelegate, JWExternalMetadataDelegate, JWID3MetadataDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWProgramDateTimeMetadataDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
+/// A Boolean value that determines whether the player view allows Picture in Picture playback.
+/// note:
+/// By default, this is value is true.
+/// attention:
+/// <code>canStartPictureInPictureAutomaticallyFromInline</code> is not set to true when enabling this property, Picture-in-Picture mode should only be expected to be initiated when using the UI button designated for this.
+@property (nonatomic) BOOL allowsPictureInPicturePlayback;
 /// The delegate to receive JWPlayerViewController events.
 @property (nonatomic, weak) id <JWPlayerViewControllerDelegate> _Nullable delegate;
 /// Returns true if the player is currently in fullscreen mode, and false if it is not
 @property (nonatomic, readonly) BOOL isFullScreen;
 /// The view containing the player.
-@property (nonatomic, readonly, strong) JWPlayerView * _Nonnull playerView;
+@property (nonatomic, readonly, strong) id <JWPlayerViewProtocol> _Nonnull playerView;
 /// The behavior desired for the interface. By default, this is .normal.
 @property (nonatomic) enum JWInterfaceBehavior interfaceBehavior;
 /// Available playback rates.
@@ -3105,7 +3172,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// The message to display when Internet connection is lost. By default it is “Internet Lost”.
 @property (nonatomic, copy) NSString * _Nonnull offlineMessage;
 /// The JWPlayer interface, used to control playback and configure the player.
-@property (nonatomic, readonly, strong) id <JWPlayer> _Nonnull player;
+@property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
 /// The desc the player is initialized with for the ad interface.
 @property (nonatomic, strong) JWAdInterfaceStyle * _Nonnull adInterfaceStyle;
 /// If true, the player will go full screen when rotated into landscape orientation.
@@ -3183,12 +3250,21 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)jwplayerHasSeeked:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player playbackRateChangedTo:(double)rate at:(NSTimeInterval)time;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCues:(NSArray<JWCue *> * _Nonnull)cues;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveAccessLogMetadata:(JWAccessLogMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player dateRangeMetadataCueParsed:(JWDateRangeMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player dateRangeMetadata:(JWDateRangeMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player id3Metadata:(JWID3Metadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player externalMetadataCueParsed:(JWExternalMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player externalMetadata:(JWExternalMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadataCueParsed:(JWProgramDateTimeMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadata:(JWProgramDateTimeMetadata * _Nonnull)metadata;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveMediaMetadata:(JWMediaMetadata * _Nonnull)metadata;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player airPlayStatusChanged:(enum JWAirPlayStatus)status;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player audioTracksUpdated:(NSArray<JWMediaSelectionOption *> * _Nonnull)levels;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player audioTrackChanged:(NSInteger)currentLevel;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player qualityLevelsUpdated:(NSArray<JWVideoSource *> * _Nonnull)levels;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player qualityLevelChanged:(NSInteger)currentLevel;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player visualQualityChanged:(JWVisualQuality * _Nonnull)currentVisualQuality;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCaptionList:(NSArray<JWMediaSelectionOption *> * _Nonnull)options;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player captionTrackChanged:(NSInteger)index;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player captionPresented:(NSArray<NSString *> * _Nonnull)caption at:(JWTimeData * _Nonnull)time;
@@ -3323,6 +3399,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit30JWPlayerViewControllerDelegate_")
 @end
 
 
+
 /// Preloading behavior for content.
 typedef SWIFT_ENUM(NSInteger, JWPreload, open) {
 /// Preloading is enabled.
@@ -3346,23 +3423,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit25JWProgramDateTimeMetadata")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-
-/// Listens for program-date-time metadata events during playback.
-SWIFT_PROTOCOL("_TtP11JWPlayerKit33JWProgramDateTimeMetadataDelegate_")
-@protocol JWProgramDateTimeMetadataDelegate
-/// Triggered once the metadata cue point is buffered.
-/// \param player The player that parsed the program-date-time cue.
-///
-/// \param metadata Contains information about the program-date-time cue.
-///
-- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadataCueParsed:(JWProgramDateTimeMetadata * _Nonnull)metadata;
-/// Triggered when playback enters the time range where new metadata becomes active.
-/// \param player The player that triggered the program-date-time event.
-///
-/// \param metadata Contains information about the active program-date-time metadata.
-///
-- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadata:(JWProgramDateTimeMetadata * _Nonnull)metadata;
-@end
 
 
 /// A configuration object for handling related content loading and display.
@@ -3649,6 +3709,57 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 - (JWVideoSourceBuilder * _Nonnull)defaultVideo:(BOOL)defaultVideo;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+enum JWVisualQualityReason : NSInteger;
+enum JWVisualQualityMode : NSInteger;
+@class JWVisualQualityLevel;
+
+/// <code>JWVisualQuality</code> represents the quality of a video stream.
+SWIFT_CLASS("_TtC11JWPlayerKit15JWVisualQuality")
+@interface JWVisualQuality : NSObject
+/// The reason that a quality was selected.
+@property (nonatomic, readonly) enum JWVisualQualityReason reason;
+/// The current type of quality selection.
+@property (nonatomic, readonly) enum JWVisualQualityMode mode;
+/// The bitrate of the current selected quality. The value of this property is negative if unknown.
+@property (nonatomic, readonly) double bitrate;
+/// Information about the current selected quality.
+@property (nonatomic, readonly, strong) JWVisualQualityLevel * _Nonnull level;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// A description of a video quality level.
+SWIFT_CLASS("_TtC11JWPlayerKit20JWVisualQualityLevel")
+@interface JWVisualQualityLevel : NSObject
+/// The index of the visual quality level. Defaults to 0 for HLS.
+@property (nonatomic, readonly) NSInteger index;
+/// The natural dimensions in pixels of the visual quality level.
+@property (nonatomic, readonly) CGSize size;
+/// A human-readable identifier for visual quality level.
+@property (nonatomic, readonly, copy) NSString * _Nonnull label;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+/// Constants representing how the player manages switching between different quality video tracks.
+typedef SWIFT_ENUM(NSInteger, JWVisualQualityMode, open) {
+/// Automatic quality switching.
+  JWVisualQualityModeAuto = 0,
+/// Static quality.
+  JWVisualQualityModeManual = 1,
+};
+
+/// Constants denoting the reason for quality changing in a video.
+typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
+/// The user had this quality set as a default and did not change it.
+  JWVisualQualityReasonInitial = 0,
+/// An automatic quality change occurred (ex. HLS).
+  JWVisualQualityReasonAuto = 1,
+/// The user chose a static quality after playback began, or an API was used to set it.
+  JWVisualQualityReasonApi = 2,
+};
 
 
 
@@ -3910,10 +4021,12 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class NSNumber;
 @class JWVideoSource;
+@class JWVisualQuality;
 @class NSString;
 @class JWTimeData;
 
@@ -3953,6 +4066,14 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit12JWAVDelegate_")
 /// \param currentLevel The currently selected quality level, expressed as an index into the available quality levels.
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player qualityLevelChanged:(NSInteger)currentLevel;
+@optional
+/// Reports when the active quality level is changed for HLS. This is different than qualityLevelChanged since this will trigger when adaptive streaming automatically shifts quality or when user shifts quality manually.
+/// \param player The player emitting the event.
+///
+/// \param currentVisualQuality The current visual quality level.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player visualQualityChanged:(JWVisualQuality * _Nonnull)currentVisualQuality;
+@required
 /// Reports when caption options become available.
 /// note:
 /// Analagous to the <code>onCaptionList</code> event in version 3.x.
@@ -5564,47 +5685,50 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWLogoBuilder")
 ///   </li>
 /// </ul>
 - (JWLogo * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
-/// Sets the logo’s image.
-/// \param image A UIImage to use as a logo.
+/// Sets the logo’s image using the specified UIImage.
+/// The dimensions of the logo will match the dimensions of the image provided without resizing. For example, an image of 100x50 pixels will render a logo of 100x50, regardless of the dimensions of the player window.
+/// note:
+/// If both a URL and a UIImage are provided, the UIImage takes precedence and the URL is ignored. The SDK supports all formats supported by UIImage.
+/// \param image A UIImage to be displayed.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)image:(UIImage * _Nonnull)image;
-/// Sets the logo’s image using a URL.
+/// Sets the logo’s image by downloading the image at the specified URL.
+/// The dimensions of the logo will match the dimensions of the image provided without resizing. For example, an image of 100x50 pixels will render a logo of 100x50, regardless of the dimensions of the player window.
 /// note:
-/// If a UIImage is also supplied, this value is ignored.
+/// If both a URL and a UIImage are provided, the UIImage takes precedence and the URL is ignored. The SDK supports all formats supported by UIImage.
 /// \param imageFile The URL of the image to download and use as a logo.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)imageFile:(NSURL * _Nonnull)imageFile;
-/// Sets the fade behavior. Defaults to false.
-/// \param fades If true, the logo will fade when the interface fades. If false, it will always stay on the screen.`
+/// Determines if the logo appears and disappears with the controls, but only if the controls are set to fade.
+/// If the controls are not set to fade, the logo is visible when the controls are visible and not be visible when the controls are turned off. If unspecified, this parameter defaults to <code>false</code>.
+/// \param fades If true, the logo will fade when the controls fade. If false, the logo will persist.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)fades:(BOOL)fades;
-/// Sets the web link to travel to when the logo is tapped.
-/// \param weblink The URL to open on tap.
+/// URL to which a user is sent when the logo is tapped.
+/// \param weblink The URL to present to the user when the logo is tapped.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink;
-/// Sets the amount of space between the logo and the edge of the screen. Defaults to 8.
-/// \param margin The desired amount of space between the logo and edge of the player.
+/// Distance between the logo and the player’s edge, specified in points. If unspecified, this parameter defaults to 8.
+/// \param margin The desired amount of space between the logo and player’s edge.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWLogoBuilder * _Nonnull)margin:(NSInteger)margin;
-/// Sets he desired position of the logo on the screen. Defaults to <code>.topLeft</code>
-/// note:
-/// If a control bar position is specified, the margin is ignored.
-/// \param position The position of the logo.
+/// Defines the corner on the player in which the logo displays. If unspecified, this parameter defaults to <code>.topLeft</code>
+/// \param position The corner on the player in which the logo displays.
 ///
 ///
 /// returns:
@@ -5853,12 +5977,14 @@ typedef SWIFT_ENUM(NSInteger, JWPauseReason, open) {
   JWPauseReasonInteraction = 1,
 /// Player is paused due to a clickthrough.
   JWPauseReasonClickthrough = 2,
+/// Playback paused due to the player being less than 50% visible.
+  JWPauseReasonViewable = 3,
 /// Player is paused due to user interaction with the settings menu.
-  JWPauseReasonSettingsInteraction = 3,
+  JWPauseReasonSettingsInteraction = 4,
 /// Player is paused due to user interaction with the related menu.
-  JWPauseReasonRelatedInteraction = 4,
+  JWPauseReasonRelatedInteraction = 5,
 /// Unknown reason.
-  JWPauseReasonUnknown = 5,
+  JWPauseReasonUnknown = 6,
 };
 
 /// Constants indicating the reason the player is in the play state.
@@ -5885,23 +6011,17 @@ typedef SWIFT_ENUM(NSInteger, JWPlayReason, open) {
   JWPlayReasonUnknown = 9,
 };
 
-@protocol JWPlayerDelegate;
 enum JWPlayerState : NSInteger;
 @class JWPlayerItem;
-@protocol JWPlayerStateDelegate;
 
-/// This is the public interface into the JWPlayer instance.
-SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
-@protocol JWPlayer
+/// Methods and properties for interfacing with the player to control it, and query information.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
+@protocol JWPlayerProtocol
 /// Sets the initial configuration of the player.
 /// Calling this method will reset the player when it is called, even if it has been called before. Any errors during setup or playback will be reported to the JWPlayerDelegate.
 /// \param configuration The config to initialize the player with.
 ///
 - (void)configurePlayerWith:(JWPlayerConfiguration * _Nonnull)configuration;
-/// The delegate to notify about setup errors, warnings, and success when configuring the player.
-/// note:
-/// Set this property before configuring the player in order to receive errors during configuration.
-@property (nonatomic, strong) id <JWPlayerDelegate> _Nullable delegate;
 /// The volume relative to the volume of the device. All values are clamped from 0.0 (mute) to 1.0 (current volume of the device).
 @property (nonatomic) double volume;
 /// The playback rate at which media is being reproduced. Defaults to 1.0.
@@ -6015,8 +6135,24 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 @property (nonatomic) NSInteger currentVisualQuality;
 /// Returns an array of the playable visual quality levels of the current asset in the player.
 @property (nonatomic, readonly, copy) NSArray<JWVideoSource *> * _Nonnull visualQualityLevels;
+/// The current visual quality source.
+@property (nonatomic, readonly, strong) JWVisualQuality * _Nullable visualQuality;
 /// A data source delegate which requests the necessary keys to decrypt protected content.
 @property (nonatomic, strong) id <JWDRMContentKeyDataSource> _Nullable contentKeyDataSource;
+/// An interface to  add/remove friendly obstructions
+@property (nonatomic, readonly, strong) id <JWFriendlyObstructionManager> _Nonnull friendlyObstructions;
+@end
+
+@protocol JWPlayerDelegate;
+@protocol JWPlayerStateDelegate;
+
+/// This is the public interface into the JWPlayer instance.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
+@protocol JWPlayer <JWPlayerProtocol>
+/// The delegate to notify about setup errors, warnings, and success when configuring the player.
+/// note:
+/// Set this property before configuring the player in order to receive errors during configuration.
+@property (nonatomic, strong) id <JWPlayerDelegate> _Nullable delegate;
 /// A delegate which listens for changes in the player’s state.
 @property (nonatomic, strong) id <JWPlayerStateDelegate> _Nullable playbackStateDelegate;
 /// A delegate which listens for ads events.
@@ -6025,8 +6161,6 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit8JWPlayer_")
 @property (nonatomic, strong) id <JWAVDelegate> _Nullable avDelegate;
 /// A delegate which listens for AirPlay events.
 @property (nonatomic, strong) id <JWAirPlayDelegate> _Nullable airPlayDelegate;
-/// An interface to  add/remove friendly obstructions
-@property (nonatomic, readonly, strong) id <JWFriendlyObstructionManager> _Nonnull friendlyObstructions;
 /// This closure is called during all ad time events. The current position and duration of the current ad content is supplied as an argument.
 @property (nonatomic, copy) void (^ _Nullable adTimeObserver)(JWTimeData * _Nonnull);
 /// This closure is called during all media playback time events. The current position and duration of the current media content is supplied as an argument.
@@ -6273,6 +6407,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 @end
 
 
+
 /// The builder for JWPlayerItem, ensuring it is built correctly.
 SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 @interface JWPlayerItemBuilder : NSObject
@@ -6411,6 +6546,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWPlayerKitLicense")
 + (void)setLicenseKey:(NSString * _Nonnull)clientKey;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
 
 
 /// Defines a player item which contains the information about the media content.
@@ -6699,13 +6835,29 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCues:(NSArray<JWCue *> * _Nonnull)cues;
 @end
 
-@protocol JWPlayerViewDelegate;
 @class AVPictureInPictureController;
 enum JWVideoGravity : NSInteger;
 
+/// Methods and properties for interfacing with the view of  a <code>JWPlayer</code> instance.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewProtocol_")
+@protocol JWPlayerViewProtocol
+/// The currently defined style for captions. If nil, it reverts to default settings as specified within the SDK or the user’s accessibility settings.
+@property (nonatomic, strong) JWCaptionStyle * _Nullable captionStyle;
+/// The amount of spaced to inset the captions from the edges of the player. Defaults to 0.
+@property (nonatomic) UIEdgeInsets captionInsets;
+/// The picture in picture controller for the player.
+/// note:
+/// Picture in picture works in iOS 14 and above for iPhones, and iOS 13 and above for iPads.
+@property (nonatomic, readonly, strong) AVPictureInPictureController * _Nullable pictureInPictureController;
+/// How to display video content within the bounds of a view.
+@property (nonatomic) enum JWVideoGravity videoGravity;
+@end
+
+@protocol JWPlayerViewDelegate;
+
 /// A view for displaying a player. It automatically handles enlarging the player to the size of this container view, and displaying the player.
 SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerView")
-@interface JWPlayerView : UIView
+@interface JWPlayerView : UIView <JWPlayerViewProtocol>
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layerClass;)
 + (Class _Nonnull)layerClass SWIFT_WARN_UNUSED_RESULT;
 /// The player associated with the view.
@@ -6749,6 +6901,25 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit19JWTimeEventListener_")
 - (void)onAdTimeEvent:(JWTimeData * _Nonnull)time;
 @end
 
+@class JWProgramDateTimeMetadata;
+
+/// Listens for program-date-time metadata events during playback.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit33JWProgramDateTimeMetadataDelegate_")
+@protocol JWProgramDateTimeMetadataDelegate
+/// Triggered once the metadata cue point is buffered.
+/// \param player The player that parsed the program-date-time cue.
+///
+/// \param metadata Contains information about the program-date-time cue.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadataCueParsed:(JWProgramDateTimeMetadata * _Nonnull)metadata;
+/// Triggered when playback enters the time range where new metadata becomes active.
+/// \param player The player that triggered the program-date-time event.
+///
+/// \param metadata Contains information about the active program-date-time metadata.
+///
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadata:(JWProgramDateTimeMetadata * _Nonnull)metadata;
+@end
+
 
 /// A delegate for receiving information on changes to the JWPlayerView.
 SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewDelegate_")
@@ -6765,17 +6936,24 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewDelegate_")
 
 @protocol JWPlayerViewControllerDelegate;
 
-/// This ViewController creates a JWPlayerView, and creates a default interface for the content. You can gain access to events by subclassing this, and overriding the methods you are interested in.
+/// This ViewController creates a <code>JWPlayerView</code>, and creates a default interface for the content.
+/// If you are using <code>JWPlayerViewController</code>, do not assign another class as a delegate for <code>JWPlayerView</code> or <code>JWPlayer</code> and its related delegate properties, nor for <code>JWPlayer.adTimeObserver</code> and <code>JWPlayer.mediaTimeObserver</code>. This controller conforms to these delegates already. You can gain access to events by subclassing this, and overriding the methods you are interested in.
 /// note:
 /// If you are writing in Objective-C and want to subclass this ViewController, refer to <code>JWPlayerObjViewController</code> and subclass that instead.
 SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
-@interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAdDelegate, JWAirPlayDelegate, JWCastDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
+@interface JWPlayerViewController : UIViewController <AVPictureInPictureControllerDelegate, JWAVDelegate, JWAccessLogMetadataDelegate, JWAdDelegate, JWAirPlayDelegate, JWCastDelegate, JWDateRangeMetadataDelegate, JWExternalMetadataDelegate, JWID3MetadataDelegate, JWMediaMetadataDelegate, JWPlayerDelegate, JWPlayerStateDelegate, JWPlayerViewDelegate, JWProgramDateTimeMetadataDelegate, JWTimeEventListener, UIPopoverPresentationControllerDelegate>
+/// A Boolean value that determines whether the player view allows Picture in Picture playback.
+/// note:
+/// By default, this is value is true.
+/// attention:
+/// <code>canStartPictureInPictureAutomaticallyFromInline</code> is not set to true when enabling this property, Picture-in-Picture mode should only be expected to be initiated when using the UI button designated for this.
+@property (nonatomic) BOOL allowsPictureInPicturePlayback;
 /// The delegate to receive JWPlayerViewController events.
 @property (nonatomic, weak) id <JWPlayerViewControllerDelegate> _Nullable delegate;
 /// Returns true if the player is currently in fullscreen mode, and false if it is not
 @property (nonatomic, readonly) BOOL isFullScreen;
 /// The view containing the player.
-@property (nonatomic, readonly, strong) JWPlayerView * _Nonnull playerView;
+@property (nonatomic, readonly, strong) id <JWPlayerViewProtocol> _Nonnull playerView;
 /// The behavior desired for the interface. By default, this is .normal.
 @property (nonatomic) enum JWInterfaceBehavior interfaceBehavior;
 /// Available playback rates.
@@ -6793,7 +6971,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// The message to display when Internet connection is lost. By default it is “Internet Lost”.
 @property (nonatomic, copy) NSString * _Nonnull offlineMessage;
 /// The JWPlayer interface, used to control playback and configure the player.
-@property (nonatomic, readonly, strong) id <JWPlayer> _Nonnull player;
+@property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
 /// The desc the player is initialized with for the ad interface.
 @property (nonatomic, strong) JWAdInterfaceStyle * _Nonnull adInterfaceStyle;
 /// If true, the player will go full screen when rotated into landscape orientation.
@@ -6871,12 +7049,21 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)jwplayerHasSeeked:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player playbackRateChangedTo:(double)rate at:(NSTimeInterval)time;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCues:(NSArray<JWCue *> * _Nonnull)cues;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveAccessLogMetadata:(JWAccessLogMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player dateRangeMetadataCueParsed:(JWDateRangeMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player dateRangeMetadata:(JWDateRangeMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player id3Metadata:(JWID3Metadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player externalMetadataCueParsed:(JWExternalMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player externalMetadata:(JWExternalMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadataCueParsed:(JWProgramDateTimeMetadata * _Nonnull)metadata;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadata:(JWProgramDateTimeMetadata * _Nonnull)metadata;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveMediaMetadata:(JWMediaMetadata * _Nonnull)metadata;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player airPlayStatusChanged:(enum JWAirPlayStatus)status;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player audioTracksUpdated:(NSArray<JWMediaSelectionOption *> * _Nonnull)levels;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player audioTrackChanged:(NSInteger)currentLevel;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player qualityLevelsUpdated:(NSArray<JWVideoSource *> * _Nonnull)levels;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player qualityLevelChanged:(NSInteger)currentLevel;
+- (void)jwplayer:(id <JWPlayer> _Nonnull)player visualQualityChanged:(JWVisualQuality * _Nonnull)currentVisualQuality;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedCaptionList:(NSArray<JWMediaSelectionOption *> * _Nonnull)options;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player captionTrackChanged:(NSInteger)index;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player captionPresented:(NSArray<NSString *> * _Nonnull)caption at:(JWTimeData * _Nonnull)time;
@@ -7011,6 +7198,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit30JWPlayerViewControllerDelegate_")
 @end
 
 
+
 /// Preloading behavior for content.
 typedef SWIFT_ENUM(NSInteger, JWPreload, open) {
 /// Preloading is enabled.
@@ -7034,23 +7222,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit25JWProgramDateTimeMetadata")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-
-/// Listens for program-date-time metadata events during playback.
-SWIFT_PROTOCOL("_TtP11JWPlayerKit33JWProgramDateTimeMetadataDelegate_")
-@protocol JWProgramDateTimeMetadataDelegate
-/// Triggered once the metadata cue point is buffered.
-/// \param player The player that parsed the program-date-time cue.
-///
-/// \param metadata Contains information about the program-date-time cue.
-///
-- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadataCueParsed:(JWProgramDateTimeMetadata * _Nonnull)metadata;
-/// Triggered when playback enters the time range where new metadata becomes active.
-/// \param player The player that triggered the program-date-time event.
-///
-/// \param metadata Contains information about the active program-date-time metadata.
-///
-- (void)jwplayer:(id <JWPlayer> _Nonnull)player programDateTimeMetadata:(JWProgramDateTimeMetadata * _Nonnull)metadata;
-@end
 
 
 /// A configuration object for handling related content loading and display.
@@ -7337,6 +7508,57 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 - (JWVideoSourceBuilder * _Nonnull)defaultVideo:(BOOL)defaultVideo;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+enum JWVisualQualityReason : NSInteger;
+enum JWVisualQualityMode : NSInteger;
+@class JWVisualQualityLevel;
+
+/// <code>JWVisualQuality</code> represents the quality of a video stream.
+SWIFT_CLASS("_TtC11JWPlayerKit15JWVisualQuality")
+@interface JWVisualQuality : NSObject
+/// The reason that a quality was selected.
+@property (nonatomic, readonly) enum JWVisualQualityReason reason;
+/// The current type of quality selection.
+@property (nonatomic, readonly) enum JWVisualQualityMode mode;
+/// The bitrate of the current selected quality. The value of this property is negative if unknown.
+@property (nonatomic, readonly) double bitrate;
+/// Information about the current selected quality.
+@property (nonatomic, readonly, strong) JWVisualQualityLevel * _Nonnull level;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// A description of a video quality level.
+SWIFT_CLASS("_TtC11JWPlayerKit20JWVisualQualityLevel")
+@interface JWVisualQualityLevel : NSObject
+/// The index of the visual quality level. Defaults to 0 for HLS.
+@property (nonatomic, readonly) NSInteger index;
+/// The natural dimensions in pixels of the visual quality level.
+@property (nonatomic, readonly) CGSize size;
+/// A human-readable identifier for visual quality level.
+@property (nonatomic, readonly, copy) NSString * _Nonnull label;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+/// Constants representing how the player manages switching between different quality video tracks.
+typedef SWIFT_ENUM(NSInteger, JWVisualQualityMode, open) {
+/// Automatic quality switching.
+  JWVisualQualityModeAuto = 0,
+/// Static quality.
+  JWVisualQualityModeManual = 1,
+};
+
+/// Constants denoting the reason for quality changing in a video.
+typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
+/// The user had this quality set as a default and did not change it.
+  JWVisualQualityReasonInitial = 0,
+/// An automatic quality change occurred (ex. HLS).
+  JWVisualQualityReasonAuto = 1,
+/// The user chose a static quality after playback began, or an API was used to set it.
+  JWVisualQualityReasonApi = 2,
+};
 
 
 

@@ -23,6 +23,11 @@ JWPlayerStateDelegate,
 JWAVDelegate,
 JWAdDelegate,
 JWAirPlayDelegate,
+JWAccessLogMetadataDelegate,
+JWDateRangeMetadataDelegate,
+JWID3MetadataDelegate,
+JWExternalMetadataDelegate,
+JWProgramDateTimeMetadataDelegate,
 JWMediaMetadataDelegate,
 JWCastDelegate,
 JWTimeEventListener>
@@ -82,6 +87,11 @@ JWTimeEventListener>
  */
 @property (nonatomic, assign) BOOL enableLockScreenControls;
 
+/**
+ A Boolean value that determines whether the player view allows Picture in Picture playback.
+ - note: By default, this is value is true.
+*/
+@property (nonatomic, assign, readwrite) BOOL allowsPictureInPicturePlayback;
 @end
 
 #endif /* JWPlayerObjCViewController_h */

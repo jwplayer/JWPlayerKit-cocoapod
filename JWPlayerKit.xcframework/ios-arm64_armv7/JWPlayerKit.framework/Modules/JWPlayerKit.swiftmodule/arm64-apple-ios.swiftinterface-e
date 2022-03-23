@@ -135,6 +135,12 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc public var type: JWPlayerKit.JWAdType {
     get
   }
+  public var sequence: Swift.Int? {
+    get
+  }
+  public var podCount: Swift.Int? {
+    get
+  }
   @objc public var adId: Swift.String! {
     get
   }
@@ -142,6 +148,9 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     get
   }
   @objc public var creativeId: Swift.String! {
+    get
+  }
+  public var duration: Foundation.TimeInterval? {
     get
   }
   @objc deinit
@@ -364,12 +373,30 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWMetadataDelegates : ObjectiveC.NSObject {
-  @objc weak public var accessLogMetadataDelegate: JWPlayerKit.JWAccessLogMetadataDelegate?
-  @objc weak public var dateRangeMetadataDelegate: JWPlayerKit.JWDateRangeMetadataDelegate?
-  @objc weak public var id3MetadataDelegate: JWPlayerKit.JWID3MetadataDelegate?
-  @objc weak public var externalMetadataDelegate: JWPlayerKit.JWExternalMetadataDelegate?
-  @objc weak public var programDateTimeMetadataDelegate: JWPlayerKit.JWProgramDateTimeMetadataDelegate?
-  @objc weak public var mediaMetadataDelegate: JWPlayerKit.JWMediaMetadataDelegate?
+  @objc weak public var accessLogMetadataDelegate: JWPlayerKit.JWAccessLogMetadataDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc weak public var dateRangeMetadataDelegate: JWPlayerKit.JWDateRangeMetadataDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc weak public var id3MetadataDelegate: JWPlayerKit.JWID3MetadataDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc weak public var externalMetadataDelegate: JWPlayerKit.JWExternalMetadataDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc weak public var programDateTimeMetadataDelegate: JWPlayerKit.JWProgramDateTimeMetadataDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc weak public var mediaMetadataDelegate: JWPlayerKit.JWMediaMetadataDelegate? {
+    @objc get
+    @objc set
+  }
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class JWAdRules : ObjectiveC.NSObject {
@@ -531,6 +558,12 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc final public let endDate: Foundation.Date?
   @objc deinit
 }
+@objc public protocol JWPlayerViewProtocol {
+  @objc var captionStyle: JWPlayerKit.JWCaptionStyle? { get set }
+  @objc var captionInsets: UIKit.UIEdgeInsets { get set }
+  @objc var pictureInPictureController: AVKit.AVPictureInPictureController? { get }
+  @objc var videoGravity: JWPlayerKit.JWVideoGravity { get set }
+}
 @objc public protocol JWPlayerViewDelegate {
   @objc func playerView(_ view: JWPlayerKit.JWPlayerView, sizeChangedFrom oldSize: CoreGraphics.CGSize, to newSize: CoreGraphics.CGSize)
 }
@@ -544,26 +577,29 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     get
   }
 }
-@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor(unsafe) public class JWPlayerView : UIKit.UIView {
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor(unsafe) public class JWPlayerView : UIKit.UIView, JWPlayerKit.JWPlayerViewProtocol {
   @_Concurrency.MainActor(unsafe) @objc override public static var layerClass: Swift.AnyClass {
     @_Concurrency.MainActor(unsafe) @objc get
   }
   @objc @_Concurrency.MainActor(unsafe) public var player: JWPlayerKit.JWPlayer {
     @objc get
   }
-  @objc @_Concurrency.MainActor(unsafe) weak public var delegate: JWPlayerKit.JWPlayerViewDelegate?
-  @objc @_Concurrency.MainActor(unsafe) public var captionStyle: JWPlayerKit.JWCaptionStyle? {
+  @objc @_Concurrency.MainActor(unsafe) weak public var delegate: JWPlayerKit.JWPlayerViewDelegate? {
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var captionInsets: UIKit.UIEdgeInsets {
+  @_Concurrency.MainActor(unsafe) @objc public var captionStyle: JWPlayerKit.JWCaptionStyle? {
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var pictureInPictureController: AVKit.AVPictureInPictureController? {
+  @_Concurrency.MainActor(unsafe) @objc public var captionInsets: UIKit.UIEdgeInsets {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) @objc public var pictureInPictureController: AVKit.AVPictureInPictureController? {
     @objc get
   }
-  @objc @_Concurrency.MainActor(unsafe) public var videoGravity: JWPlayerKit.JWVideoGravity {
+  @_Concurrency.MainActor(unsafe) @objc public var videoGravity: JWPlayerKit.JWVideoGravity {
     @objc get
     @objc set
   }
@@ -624,6 +660,8 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   public func adRules(_ adRules: JWPlayerKit.JWAdRules) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
   @objc @discardableResult
   public func openBrowserOnAdClick(_ openBrowserOnAdClick: Swift.Bool) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
+  @discardableResult
+  public func skipOffset(_ offset: Foundation.TimeInterval?) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
   @objc override dynamic public init()
   @objc deinit
 }
@@ -661,12 +699,16 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc func onMediaTimeEvent(_ time: JWPlayerKit.JWTimeData)
   @objc func onAdTimeEvent(_ time: JWPlayerKit.JWTimeData)
 }
-@objc @_inheritsConvenienceInitializers @objcMembers @_Concurrency.MainActor(unsafe) open class JWPlayerViewController : UIKit.UIViewController, AVKit.AVPictureInPictureControllerDelegate, JWPlayerKit.JWPlayerViewDelegate, JWPlayerKit.JWPlayerDelegate, JWPlayerKit.JWPlayerStateDelegate, JWPlayerKit.JWAVDelegate, JWPlayerKit.JWAdDelegate, JWPlayerKit.JWAirPlayDelegate, JWPlayerKit.JWMediaMetadataDelegate, JWPlayerKit.JWCastDelegate, JWPlayerKit.JWTimeEventListener, UIKit.UIPopoverPresentationControllerDelegate {
+@objc @_inheritsConvenienceInitializers @objcMembers @_Concurrency.MainActor(unsafe) open class JWPlayerViewController : UIKit.UIViewController, AVKit.AVPictureInPictureControllerDelegate, JWPlayerKit.JWPlayerViewDelegate, JWPlayerKit.JWPlayerDelegate, JWPlayerKit.JWPlayerStateDelegate, JWPlayerKit.JWAVDelegate, JWPlayerKit.JWAdDelegate, JWPlayerKit.JWAirPlayDelegate, JWPlayerKit.JWAccessLogMetadataDelegate, JWPlayerKit.JWDateRangeMetadataDelegate, JWPlayerKit.JWID3MetadataDelegate, JWPlayerKit.JWExternalMetadataDelegate, JWPlayerKit.JWProgramDateTimeMetadataDelegate, JWPlayerKit.JWMediaMetadataDelegate, JWPlayerKit.JWCastDelegate, JWPlayerKit.JWTimeEventListener, UIKit.UIPopoverPresentationControllerDelegate {
+  @objc @_Concurrency.MainActor(unsafe) public var allowsPictureInPicturePlayback: Swift.Bool {
+    @objc get
+    @objc set
+  }
   @objc @_Concurrency.MainActor(unsafe) weak public var delegate: JWPlayerKit.JWPlayerViewControllerDelegate?
   @objc @_Concurrency.MainActor(unsafe) public var isFullScreen: Swift.Bool {
     @objc get
   }
-  @objc @_Concurrency.MainActor(unsafe) public var playerView: JWPlayerKit.JWPlayerView {
+  @objc @_Concurrency.MainActor(unsafe) public var playerView: JWPlayerKit.JWPlayerViewProtocol {
     @objc get
   }
   @objc @_Concurrency.MainActor(unsafe) public var interfaceBehavior: JWPlayerKit.JWInterfaceBehavior {
@@ -690,7 +732,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) public var player: JWPlayerKit.JWPlayer {
+  @objc @_Concurrency.MainActor(unsafe) public var player: JWPlayerKit.JWPlayerProtocol {
     @objc get
   }
   @objc @_Concurrency.MainActor(unsafe) public var adInterfaceStyle: JWPlayerKit.JWAdInterfaceStyle
@@ -747,12 +789,21 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @_Concurrency.MainActor(unsafe) @objc open func jwplayerHasSeeked(_ player: JWPlayerKit.JWPlayer)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, playbackRateChangedTo rate: Swift.Double, at time: Foundation.TimeInterval)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, updatedCues cues: [JWPlayerKit.JWCue])
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didReceiveAccessLogMetadata metadata: JWPlayerKit.JWAccessLogMetadata)
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, dateRangeMetadataCueParsed metadata: JWPlayerKit.JWDateRangeMetadata)
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, dateRangeMetadata metadata: JWPlayerKit.JWDateRangeMetadata)
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, id3Metadata metadata: JWPlayerKit.JWID3Metadata)
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, externalMetadataCueParsed metadata: JWPlayerKit.JWExternalMetadata)
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, externalMetadata metadata: JWPlayerKit.JWExternalMetadata)
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, programDateTimeMetadataCueParsed metadata: JWPlayerKit.JWProgramDateTimeMetadata)
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, programDateTimeMetadata metadata: JWPlayerKit.JWProgramDateTimeMetadata)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, didReceiveMediaMetadata metadata: JWPlayerKit.JWMediaMetadata)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, airPlayStatusChanged status: JWPlayerKit.JWAirPlayStatus)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, audioTracksUpdated levels: [JWPlayerKit.JWMediaSelectionOption])
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, audioTrackChanged currentLevel: Swift.Int)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, qualityLevelsUpdated levels: [JWPlayerKit.JWVideoSource])
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, qualityLevelChanged currentLevel: Swift.Int)
+  @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, visualQualityChanged currentVisualQuality: JWPlayerKit.JWVisualQuality)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, updatedCaptionList options: [JWPlayerKit.JWMediaSelectionOption])
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, captionTrackChanged index: Swift.Int)
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: JWPlayerKit.JWPlayer, captionPresented caption: [Swift.String], at time: JWPlayerKit.JWTimeData)
@@ -774,6 +825,38 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @_Concurrency.MainActor(unsafe) @objc open func castController(_ controller: JWPlayerKit.JWCastController, castingEndedWithError error: Swift.Error?)
   @_Concurrency.MainActor(unsafe) @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
   @_Concurrency.MainActor(unsafe) @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: UIKit.UIViewControllerTransitionCoordinator?)
+}
+@objc public enum JWVisualQualityMode : Swift.Int {
+  case auto
+  case manual
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum JWVisualQualityReason : Swift.Int {
+  case initial
+  case auto
+  case api
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class JWVisualQualityLevel : ObjectiveC.NSObject {
+  @objc final public let index: Swift.Int
+  @objc final public let size: CoreGraphics.CGSize
+  @objc final public let label: Swift.String
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class JWVisualQuality : ObjectiveC.NSObject {
+  @objc final public let reason: JWPlayerKit.JWVisualQualityReason
+  @objc final public let mode: JWPlayerKit.JWVisualQualityMode
+  @objc final public let bitrate: Swift.Double
+  @objc final public let level: JWPlayerKit.JWVisualQualityLevel
+  @objc deinit
 }
 public typealias JSONPayload = [Swift.AnyHashable : Any]
 @_hasMissingDesignatedInitializers @objc public class JWAdOffset : ObjectiveC.NSObject {
@@ -896,6 +979,7 @@ public protocol JWBuilder {
   case external
   case interaction
   case clickthrough
+  case viewable
   case settingsInteraction
   case relatedInteraction
   case unknown
@@ -982,9 +1066,8 @@ public protocol JWBuilder {
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, encounteredAdWarning code: Swift.UInt, message: Swift.String)
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, encounteredAdError code: Swift.UInt, message: Swift.String)
 }
-@objc public protocol JWPlayer {
+@objc public protocol JWPlayerProtocol {
   @objc func configurePlayer(with configuration: JWPlayerKit.JWPlayerConfiguration)
-  @objc var delegate: JWPlayerKit.JWPlayerDelegate? { get set }
   @objc var volume: Swift.Double { get set }
   @objc var playbackRate: Swift.Double { get set }
   @objc var time: JWPlayerKit.JWTimeData { get }
@@ -1014,12 +1097,16 @@ public protocol JWBuilder {
   @objc var audioTracks: [JWPlayerKit.JWMediaSelectionOption] { get }
   @objc var currentVisualQuality: Swift.Int { get set }
   @objc var visualQualityLevels: [JWPlayerKit.JWVideoSource] { get }
+  @objc var visualQuality: JWPlayerKit.JWVisualQuality? { get }
   @objc var contentKeyDataSource: JWPlayerKit.JWDRMContentKeyDataSource? { get set }
+  @objc var friendlyObstructions: JWPlayerKit.JWFriendlyObstructionManager { get }
+}
+@objc public protocol JWPlayer : JWPlayerKit.JWPlayerProtocol {
+  @objc var delegate: JWPlayerKit.JWPlayerDelegate? { get set }
   @objc var playbackStateDelegate: JWPlayerKit.JWPlayerStateDelegate? { get set }
   @objc var adDelegate: JWPlayerKit.JWAdDelegate? { get set }
   @objc var avDelegate: JWPlayerKit.JWAVDelegate? { get set }
   @objc var airPlayDelegate: JWPlayerKit.JWAirPlayDelegate? { get set }
-  @objc var friendlyObstructions: JWPlayerKit.JWFriendlyObstructionManager { get }
   @objc var adTimeObserver: ((JWPlayerKit.JWTimeData) -> Swift.Void)? { get set }
   @objc var mediaTimeObserver: ((JWPlayerKit.JWTimeData) -> Swift.Void)? { get set }
   @objc var metadataDelegates: JWPlayerKit.JWMetadataDelegates { get }
@@ -1364,6 +1451,7 @@ extension UIKit.UIStackView {
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, audioTrackChanged currentLevel: Swift.Int)
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, qualityLevelsUpdated levels: [JWPlayerKit.JWVideoSource])
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, qualityLevelChanged currentLevel: Swift.Int)
+  @objc optional func jwplayer(_ player: JWPlayerKit.JWPlayer, visualQualityChanged currentVisualQuality: JWPlayerKit.JWVisualQuality)
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, updatedCaptionList options: [JWPlayerKit.JWMediaSelectionOption])
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, captionTrackChanged index: Swift.Int)
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, captionPresented caption: [Swift.String], at time: JWPlayerKit.JWTimeData)
@@ -1422,6 +1510,12 @@ extension JWPlayerKit.JWAdType : Swift.RawRepresentable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.Equatable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.Hashable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.RawRepresentable {}
+extension JWPlayerKit.JWVisualQualityMode : Swift.Equatable {}
+extension JWPlayerKit.JWVisualQualityMode : Swift.Hashable {}
+extension JWPlayerKit.JWVisualQualityMode : Swift.RawRepresentable {}
+extension JWPlayerKit.JWVisualQualityReason : Swift.Equatable {}
+extension JWPlayerKit.JWVisualQualityReason : Swift.Hashable {}
+extension JWPlayerKit.JWVisualQualityReason : Swift.RawRepresentable {}
 extension JWPlayerKit.JWPlayReason : Swift.Equatable {}
 extension JWPlayerKit.JWPlayReason : Swift.Hashable {}
 extension JWPlayerKit.JWPlayReason : Swift.RawRepresentable {}
