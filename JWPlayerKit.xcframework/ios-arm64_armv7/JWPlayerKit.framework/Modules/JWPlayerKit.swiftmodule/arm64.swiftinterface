@@ -627,26 +627,6 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     get
   }
 }
-@objc public enum JWAdPosition : Swift.Int {
-  case pre
-  case post
-  case mid
-  case unknown
-  public init?(rawValue: Swift.Int)
-  public typealias RawValue = Swift.Int
-  public var rawValue: Swift.Int {
-    get
-  }
-}
-@objc public enum JWAdType : Swift.Int {
-  case linear
-  case unknown
-  public init?(rawValue: Swift.Int)
-  public typealias RawValue = Swift.Int
-  public var rawValue: Swift.Int {
-    get
-  }
-}
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWAdsAdvertisingConfigBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
   public typealias Output = JWPlayerKit.JWAdvertisingConfig
   @objc public func build() throws -> JWPlayerKit.JWAdvertisingConfig
@@ -1277,6 +1257,26 @@ extension UIKit.UIStackView {
   @objc public func stopCasting()
   @objc deinit
 }
+@objc public enum JWAdPosition : Swift.Int {
+  case pre
+  case post
+  case mid
+  case unknown
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum JWAdType : Swift.Int {
+  case linear
+  case unknown
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
 @objc public protocol JWAdDelegate {
   @objc func jwplayer(_ player: Swift.AnyObject, adEvent event: JWPlayerKit.JWAdEvent)
 }
@@ -1504,9 +1504,6 @@ extension JWPlayerKit.JWRelatedOnComplete : Swift.RawRepresentable {}
 extension JWPlayerKit.JWRelatedOnClick : Swift.Equatable {}
 extension JWPlayerKit.JWRelatedOnClick : Swift.Hashable {}
 extension JWPlayerKit.JWRelatedOnClick : Swift.RawRepresentable {}
-extension JWPlayerKit.JWAdType : Swift.Equatable {}
-extension JWPlayerKit.JWAdType : Swift.Hashable {}
-extension JWPlayerKit.JWAdType : Swift.RawRepresentable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.Equatable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.Hashable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.RawRepresentable {}
@@ -1534,6 +1531,9 @@ extension JWPlayerKit.JWAdCompanionType : Swift.RawRepresentable {}
 extension JWPlayerKit.JWAdClient : Swift.Equatable {}
 extension JWPlayerKit.JWAdClient : Swift.Hashable {}
 extension JWPlayerKit.JWAdClient : Swift.RawRepresentable {}
+extension JWPlayerKit.JWAdType : Swift.Equatable {}
+extension JWPlayerKit.JWAdType : Swift.Hashable {}
+extension JWPlayerKit.JWAdType : Swift.RawRepresentable {}
 extension JWPlayerKit.JWAdEventType : Swift.Equatable {}
 extension JWPlayerKit.JWAdEventType : Swift.Hashable {}
 extension JWPlayerKit.JWAdEventType : Swift.RawRepresentable {}

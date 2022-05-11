@@ -19,7 +19,7 @@
 		</dict>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		ztvQIIjS/PQeXZ41sMMsK8f7KzQ=
+		UseMGvNSRvUdKQEAZ0dy/DhGLTw=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -79,7 +79,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		qLg9N0cqNt1awGuUEU9WAMwf0CI=
+		z8OZdEDE/p0X28s1e8Lu9m7OvME=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -107,55 +107,55 @@
 		</data>
 		<key>JS/vast.js</key>
 		<data>
-		Kp6d6UWJPrAYcfmNGiV5wZddlG8=
+		nEJGIx+tKj3+Qq0bSdA8OObTGwo=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
 		<data>
-		3INJgrHogtPgRqT8Ab0X9RljEJw=
+		5dGFz9oVC4wfRM8lT1Zbpx13rzg=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386-apple-ios-simulator.swiftinterface</key>
 		<data>
-		cFaLEdYTWmS3qvxQCx8RX3r83tU=
+		RXsRYdV+YXMNMVxSeQYEZJVxM4M=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<data>
-		GU1e9ThRQZ/TEYvv3VzTgzz1Ld0=
+		hbrz0SXAowccv8s7uc374UJ0GCg=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftdoc</key>
 		<data>
-		3INJgrHogtPgRqT8Ab0X9RljEJw=
+		5dGFz9oVC4wfRM8lT1Zbpx13rzg=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftinterface</key>
 		<data>
-		cFaLEdYTWmS3qvxQCx8RX3r83tU=
+		RXsRYdV+YXMNMVxSeQYEZJVxM4M=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftmodule</key>
 		<data>
-		GU1e9ThRQZ/TEYvv3VzTgzz1Ld0=
+		hbrz0SXAowccv8s7uc374UJ0GCg=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		N/Xo0W56vvllmDYnampf4ehDTAc=
+		88u9k9zfffAOOT7o+jn8KeOLOZ0=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		wzPHN9e7Os3+RpNuJUV+hTGlgRA=
+		M4YLfEQOw56u3nzmPd9YSuVGD+8=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		po2PmQh3usvnOUlqyj6m2thTuIg=
+		TtVrOkxAKUhIAPtkAscdsSeeJiA=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		N/Xo0W56vvllmDYnampf4ehDTAc=
+		88u9k9zfffAOOT7o+jn8KeOLOZ0=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		wzPHN9e7Os3+RpNuJUV+hTGlgRA=
+		M4YLfEQOw56u3nzmPd9YSuVGD+8=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		po2PmQh3usvnOUlqyj6m2thTuIg=
+		TtVrOkxAKUhIAPtkAscdsSeeJiA=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -163,11 +163,11 @@
 		</data>
 		<key>XIBS/AdControls.nib/objects-11.0+.nib</key>
 		<data>
-		3QwOdlVS4cBcAKDssK9HHFNS/Gw=
+		RxTZiV+PlJfgQKmhITpSg51PrG8=
 		</data>
 		<key>XIBS/AdControls.nib/runtime.nib</key>
 		<data>
-		G7GZs9p1EGnWNMrnJoKm/kVpomE=
+		nN2+6b8bYsGC3hL0l7CIcgh6XBA=
 		</data>
 		<key>XIBS/AdMediaInterface.nib/objects-11.0+.nib</key>
 		<data>
@@ -179,11 +179,11 @@
 		</data>
 		<key>XIBS/BackdropView.nib/objects-11.0+.nib</key>
 		<data>
-		ECqwPT1hihtpGOyNiTIwH8bUhLg=
+		WnZOUOgUdrymhAHebqy9/EIaJPE=
 		</data>
 		<key>XIBS/BackdropView.nib/runtime.nib</key>
 		<data>
-		pj5WICWIzwHP5hLf3V6G52zJtJo=
+		mOZ5iDO8EvDMF21X6dYW02AICZQ=
 		</data>
 		<key>XIBS/Branding.nib</key>
 		<data>
@@ -191,19 +191,19 @@
 		</data>
 		<key>XIBS/ErrorInterface.nib/objects-11.0+.nib</key>
 		<data>
-		mlxbVN40LbCkSZqJneYMXE2sE4s=
+		fvFRVSW2kiHez6HxkBNbX3L58hE=
 		</data>
 		<key>XIBS/ErrorInterface.nib/runtime.nib</key>
 		<data>
-		3fEW19NiRl500Oh6DCiIjdLHniU=
+		dpdNoXJr8/cQ/nHQcDjfkgfbTf4=
 		</data>
 		<key>XIBS/FloatingInterface.nib/objects-11.0+.nib</key>
 		<data>
-		B/+sYGozdiHV151xxVF/YnBf+ng=
+		uGHBjG/CU4BlPSaxrMh4fdb29ro=
 		</data>
 		<key>XIBS/FloatingInterface.nib/runtime.nib</key>
 		<data>
-		+lLukQ7WL3586fIKaEEE138VdNc=
+		9KktigRxVot4pSMYa58DloPMrAo=
 		</data>
 		<key>XIBS/Gallery.storyboardc/Info.plist</key>
 		<data>
@@ -549,11 +549,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ztvQIIjS/PQeXZ41sMMsK8f7KzQ=
+			UseMGvNSRvUdKQEAZ0dy/DhGLTw=
 			</data>
 			<key>hash2</key>
 			<data>
-			jIWCBUiuRd3DQdJr+9nk3/gM/zT6BIoDcpnUcU2uVOA=
+			BUsI6VvCXvH9ocJd9OxCco63BAjuBdAJoHO1ZOya6u8=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -780,143 +780,143 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Kp6d6UWJPrAYcfmNGiV5wZddlG8=
+			nEJGIx+tKj3+Qq0bSdA8OObTGwo=
 			</data>
 			<key>hash2</key>
 			<data>
-			/gJASkBjJSjI5ZLGzyo6o5m00wkcO0DyCrORnWDSKeE=
+			raS72kk/yv0jaWkTktTf97E0Dxau7YoFOyhvdFYWH10=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3INJgrHogtPgRqT8Ab0X9RljEJw=
+			5dGFz9oVC4wfRM8lT1Zbpx13rzg=
 			</data>
 			<key>hash2</key>
 			<data>
-			M/qYeAtHVICfOzZmrBqNw4SGDNZCEW8XChfEh4Ncwx4=
+			4lKf4ciS4HpMKyp+a+yo7JZnOhHkzlYhEFl6GKn6jDU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/i386-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			cFaLEdYTWmS3qvxQCx8RX3r83tU=
+			RXsRYdV+YXMNMVxSeQYEZJVxM4M=
 			</data>
 			<key>hash2</key>
 			<data>
-			q5c+g3WF79I/Md2eazOYD3D3Mu3d57zadmtBTlPt4Sc=
+			W+nkwnkdxcFqMCquMo4TY35NCwKZRP5KgIXonUWsdTo=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GU1e9ThRQZ/TEYvv3VzTgzz1Ld0=
+			hbrz0SXAowccv8s7uc374UJ0GCg=
 			</data>
 			<key>hash2</key>
 			<data>
-			3F2zC1waBR/XeGlma+KFOGPsOicmax/KPqpP3ENQ16w=
+			5gXxqZt5+P7Y5xrdIS7Gw0ie0EO/FvG3G4Y8ZBi76RU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3INJgrHogtPgRqT8Ab0X9RljEJw=
+			5dGFz9oVC4wfRM8lT1Zbpx13rzg=
 			</data>
 			<key>hash2</key>
 			<data>
-			M/qYeAtHVICfOzZmrBqNw4SGDNZCEW8XChfEh4Ncwx4=
+			4lKf4ciS4HpMKyp+a+yo7JZnOhHkzlYhEFl6GKn6jDU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			cFaLEdYTWmS3qvxQCx8RX3r83tU=
+			RXsRYdV+YXMNMVxSeQYEZJVxM4M=
 			</data>
 			<key>hash2</key>
 			<data>
-			q5c+g3WF79I/Md2eazOYD3D3Mu3d57zadmtBTlPt4Sc=
+			W+nkwnkdxcFqMCquMo4TY35NCwKZRP5KgIXonUWsdTo=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/i386.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GU1e9ThRQZ/TEYvv3VzTgzz1Ld0=
+			hbrz0SXAowccv8s7uc374UJ0GCg=
 			</data>
 			<key>hash2</key>
 			<data>
-			3F2zC1waBR/XeGlma+KFOGPsOicmax/KPqpP3ENQ16w=
+			5gXxqZt5+P7Y5xrdIS7Gw0ie0EO/FvG3G4Y8ZBi76RU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			N/Xo0W56vvllmDYnampf4ehDTAc=
+			88u9k9zfffAOOT7o+jn8KeOLOZ0=
 			</data>
 			<key>hash2</key>
 			<data>
-			0ByHggJW474cGzpalOoOVwH4jUcOtbPfWC73/cH3vF4=
+			9gNMxNnJPrCX/oCGDfBKge6fnp3ByRqBlFKYAErkytA=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			wzPHN9e7Os3+RpNuJUV+hTGlgRA=
+			M4YLfEQOw56u3nzmPd9YSuVGD+8=
 			</data>
 			<key>hash2</key>
 			<data>
-			A2AiVv1ALwuVApp0zDNtKlp0Y268jHQteW4YNQnmtaI=
+			ZNKsnGDOK7WVqstdmQmL7U6sZFhI1bYlrpDOCAtp6yc=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			po2PmQh3usvnOUlqyj6m2thTuIg=
+			TtVrOkxAKUhIAPtkAscdsSeeJiA=
 			</data>
 			<key>hash2</key>
 			<data>
-			DME7Yq+zJl058GOb/ekgAK6xtu8W6oY8xh1icM8d1/k=
+			RnU8d0wQrjz4zTrWxjW4fndZvbs8txhOXnYFB5VFoSo=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			N/Xo0W56vvllmDYnampf4ehDTAc=
+			88u9k9zfffAOOT7o+jn8KeOLOZ0=
 			</data>
 			<key>hash2</key>
 			<data>
-			0ByHggJW474cGzpalOoOVwH4jUcOtbPfWC73/cH3vF4=
+			9gNMxNnJPrCX/oCGDfBKge6fnp3ByRqBlFKYAErkytA=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			wzPHN9e7Os3+RpNuJUV+hTGlgRA=
+			M4YLfEQOw56u3nzmPd9YSuVGD+8=
 			</data>
 			<key>hash2</key>
 			<data>
-			A2AiVv1ALwuVApp0zDNtKlp0Y268jHQteW4YNQnmtaI=
+			ZNKsnGDOK7WVqstdmQmL7U6sZFhI1bYlrpDOCAtp6yc=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			po2PmQh3usvnOUlqyj6m2thTuIg=
+			TtVrOkxAKUhIAPtkAscdsSeeJiA=
 			</data>
 			<key>hash2</key>
 			<data>
-			DME7Yq+zJl058GOb/ekgAK6xtu8W6oY8xh1icM8d1/k=
+			RnU8d0wQrjz4zTrWxjW4fndZvbs8txhOXnYFB5VFoSo=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -934,22 +934,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			3QwOdlVS4cBcAKDssK9HHFNS/Gw=
+			RxTZiV+PlJfgQKmhITpSg51PrG8=
 			</data>
 			<key>hash2</key>
 			<data>
-			CCZV6gxtLDhpI70ac9PHzZJ91u30KEqNNXtM4UKgbrw=
+			MKNL0xcBW9Q/RJsBeLiVYD01YipJc+AUjKNCWYvW3io=
 			</data>
 		</dict>
 		<key>XIBS/AdControls.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			G7GZs9p1EGnWNMrnJoKm/kVpomE=
+			nN2+6b8bYsGC3hL0l7CIcgh6XBA=
 			</data>
 			<key>hash2</key>
 			<data>
-			6xtbx3WrfntDZuF1X52FEoBod9adZTnBvo1JKE0aG/o=
+			jr9pgLDgvlw+lRxlJknsiQO7FmieZ/vxNmXGOJ5TBfg=
 			</data>
 		</dict>
 		<key>XIBS/AdMediaInterface.nib/objects-11.0+.nib</key>
@@ -978,22 +978,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ECqwPT1hihtpGOyNiTIwH8bUhLg=
+			WnZOUOgUdrymhAHebqy9/EIaJPE=
 			</data>
 			<key>hash2</key>
 			<data>
-			sv7feaEIkXVIQjQfgYcR9tZXGIwj+5cy5elwC1wD5xs=
+			V+6sgLSNDttfNfIpEF7UzlvyrwSyMIaoc/0ncNKtALc=
 			</data>
 		</dict>
 		<key>XIBS/BackdropView.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			pj5WICWIzwHP5hLf3V6G52zJtJo=
+			mOZ5iDO8EvDMF21X6dYW02AICZQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			3VZbhwFTU5f13BW8TlckrbyORH57eljEoQuaAODTmzM=
+			se/XJ8Gj5Mp8WcDcUUCOEoQtF59DNN9TUoZ/aG0rgpA=
 			</data>
 		</dict>
 		<key>XIBS/Branding.nib</key>
@@ -1011,44 +1011,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mlxbVN40LbCkSZqJneYMXE2sE4s=
+			fvFRVSW2kiHez6HxkBNbX3L58hE=
 			</data>
 			<key>hash2</key>
 			<data>
-			OZkDuNm8gipcVqJoBIld7AWMghXQB4O0MsPSE7+2/CM=
+			zLeeExtYC90rLulBLu1QygVcGHsTSpAR/htOb7wY7Fk=
 			</data>
 		</dict>
 		<key>XIBS/ErrorInterface.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3fEW19NiRl500Oh6DCiIjdLHniU=
+			dpdNoXJr8/cQ/nHQcDjfkgfbTf4=
 			</data>
 			<key>hash2</key>
 			<data>
-			4rIX/gt6kLKZ1g4X9lc23RtXPvKFDJoC0v2YRLWpPlE=
+			SxTZZjVuExIIbQrwjwd9PM98nKeHS/DvaeUb5byezkI=
 			</data>
 		</dict>
 		<key>XIBS/FloatingInterface.nib/objects-11.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			B/+sYGozdiHV151xxVF/YnBf+ng=
+			uGHBjG/CU4BlPSaxrMh4fdb29ro=
 			</data>
 			<key>hash2</key>
 			<data>
-			KqoKYRATxVCxnOO8ZhfmsYZqyWwwjH8ec/MxdkXQa5I=
+			XzqhT/XxS3/nrN9/06Ln60uGG0qYdmE1+fu5702CO20=
 			</data>
 		</dict>
 		<key>XIBS/FloatingInterface.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			+lLukQ7WL3586fIKaEEE138VdNc=
+			9KktigRxVot4pSMYa58DloPMrAo=
 			</data>
 			<key>hash2</key>
 			<data>
-			1Tt7ajf4cnRnLLurwRUfzfhYcu1RKErYmmBNutbGcd8=
+			x9Wq0pp/JIr/d14KJmHDkp5J+SdzXDPujX6HQMoOBbw=
 			</data>
 		</dict>
 		<key>XIBS/Gallery.storyboardc/Info.plist</key>

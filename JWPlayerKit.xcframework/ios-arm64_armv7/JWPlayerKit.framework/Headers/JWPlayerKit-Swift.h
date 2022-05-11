@@ -222,7 +222,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
-
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class NSNumber;
@@ -1399,7 +1398,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWFriendlyObstruction")
 @end
 
 
-
 /// This manager provides methods to modify the existing list of friendly obstructions.
 SWIFT_PROTOCOL("_TtP11JWPlayerKit28JWFriendlyObstructionManager_")
 @protocol JWFriendlyObstructionManager
@@ -1634,6 +1632,16 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWID3MetadataDelegate_")
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player id3Metadata:(JWID3Metadata * _Nonnull)metadata;
 @end
+
+
+
+
+
+
+
+
+
+
 
 
 /// Constants indicating the reason the player is in the idle state.
@@ -2220,6 +2228,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 @protocol JWPlayerProtocol
 /// Sets the initial configuration of the player.
 /// Calling this method will reset the player when it is called, even if it has been called before. Any errors during setup or playback will be reported to the JWPlayerDelegate.
+/// note:
+/// This method can be called multiple times throughout the lifecycle of the player, but once invoked it should not be called again until <code>jwplayerIsReady</code> or an error has been reported to the <code>JWPlayerDelegate</code>.
 /// \param configuration The config to initialize the player with.
 ///
 - (void)configurePlayerWith:(JWPlayerConfiguration * _Nonnull)configuration;
@@ -4021,7 +4031,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
-
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class NSNumber;
@@ -5198,7 +5207,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWFriendlyObstruction")
 @end
 
 
-
 /// This manager provides methods to modify the existing list of friendly obstructions.
 SWIFT_PROTOCOL("_TtP11JWPlayerKit28JWFriendlyObstructionManager_")
 @protocol JWFriendlyObstructionManager
@@ -5433,6 +5441,16 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWID3MetadataDelegate_")
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player id3Metadata:(JWID3Metadata * _Nonnull)metadata;
 @end
+
+
+
+
+
+
+
+
+
+
 
 
 /// Constants indicating the reason the player is in the idle state.
@@ -6019,6 +6037,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 @protocol JWPlayerProtocol
 /// Sets the initial configuration of the player.
 /// Calling this method will reset the player when it is called, even if it has been called before. Any errors during setup or playback will be reported to the JWPlayerDelegate.
+/// note:
+/// This method can be called multiple times throughout the lifecycle of the player, but once invoked it should not be called again until <code>jwplayerIsReady</code> or an error has been reported to the <code>JWPlayerDelegate</code>.
 /// \param configuration The config to initialize the player with.
 ///
 - (void)configurePlayerWith:(JWPlayerConfiguration * _Nonnull)configuration;
