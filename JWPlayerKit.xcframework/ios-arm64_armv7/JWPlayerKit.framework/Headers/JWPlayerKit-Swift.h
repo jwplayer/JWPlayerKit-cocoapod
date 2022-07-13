@@ -776,6 +776,34 @@ SWIFT_CLASS("_TtC11JWPlayerKit16JWAdRulesBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+
+/// This class allows setting specific ad behavior for the JWPlayer ad client.
+SWIFT_CLASS("_TtC11JWPlayerKit12JWAdSettings")
+@interface JWAdSettings : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// The builder for <code>JWAdSettings</code>, object used to set behavior for JWPlayer ads.
+SWIFT_CLASS("_TtC11JWPlayerKit19JWAdSettingsBuilder")
+@interface JWAdSettingsBuilder : NSObject
+/// Builds a <code>JWAdSettings</code> structure for configure .
+/// <ul>
+///   <li>
+///     returns A <code>JWAdSettings</code> object.
+///   </li>
+/// </ul>
+- (JWAdSettings * _Nonnull)build SWIFT_WARN_UNUSED_RESULT;
+/// Sets background playback for JWPlayer ads.
+/// \param isAllowed If background playback is allowed.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWAdSettingsBuilder * _Nonnull)allowsBackgroundPlayback:(BOOL)isAllowed;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 /// The different options for showing an ad when the first playback is caused by a seek.
 typedef SWIFT_ENUM(NSInteger, JWAdShownOnSeek, open) {
 /// Do not show ad.
@@ -858,6 +886,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWAdsAdvertisingConfigBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWAdsAdvertisingConfigBuilder * _Nonnull)openBrowserOnAdClick:(BOOL)openBrowserOnAdClick;
+/// Sets the JWPlayer client ad settings.
+/// \param settings A <code>JWAdSettings</code> object.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWAdsAdvertisingConfigBuilder * _Nonnull)adSettings:(JWAdSettings * _Nonnull)settings;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1753,6 +1788,11 @@ SWIFT_CLASS("_TtC11JWPlayerKit32JWImaDaiAdvertisingConfigBuilder")
 /// \param container The container with obstructions that should be marked as friendly.
 ///
 - (JWImaDaiAdvertisingConfigBuilder * _Nonnull)friendlyObstructionsContainer:(JWFriendlyObstructionsContainer * _Nonnull)container;
+/// The Google IMA SDK settings.
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaDaiAdvertisingConfigBuilder * _Nonnull)imaSettings:(JWImaSettings * _Nonnull)imaSettings;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1972,11 +2012,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit15JWMediaMetadata")
 /// The number of frames per second for tracks that carry a full frame per media sample.
 @property (nonatomic, readonly) double frameRate;
 /// Time range representing how much content is available to buffer in live stream or for seeking in DVR.
-@property (nonatomic, readonly, strong) JWTimeRange * _Nullable seekRange;
+@property (nonatomic, readonly, strong) JWTimeRange * _Nonnull seekRange;
 /// The type of DRM encryption the content is using
 @property (nonatomic, readonly) enum JWDRMEncryption drmEncryption;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@property (nonatomic, readonly, copy) NSString * _Nonnull description;
 @end
 
 
@@ -3075,6 +3116,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 @property (nonatomic, readonly, strong) id <JWPlayer> _Nonnull player;
 /// The delegate which will receive events related to the JWPlayerView.
 @property (nonatomic, weak) id <JWPlayerViewDelegate> _Nullable delegate;
+/// Determines if the player view allows Picture in Picture playback.
+/// note:
+/// By default, this value is true.
+/// attention:
+/// <code>canStartPictureInPictureAutomaticallyFromInline</code> is not set to true when enabling this property, Picture in Picture mode should only be initiated when using a dedicated UI button.
+@property (nonatomic) BOOL allowsPictureInPicturePlayback;
 /// The currently defined style for captions. If nil, it reverts to default settings as specified within the SDK or the user’s accessibility settings.
 @property (nonatomic, strong) JWCaptionStyle * _Nullable captionStyle;
 /// The amount of spaced to inset the captions from the edges of the player. Defaults to 0.
@@ -3089,6 +3136,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 /// \param frame The frame rectangle for the view.
 ///
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (void)didMoveToWindow;
 /// This init is required, so it is here.
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
 /// Lays out subviews.
@@ -3770,6 +3818,7 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
+
 
 
 
@@ -4585,6 +4634,34 @@ SWIFT_CLASS("_TtC11JWPlayerKit16JWAdRulesBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+
+/// This class allows setting specific ad behavior for the JWPlayer ad client.
+SWIFT_CLASS("_TtC11JWPlayerKit12JWAdSettings")
+@interface JWAdSettings : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// The builder for <code>JWAdSettings</code>, object used to set behavior for JWPlayer ads.
+SWIFT_CLASS("_TtC11JWPlayerKit19JWAdSettingsBuilder")
+@interface JWAdSettingsBuilder : NSObject
+/// Builds a <code>JWAdSettings</code> structure for configure .
+/// <ul>
+///   <li>
+///     returns A <code>JWAdSettings</code> object.
+///   </li>
+/// </ul>
+- (JWAdSettings * _Nonnull)build SWIFT_WARN_UNUSED_RESULT;
+/// Sets background playback for JWPlayer ads.
+/// \param isAllowed If background playback is allowed.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWAdSettingsBuilder * _Nonnull)allowsBackgroundPlayback:(BOOL)isAllowed;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 /// The different options for showing an ad when the first playback is caused by a seek.
 typedef SWIFT_ENUM(NSInteger, JWAdShownOnSeek, open) {
 /// Do not show ad.
@@ -4667,6 +4744,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWAdsAdvertisingConfigBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWAdsAdvertisingConfigBuilder * _Nonnull)openBrowserOnAdClick:(BOOL)openBrowserOnAdClick;
+/// Sets the JWPlayer client ad settings.
+/// \param settings A <code>JWAdSettings</code> object.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWAdsAdvertisingConfigBuilder * _Nonnull)adSettings:(JWAdSettings * _Nonnull)settings;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -5562,6 +5646,11 @@ SWIFT_CLASS("_TtC11JWPlayerKit32JWImaDaiAdvertisingConfigBuilder")
 /// \param container The container with obstructions that should be marked as friendly.
 ///
 - (JWImaDaiAdvertisingConfigBuilder * _Nonnull)friendlyObstructionsContainer:(JWFriendlyObstructionsContainer * _Nonnull)container;
+/// The Google IMA SDK settings.
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaDaiAdvertisingConfigBuilder * _Nonnull)imaSettings:(JWImaSettings * _Nonnull)imaSettings;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -5781,11 +5870,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit15JWMediaMetadata")
 /// The number of frames per second for tracks that carry a full frame per media sample.
 @property (nonatomic, readonly) double frameRate;
 /// Time range representing how much content is available to buffer in live stream or for seeking in DVR.
-@property (nonatomic, readonly, strong) JWTimeRange * _Nullable seekRange;
+@property (nonatomic, readonly, strong) JWTimeRange * _Nonnull seekRange;
 /// The type of DRM encryption the content is using
 @property (nonatomic, readonly) enum JWDRMEncryption drmEncryption;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@property (nonatomic, readonly, copy) NSString * _Nonnull description;
 @end
 
 
@@ -6884,6 +6974,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 @property (nonatomic, readonly, strong) id <JWPlayer> _Nonnull player;
 /// The delegate which will receive events related to the JWPlayerView.
 @property (nonatomic, weak) id <JWPlayerViewDelegate> _Nullable delegate;
+/// Determines if the player view allows Picture in Picture playback.
+/// note:
+/// By default, this value is true.
+/// attention:
+/// <code>canStartPictureInPictureAutomaticallyFromInline</code> is not set to true when enabling this property, Picture in Picture mode should only be initiated when using a dedicated UI button.
+@property (nonatomic) BOOL allowsPictureInPicturePlayback;
 /// The currently defined style for captions. If nil, it reverts to default settings as specified within the SDK or the user’s accessibility settings.
 @property (nonatomic, strong) JWCaptionStyle * _Nullable captionStyle;
 /// The amount of spaced to inset the captions from the edges of the player. Defaults to 0.
@@ -6898,6 +6994,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 /// \param frame The frame rectangle for the view.
 ///
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (void)didMoveToWindow;
 /// This init is required, so it is here.
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
 /// Lays out subviews.
@@ -7579,6 +7676,7 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
+
 
 
 

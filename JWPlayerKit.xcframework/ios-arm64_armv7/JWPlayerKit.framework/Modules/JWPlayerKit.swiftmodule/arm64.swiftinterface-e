@@ -197,9 +197,12 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc final public let height: Swift.Double
   @objc final public let width: Swift.Double
   @objc final public let frameRate: Swift.Double
-  @objc final public let seekRange: JWPlayerKit.JWTimeRange?
+  @objc final public let seekRange: JWPlayerKit.JWTimeRange
   @objc public var drmEncryption: JWPlayerKit.JWDRMEncryption {
     get
+  }
+  @objc override dynamic public var description: Swift.String {
+    @objc get
   }
   @objc deinit
 }
@@ -491,6 +494,29 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc override dynamic public init()
   @objc deinit
 }
+public enum JWVisibilityState : Swift.Int {
+  case hidden
+  case visible
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum JWControlType : Swift.Int {
+  case fastForwardButton
+  case rewindButton
+  case pictureInPictureButton
+  case airplayButton
+  case chromecastButton
+  case nextButton
+  case previousButton
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class JWPlayerSkin : ObjectiveC.NSObject {
   @objc deinit
 }
@@ -588,6 +614,10 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     @objc get
     @objc set
   }
+  @objc @_Concurrency.MainActor(unsafe) public var allowsPictureInPicturePlayback: Swift.Bool {
+    @objc get
+    @objc set
+  }
   @_Concurrency.MainActor(unsafe) @objc public var captionStyle: JWPlayerKit.JWCaptionStyle? {
     @objc get
     @objc set
@@ -604,6 +634,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     @objc set
   }
   @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func didMoveToWindow()
   @objc deinit
   @_Concurrency.MainActor(unsafe) @objc override dynamic public func layoutSubviews()
 }
@@ -642,6 +673,8 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   public func openBrowserOnAdClick(_ openBrowserOnAdClick: Swift.Bool) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
   @discardableResult
   public func skipOffset(_ offset: Foundation.TimeInterval?) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
+  @objc @discardableResult
+  public func adSettings(_ settings: JWPlayerKit.JWAdSettings) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
   @objc override dynamic public init()
   @objc deinit
 }
@@ -737,6 +770,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func didMove(toParent parent: UIKit.UIViewController?)
   @objc @_Concurrency.MainActor(unsafe) public static func registerController()
+  @_Concurrency.MainActor(unsafe) public func setVisibility(_ visibility: JWPlayerKit.JWVisibilityState, for controls: [JWPlayerKit.JWControlType])
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillTransition(to size: CoreGraphics.CGSize, with coordinator: UIKit.UIViewControllerTransitionCoordinator)
   @objc @_Concurrency.MainActor(unsafe) public func transitionToFullScreen(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
   @objc @_Concurrency.MainActor(unsafe) public func dismissFullScreen(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
@@ -920,6 +954,8 @@ public typealias JSONPayload = [Swift.AnyHashable : Any]
   public func googleDAIStream(_ googleDAIStream: JWPlayerKit.JWGoogleDAIStream) -> JWPlayerKit.JWImaDaiAdvertisingConfigBuilder
   @objc @discardableResult
   public func friendlyObstructionsContainer(_ container: JWPlayerKit.JWFriendlyObstructionsContainer) -> JWPlayerKit.JWImaDaiAdvertisingConfigBuilder
+  @objc @discardableResult
+  public func imaSettings(_ imaSettings: JWPlayerKit.JWImaSettings) -> JWPlayerKit.JWImaDaiAdvertisingConfigBuilder
   @objc override dynamic public init()
   @objc deinit
 }
@@ -1383,6 +1419,18 @@ extension UIKit.UIStackView {
   @objc override dynamic public init()
   @objc deinit
 }
+@_inheritsConvenienceInitializers @objc public class JWAdSettings : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class JWAdSettingsBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
+  public typealias Output = JWPlayerKit.JWAdSettings
+  @objc public func build() -> JWPlayerKit.JWAdSettings
+  @objc @discardableResult
+  public func allowsBackgroundPlayback(_ isAllowed: Swift.Bool) -> JWPlayerKit.JWAdSettingsBuilder
+  @objc override dynamic public init()
+  @objc deinit
+}
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class JWLogo : ObjectiveC.NSObject {
   @objc deinit
 }
@@ -1492,6 +1540,12 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.RawRepresentable {}
 extension JWPlayerKit.JWAdPosition : Swift.Equatable {}
 extension JWPlayerKit.JWAdPosition : Swift.Hashable {}
 extension JWPlayerKit.JWAdPosition : Swift.RawRepresentable {}
+extension JWPlayerKit.JWVisibilityState : Swift.Equatable {}
+extension JWPlayerKit.JWVisibilityState : Swift.Hashable {}
+extension JWPlayerKit.JWVisibilityState : Swift.RawRepresentable {}
+extension JWPlayerKit.JWControlType : Swift.Equatable {}
+extension JWPlayerKit.JWControlType : Swift.Hashable {}
+extension JWPlayerKit.JWControlType : Swift.RawRepresentable {}
 extension JWPlayerKit.JWPreload : Swift.Equatable {}
 extension JWPlayerKit.JWPreload : Swift.Hashable {}
 extension JWPlayerKit.JWPreload : Swift.RawRepresentable {}
