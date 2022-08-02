@@ -1345,11 +1345,14 @@ extension UIKit.UIStackView {
   }
 }
 @objc public enum JWAdEventKey : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case adPosition
+  case adSystem
+  case adTitle
   case clickThroughUrl
   case companions
-  case creativetype
   case creativeAdId
   case creativeId
+  case creativetype
   case id
   case ima
   case impression
@@ -1360,17 +1363,14 @@ extension UIKit.UIStackView {
   case pauseReason
   case placement
   case playReason
+  case podCount
   case position
   case schedule
-  case adSystem
-  case tag
-  case adTitle
-  case viewable
-  case type
-  case adPosition
-  case skipOffset
   case sequence
-  case podCount
+  case skipOffset
+  case tag
+  case type
+  case viewable
   public var description: Swift.String {
     get
   }

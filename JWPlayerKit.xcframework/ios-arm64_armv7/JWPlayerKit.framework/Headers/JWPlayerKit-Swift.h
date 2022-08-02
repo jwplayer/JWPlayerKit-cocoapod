@@ -480,58 +480,110 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdEvent")
 
 /// Keys into the JWAdEvent payload.
 typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
-/// The url which will be visited when the ad is tapped.
-  JWAdEventKeyClickThroughUrl = 0,
-/// Descriptions of the ad’s companions.
-  JWAdEventKeyCompanions = 1,
-/// The type of ad being displayed for the ad.
-  JWAdEventKeyCreativetype = 2,
-/// The ad identifier.
-  JWAdEventKeyCreativeAdId = 3,
-/// The creative id.
-  JWAdEventKeyCreativeId = 4,
-/// A descriptive name of the ad.
-  JWAdEventKeyId = 5,
-/// A verbose description of Google IMA properties, expressed as a dictionary.
-  JWAdEventKeyIma = 6,
-/// A <code>JWAdImpression</code> object describing the ad impression.
-  JWAdEventKeyImpression = 7,
-/// Returns a string indicating whether the ad is <code>linear</code> or <code>nonlinear</code>. Nonlinear ads are not supported in the SDK.
-  JWAdEventKeyLinear = 8,
-/// Object containing the metadata from the ad. The values contained within the object will vary based on the ad.
-  JWAdEventKeyMetadata = 9,
-/// The new state of the ad.
-  JWAdEventKeyNewState = 10,
-/// Tne old state of the ad prior to the current event.
-  JWAdEventKeyOldState = 11,
-/// The reason for pausing.
-  JWAdEventKeyPauseReason = 12,
-/// Value sent in a bid request that identifies the location of a player.
-  JWAdEventKeyPlacement = 13,
-/// The reason for playing.
-  JWAdEventKeyPlayReason = 14,
 /// The position of the ad within the content.
-  JWAdEventKeyPosition = 15,
-/// An array representing the schedule of the ads within the content, and information on each.
-  JWAdEventKeySchedule = 16,
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWAdPosition</code>.
+  JWAdEventKeyAdPosition = 0,
 /// Ad system referenced inside of the VAST XML.
-  JWAdEventKeyAdSystem = 17,
-/// The URL of the ad tag.
-  JWAdEventKeyTag = 18,
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyAdSystem = 1,
 /// The title of the ad.
-  JWAdEventKeyAdTitle = 19,
-/// Whether or not the player is current visible. A <code>0</code> indicates it is 50% or less viewable, while a <code>1</code> indicates it is 50% or greater viewable.
-  JWAdEventKeyViewable = 20,
-/// The type of creative being displayed.
-  JWAdEventKeyType = 21,
-/// The position of the ad within the content. The values can be <code>pre</code>, <code>post</code>, and <code>mid</code>. This can be used in conjuntion with <code>JWAdPosition</code>.
-  JWAdEventKeyAdPosition = 22,
-/// The number of seconds before the user is allowed to skip the ad.
-  JWAdEventKeySkipOffset = 23,
-/// The current ad pod.
-  JWAdEventKeySequence = 24,
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyAdTitle = 2,
+/// The url which will be visited when the ad is tapped.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyClickThroughUrl = 3,
+/// Descriptions of the ad’s companions.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an array of <code>JWAdCompanion</code>.
+  JWAdEventKeyCompanions = 4,
+/// The ad identifier.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyCreativeAdId = 5,
+/// The creative id.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyCreativeId = 6,
+/// The type of ad being displayed for the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyCreativetype = 7,
+/// A descriptive name of the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyId = 8,
+/// A verbose description of Google IMA properties.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Dictionary</code>.
+  JWAdEventKeyIma = 9,
+/// A description of the ad impression.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWAdImpression</code>.
+  JWAdEventKeyImpression = 10,
+/// A value indicating whether the ad is <code>linear</code> or <code>nonlinear</code>. Nonlinear ads are not supported in the SDK.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyLinear = 11,
+/// Object containing the metadata from the ad. The values contained within the object will vary based on the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Dictionary</code>.
+  JWAdEventKeyMetadata = 12,
+/// The new state of the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyNewState = 13,
+/// Tne old state of the ad prior to the current event.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyOldState = 14,
+/// The reason for pausing.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWPauseReason</code>.
+  JWAdEventKeyPauseReason = 15,
+/// Value sent in a bid request that identifies the location of a player.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
+  JWAdEventKeyPlacement = 16,
+/// The reason for playing.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWPlayReason</code>.
+  JWAdEventKeyPlayReason = 17,
 /// The pod count total.
-  JWAdEventKeyPodCount = 25,
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
+  JWAdEventKeyPodCount = 18,
+/// The current playback position in the ad creative in seconds.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Double</code>.
+  JWAdEventKeyPosition = 19,
+/// An array representing the schedule of the ads within the content, and information on each.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an array of <code>JWAdBreak</code>.
+  JWAdEventKeySchedule = 20,
+/// The index of the current ad in the ad pod.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
+  JWAdEventKeySequence = 21,
+/// The number of seconds before the user is allowed to skip the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Double</code>.
+  JWAdEventKeySkipOffset = 22,
+/// The URL of the ad tag.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>URL</code>.
+  JWAdEventKeyTag = 23,
+/// The type of creative being displayed.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyType = 24,
+/// Whether or not the player is currently visible. A <code>0</code> indicates it is 50% or less viewable, while a <code>1</code> indicates it is 50% or greater viewable.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
+  JWAdEventKeyViewable = 25,
 };
 
 /// Constants denoting a type of ad event.
@@ -4338,58 +4390,110 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdEvent")
 
 /// Keys into the JWAdEvent payload.
 typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
-/// The url which will be visited when the ad is tapped.
-  JWAdEventKeyClickThroughUrl = 0,
-/// Descriptions of the ad’s companions.
-  JWAdEventKeyCompanions = 1,
-/// The type of ad being displayed for the ad.
-  JWAdEventKeyCreativetype = 2,
-/// The ad identifier.
-  JWAdEventKeyCreativeAdId = 3,
-/// The creative id.
-  JWAdEventKeyCreativeId = 4,
-/// A descriptive name of the ad.
-  JWAdEventKeyId = 5,
-/// A verbose description of Google IMA properties, expressed as a dictionary.
-  JWAdEventKeyIma = 6,
-/// A <code>JWAdImpression</code> object describing the ad impression.
-  JWAdEventKeyImpression = 7,
-/// Returns a string indicating whether the ad is <code>linear</code> or <code>nonlinear</code>. Nonlinear ads are not supported in the SDK.
-  JWAdEventKeyLinear = 8,
-/// Object containing the metadata from the ad. The values contained within the object will vary based on the ad.
-  JWAdEventKeyMetadata = 9,
-/// The new state of the ad.
-  JWAdEventKeyNewState = 10,
-/// Tne old state of the ad prior to the current event.
-  JWAdEventKeyOldState = 11,
-/// The reason for pausing.
-  JWAdEventKeyPauseReason = 12,
-/// Value sent in a bid request that identifies the location of a player.
-  JWAdEventKeyPlacement = 13,
-/// The reason for playing.
-  JWAdEventKeyPlayReason = 14,
 /// The position of the ad within the content.
-  JWAdEventKeyPosition = 15,
-/// An array representing the schedule of the ads within the content, and information on each.
-  JWAdEventKeySchedule = 16,
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWAdPosition</code>.
+  JWAdEventKeyAdPosition = 0,
 /// Ad system referenced inside of the VAST XML.
-  JWAdEventKeyAdSystem = 17,
-/// The URL of the ad tag.
-  JWAdEventKeyTag = 18,
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyAdSystem = 1,
 /// The title of the ad.
-  JWAdEventKeyAdTitle = 19,
-/// Whether or not the player is current visible. A <code>0</code> indicates it is 50% or less viewable, while a <code>1</code> indicates it is 50% or greater viewable.
-  JWAdEventKeyViewable = 20,
-/// The type of creative being displayed.
-  JWAdEventKeyType = 21,
-/// The position of the ad within the content. The values can be <code>pre</code>, <code>post</code>, and <code>mid</code>. This can be used in conjuntion with <code>JWAdPosition</code>.
-  JWAdEventKeyAdPosition = 22,
-/// The number of seconds before the user is allowed to skip the ad.
-  JWAdEventKeySkipOffset = 23,
-/// The current ad pod.
-  JWAdEventKeySequence = 24,
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyAdTitle = 2,
+/// The url which will be visited when the ad is tapped.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyClickThroughUrl = 3,
+/// Descriptions of the ad’s companions.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an array of <code>JWAdCompanion</code>.
+  JWAdEventKeyCompanions = 4,
+/// The ad identifier.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyCreativeAdId = 5,
+/// The creative id.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyCreativeId = 6,
+/// The type of ad being displayed for the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyCreativetype = 7,
+/// A descriptive name of the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyId = 8,
+/// A verbose description of Google IMA properties.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Dictionary</code>.
+  JWAdEventKeyIma = 9,
+/// A description of the ad impression.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWAdImpression</code>.
+  JWAdEventKeyImpression = 10,
+/// A value indicating whether the ad is <code>linear</code> or <code>nonlinear</code>. Nonlinear ads are not supported in the SDK.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyLinear = 11,
+/// Object containing the metadata from the ad. The values contained within the object will vary based on the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Dictionary</code>.
+  JWAdEventKeyMetadata = 12,
+/// The new state of the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyNewState = 13,
+/// Tne old state of the ad prior to the current event.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyOldState = 14,
+/// The reason for pausing.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWPauseReason</code>.
+  JWAdEventKeyPauseReason = 15,
+/// Value sent in a bid request that identifies the location of a player.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
+  JWAdEventKeyPlacement = 16,
+/// The reason for playing.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWPlayReason</code>.
+  JWAdEventKeyPlayReason = 17,
 /// The pod count total.
-  JWAdEventKeyPodCount = 25,
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
+  JWAdEventKeyPodCount = 18,
+/// The current playback position in the ad creative in seconds.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Double</code>.
+  JWAdEventKeyPosition = 19,
+/// An array representing the schedule of the ads within the content, and information on each.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an array of <code>JWAdBreak</code>.
+  JWAdEventKeySchedule = 20,
+/// The index of the current ad in the ad pod.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
+  JWAdEventKeySequence = 21,
+/// The number of seconds before the user is allowed to skip the ad.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Double</code>.
+  JWAdEventKeySkipOffset = 22,
+/// The URL of the ad tag.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>URL</code>.
+  JWAdEventKeyTag = 23,
+/// The type of creative being displayed.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
+  JWAdEventKeyType = 24,
+/// Whether or not the player is currently visible. A <code>0</code> indicates it is 50% or less viewable, while a <code>1</code> indicates it is 50% or greater viewable.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
+  JWAdEventKeyViewable = 25,
 };
 
 /// Constants denoting a type of ad event.
