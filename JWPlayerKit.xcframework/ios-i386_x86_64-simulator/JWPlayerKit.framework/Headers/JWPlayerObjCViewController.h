@@ -13,7 +13,7 @@
 #import <AVKit/AVKit.h>
 
 /**
- This is the Objective-C versions of `JWPlayerViewController`.
+ This is the Objective-C version of `JWPlayerViewController`.
  */
 @interface JWPlayerObjCViewController : UIViewController
 <AVPictureInPictureControllerDelegate,
@@ -40,13 +40,13 @@ JWTimeEventListener>
 /// The delegate to receive JWPlayerViewController events.
 @property (nonatomic, weak, readwrite) id<JWPlayerViewControllerDelegate> delegate;
 
-/// The behavior desired for the interface. By default, this is JWInterfaceBehaviorNormal.
+/// The behavior desired for the interface. The default value is JWInterfaceBehaviorNormal.
 @property (nonatomic, assign, readwrite) JWInterfaceBehavior interfaceBehavior;
 
-/// If YES, the player will go full screen when rotated into landscape orientation. Defaults to `YES`.
+/// If YES, the player will go full screen when rotated into landscape orientation. The default value is `YES`.
 @property (nonatomic, assign, readwrite) BOOL forceFullScreenOnLandscape;
 
-/// If true, the player rotates into landscape when it goes into fullscreen. Defaults to `true`.
+/// If true, the player rotates into landscape when it goes into fullscreen. The default value is `true`.
 @property (nonatomic, assign, readwrite) BOOL forceLandscapeOnFullScreen;
 
 /// The poster image to display when there is no Internet connection. By default, it displays the poster image of the current video.
@@ -58,7 +58,7 @@ JWTimeEventListener>
 /// The style used to customize the player.
 @property (nonatomic, retain, readwrite) JWPlayerSkin *styling;
 
-/// The style defining the Next Up card and its behavior. Defaults to nil (no card).
+/// The style defining the Next Up card and its behavior. The default value is nil (no card).
 @property (nonatomic, retain, readwrite) JWNextUpStyle *nextUpStyle;
 
 /// Sets a custom logo to display on the player.
@@ -89,7 +89,7 @@ JWTimeEventListener>
 
 /**
  A Boolean value that determines whether the player view allows Picture in Picture playback.
- - note: By default, this is value is true.
+ - note: The default value is true.
 */
 @property (nonatomic, assign, readwrite) BOOL allowsPictureInPicturePlayback;
 @end
