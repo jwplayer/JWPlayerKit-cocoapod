@@ -1472,6 +1472,22 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit26JWExternalMetadataDelegate_")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player externalMetadata:(JWExternalMetadata * _Nonnull)metadata;
 @end
 
+
+/// A settings object containing information regarding external playback.
+SWIFT_CLASS("_TtC11JWPlayerKit26JWExternalPlaybackSettings")
+@interface JWExternalPlaybackSettings : NSObject
+/// Only the SDK can intantiate this class.
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// A builder for creating instances of <code>JWExternalPlaybackSettings</code>.
+SWIFT_CLASS("_TtC11JWPlayerKit33JWExternalPlaybackSettingsBuilder")
+@interface JWExternalPlaybackSettingsBuilder : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 @class UIView;
 enum JWFriendlyObstructionPurpose : NSInteger;
 
@@ -2433,6 +2449,11 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// throws:
 /// If an error is encountered, a JWError is thrown.
 - (BOOL)setCaptionTrackWithLocale:(NSString * _Nullable)locale error:(NSError * _Nullable * _Nullable)error;
+/// Sets player’s caption rendering behavior. If <code>true</code>, captions will not be rendered by the player.
+/// If a caption track has been chosen, and this flag is set to <code>true</code>, caption events will still be reported to the <code>JWAVDelegate</code>.
+/// note:
+/// The default value is <code>false</code>.
+@property (nonatomic) BOOL suppressesCaptionRendering;
 /// The index of the currently active captions track. A value of -1 means there is no captions track in use.
 @property (nonatomic) NSInteger currentCaptionsTrack;
 /// Returns an array of objects based on available captions. Information for each object may vary depending on the caption types.
@@ -2608,6 +2629,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// \param tracker A config for the desired ad tracker.
 ///
 - (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker;
+/// Defines what settings to use during external playback.
+/// <ul>
+///   <li>
+///     returns The builder, so setters can be chained.
+///   </li>
+/// </ul>
+/// \param settings The settings object defining external playback behavior.
+///
+- (JWPlayerConfigurationBuilder * _Nonnull)externalPlaybackSettings:(JWExternalPlaybackSettings * _Nonnull)settings;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -3288,6 +3318,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic, strong) UIImage * _Nullable offlinePosterImage;
 /// The message to display when Internet connection is lost. By default it is “Internet Lost”.
 @property (nonatomic, copy) NSString * _Nonnull offlineMessage;
+/// Automatically create Chromecast-related UI and update the UI based on Chromecast events. The default value is <code>true</code>.
+/// note:
+/// This property affects initialization. Changes to the property during runtime do not have any effect.
+@property (nonatomic, readonly) BOOL handleCastingInternally;
 /// The JWPlayer interface, used to control playback and configure the player.
 @property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
 /// The desc the player is initialized with for the ad interface.
@@ -5389,6 +5423,22 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit26JWExternalMetadataDelegate_")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player externalMetadata:(JWExternalMetadata * _Nonnull)metadata;
 @end
 
+
+/// A settings object containing information regarding external playback.
+SWIFT_CLASS("_TtC11JWPlayerKit26JWExternalPlaybackSettings")
+@interface JWExternalPlaybackSettings : NSObject
+/// Only the SDK can intantiate this class.
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// A builder for creating instances of <code>JWExternalPlaybackSettings</code>.
+SWIFT_CLASS("_TtC11JWPlayerKit33JWExternalPlaybackSettingsBuilder")
+@interface JWExternalPlaybackSettingsBuilder : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 @class UIView;
 enum JWFriendlyObstructionPurpose : NSInteger;
 
@@ -6350,6 +6400,11 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// throws:
 /// If an error is encountered, a JWError is thrown.
 - (BOOL)setCaptionTrackWithLocale:(NSString * _Nullable)locale error:(NSError * _Nullable * _Nullable)error;
+/// Sets player’s caption rendering behavior. If <code>true</code>, captions will not be rendered by the player.
+/// If a caption track has been chosen, and this flag is set to <code>true</code>, caption events will still be reported to the <code>JWAVDelegate</code>.
+/// note:
+/// The default value is <code>false</code>.
+@property (nonatomic) BOOL suppressesCaptionRendering;
 /// The index of the currently active captions track. A value of -1 means there is no captions track in use.
 @property (nonatomic) NSInteger currentCaptionsTrack;
 /// Returns an array of objects based on available captions. Information for each object may vary depending on the caption types.
@@ -6525,6 +6580,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// \param tracker A config for the desired ad tracker.
 ///
 - (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker;
+/// Defines what settings to use during external playback.
+/// <ul>
+///   <li>
+///     returns The builder, so setters can be chained.
+///   </li>
+/// </ul>
+/// \param settings The settings object defining external playback behavior.
+///
+- (JWPlayerConfigurationBuilder * _Nonnull)externalPlaybackSettings:(JWExternalPlaybackSettings * _Nonnull)settings;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -7205,6 +7269,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic, strong) UIImage * _Nullable offlinePosterImage;
 /// The message to display when Internet connection is lost. By default it is “Internet Lost”.
 @property (nonatomic, copy) NSString * _Nonnull offlineMessage;
+/// Automatically create Chromecast-related UI and update the UI based on Chromecast events. The default value is <code>true</code>.
+/// note:
+/// This property affects initialization. Changes to the property during runtime do not have any effect.
+@property (nonatomic, readonly) BOOL handleCastingInternally;
 /// The JWPlayer interface, used to control playback and configure the player.
 @property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
 /// The desc the player is initialized with for the ad interface.
