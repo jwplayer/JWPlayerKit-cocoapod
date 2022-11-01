@@ -7,6 +7,7 @@ import AVFoundation.AVTimedMetadataGroup
 import CoreGraphics.CGBase
 import CoreGraphics.CGGeometry
 import CoreGraphics
+import CoreMIDI
 import CoreMedia
 import Foundation
 @_exported import JWPlayerKit
@@ -118,7 +119,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   }
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWAdImpression : ObjectiveC.NSObject {
+@objc @_hasMissingDesignatedInitializers @objcMembers public class JWAdImpression : ObjectiveC.NSObject {
   @objc public var position: JWPlayerKit.JWAdPosition {
     get
   }
@@ -897,7 +898,7 @@ public typealias JSONPayload = [Swift.AnyHashable : Any]
   @objc override dynamic public var preferredInterfaceOrientationForPresentation: UIKit.UIInterfaceOrientation {
     @objc get
   }
-  @objc override dynamic public func viewDidLoad()
+  @objc override dynamic open func viewDidLoad()
   @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
   @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: UIKit.UIViewControllerTransitionCoordinator?)
   @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)

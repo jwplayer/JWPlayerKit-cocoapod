@@ -643,10 +643,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWAdImpression")
 @property (nonatomic, readonly, copy) NSString * _Null_unspecified creativeAdId;
 /// The creative ad identifier within the VAST XML.
 @property (nonatomic, readonly, copy) NSString * _Null_unspecified creativeId;
-/// This object should only be created by the builder associated with this file.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 /// A structure describing settings for the ad interface.
@@ -1038,6 +1038,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 /// The builder for JWCaptionStyle.
@@ -4594,10 +4595,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWAdImpression")
 @property (nonatomic, readonly, copy) NSString * _Null_unspecified creativeAdId;
 /// The creative ad identifier within the VAST XML.
 @property (nonatomic, readonly, copy) NSString * _Null_unspecified creativeId;
-/// This object should only be created by the builder associated with this file.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 /// A structure describing settings for the ad interface.
@@ -4989,6 +4990,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 /// The builder for JWCaptionStyle.
@@ -8545,10 +8547,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWAdImpression")
 @property (nonatomic, readonly, copy) NSString * _Null_unspecified creativeAdId;
 /// The creative ad identifier within the VAST XML.
 @property (nonatomic, readonly, copy) NSString * _Null_unspecified creativeId;
-/// This object should only be created by the builder associated with this file.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 /// A structure describing settings for the ad interface.
@@ -8940,6 +8942,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 /// The builder for JWCaptionStyle.
