@@ -229,6 +229,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class JWVideoSource;
@@ -380,6 +381,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -488,7 +491,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdEvent")
 typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
 /// The position of the ad within the content.
 /// note:
-/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWAdPosition</code>.
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
   JWAdEventKeyAdPosition = 0,
 /// Ad system referenced inside of the VAST XML.
 /// note:
@@ -1237,6 +1240,37 @@ SWIFT_CLASS("_TtC11JWPlayerKit15JWCastingDevice")
 @end
 
 
+/// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
+SWIFT_CLASS("_TtC11JWPlayerKit12JWMediaTrack")
+@interface JWMediaTrack : NSObject
+/// Path to the caption or thumbnail track file.
+@property (nonatomic, readonly, copy) NSURL * _Null_unspecified file;
+/// Label to be shown in the player in the captions popup.
+/// note:
+/// Only for captions. Not shown if only one caption track provided.
+@property (nonatomic, readonly, copy) NSString * _Nullable label;
+/// If set to <code>true</code>, the player shows this caption track upon launch. The default value is <code>false</code>.
+/// note:
+/// Only for captions.
+@property (nonatomic, readonly) BOOL defaultTrack;
+/// Init is internal so external developers cannot create this structure on their own.
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to more accurately compare tracks.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+/// Provides information about a chapter track.
+SWIFT_CLASS("_TtC11JWPlayerKit14JWChapterTrack")
+@interface JWChapterTrack : JWMediaTrack
+/// A list of chapter identifiers denoting what chapters are skippable.
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nonnull skippableChapters;
+/// A number of seconds to display the skip button when viewing a skippable chapter.
+@property (nonatomic, readonly) NSTimeInterval skipButtonDuration;
+@end
+
+
 /// The builder for creating a JWMediaTrack used for chapters.
 SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 @interface JWChapterTrackBuilder : NSObject
@@ -1249,7 +1283,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 ///     returns A <code>JWMediaTrack</code> object.
 ///   </li>
 /// </ul>
-- (JWMediaTrack * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+- (JWChapterTrack * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 /// Sets the path to the thumbnail track file.
 /// note:
 /// Files must be in WebVTT format.
@@ -1259,6 +1293,24 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWChapterTrackBuilder * _Nonnull)file:(NSURL * _Nonnull)file;
+/// Designates a list of chapters which are skippable.
+/// note:
+/// Chapter ids should be unique.
+/// \param ids An array of chapter identifiers as specified in the WebVTT file.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWChapterTrackBuilder * _Nonnull)skippableChaptersWithIds:(NSArray<NSString *> * _Nonnull)ids SWIFT_AVAILABILITY(ios,unavailable);
+/// Sets the number of seconds a skip button is displayed for skippable chapters.
+/// note:
+/// If a chapter duration is shorter than the life of the button, the button will not be displayed past the end of the chapter.
+/// \param seconds The number of seconds a skip button will stay on the screen during the chapter.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWChapterTrackBuilder * _Nonnull)skipButtonDurationWithSeconds:(NSTimeInterval)seconds SWIFT_AVAILABILITY(ios,unavailable);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1358,29 +1410,31 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit25JWDRMContentKeyDataSource_")
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires a <em>content identifier</em> from the application to start the decryption process.
 /// \param url The url of the resource being loaded.
 ///
-/// \param handler The handler block used to provide the JWPlayerKit with the content identifier.
-///
-/// \param contentIdentifier The case of Apple FairPlay this is an opaque identifier for the content and is needed to obtain the <em>SPC (Server Playback Context) message</em> from the operating system.
+/// \param handler The handler block used to provide the JWPlayerKit with the content identifier. In the case of Apple FairPlay this is an opaque identifier for the content and is needed to obtain the <em>SPC (Server Playback Context) message</em> from the operating system.
 ///
 - (void)contentIdentifierForURL:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(NSData * _Nullable))handler;
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires an <em>application identifier</em> from the application to start the decryption process.
 /// \param url The url of the resource being loaded.
 ///
-/// \param handler The handler block used to provide the JWPlayerKit with the application identifier.
-///
-/// \param appIdentifier The case of Apple FairPlay this is the <em>Application Certificate</em> data you receive after registering an FPS playback app.
+/// \param handler The handler block used to provide the JWPlayerKit with the application identifier, <code>appIdentifier</code>, the <em>Application Certificate</em> data you receive after registering an FPS playback app.
 ///
 - (void)appIdentifierForURL:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(NSData * _Nullable))handler;
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires a <em>content key</em> from the application to start the decryption process.
+/// The completion block returned contains the following information:
+/// <ul>
+///   <li>
+///     <code>ckcData</code>: The case of Apple FairPlay, the response is the content key wrapped inside an encrypted Content Key Context (the CKC message) returned by the key server.`
+///   </li>
+///   <li>
+///     <code>renewalDate</code>: In the case of Apple FairPlay, a date for renewal of resources that expire can be specified by passing a renewal date in the completion block.
+///   </li>
+///   <li>
+///     <code>contentType</code>: The UTI indicating the type of data contained by the response. When specifying a <code>renewalDate</code> the content type should be specified.
+///   </li>
+/// </ul>
 /// \param spcData The key request data that must be transmitted to the key vendor to obtain the <em>content key</em>. In the case of Apple FairPlay this is the <em>SPC (Server Playback Context) message</em> from the operating system which must be sent to the Key Server in order to obtain the <em>CKC (Content Key Context) message</em>.
 ///
-/// \param handler The completion block used to provide the JWPlayerKit with the Server Response.
-///
-/// \param ckcData The case of Apple FairPlay, the response is the content key wrapped inside an encrypted Content Key Context (the CKC message) returned by the key server.
-///
-/// \param renewalDate In the case of Apple FairPlay, a date for renewal of resources that expire can be specified by passing a renewal date in the completion block.
-///
-/// \param contentType The UTI indicating the type of data contained by the response. When specifying a <code>renewalDate</code> the content type should be specified.
+/// \param handler The completion block used to provide the JWPlayerKit with the Server Response.`
 ///
 - (void)contentKeyWithSPCData:(NSData * _Nonnull)spcData completionHandler:(void (^ _Nonnull)(NSData * _Nullable, NSDate * _Nullable, NSString * _Nullable))handler;
 @end
@@ -1451,6 +1505,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit7JWError")
 /// Metadata that can be passed externally to supplement the encoded metadata of the underlying media asset.
 SWIFT_CLASS("_TtC11JWPlayerKit18JWExternalMetadata")
 @interface JWExternalMetadata : NSObject
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -1600,11 +1656,11 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 ///
 - (nonnull instancetype)initWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nullable)obstructions OBJC_DESIGNATED_INITIALIZER;
 /// Register friendly obstructions.
-/// \param friendlyObstructions Array with friendly obstructions
+/// \param obstructions Array with friendly obstructions
 ///
 - (void)registerWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
 /// Unregister previously registered friendly obstructions.
-/// \param friendlyObstructions Array with friendly obstructions.
+/// \param obstructions Array with friendly obstructions.
 ///
 - (void)unregisterWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
 /// Unregister all previously registered friendly obstructions.
@@ -1940,6 +1996,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWJSONParser")
 @end
 
 
+
 /// JWLockScreenManager allows setting the active JWPlayer that will be shown on the NowPlaying Controls.
 /// important:
 /// In your App´s <em>Signing & Capabilities</em> you should add <em>Background Modes</em>:
@@ -2043,7 +2100,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWLogoBuilder")
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink;
+- (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink SWIFT_AVAILABILITY(tvos,unavailable);
 /// Distance between the logo and the player’s edge, specified in points. If unspecified, this parameter The default value is <code>8</code>.
 /// \param margin The desired amount of space between the logo and player’s edge.
 ///
@@ -2125,24 +2182,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWMediaSelectionOption")
 @end
 
 
-
-/// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
-SWIFT_CLASS("_TtC11JWPlayerKit12JWMediaTrack")
-@interface JWMediaTrack : NSObject
-/// Path to the caption or thumbnail track file.
-@property (nonatomic, readonly, copy) NSURL * _Null_unspecified file;
-/// Label to be shown in the player in the captions popup.
-/// note:
-/// Only for captions. Not shown if only one caption track provided.
-@property (nonatomic, readonly, copy) NSString * _Nullable label;
-/// If set to <code>true</code>, the player shows this caption track upon launch. The default value is <code>false</code>.
-/// note:
-/// Only for captions.
-@property (nonatomic, readonly) BOOL defaultTrack;
-/// Init is internal so external developers cannot create this structure on their own.
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
 
 /// Constants indicating which type of media the content is.
 typedef SWIFT_ENUM(NSInteger, JWMediaType, open) {
@@ -2401,10 +2440,18 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// returns:
 /// A constant denoting the state of the player. If it cannot determine the state, <code>.unknown</code> is returned.
 - (enum JWPlayerState)getState SWIFT_WARN_UNUSED_RESULT;
+/// Sets the new playlist to the player using its URL.
+/// \param url The URL of the playlist for the player to load.
+///
+- (void)loadPlaylistWithUrl:(NSURL * _Nonnull)url;
 /// Sets the new playlist to the player
 /// \param playlist List of content to be played.
 ///
-- (void)loadPlaylist:(NSArray<JWPlayerItem *> * _Nonnull)playlist;
+- (void)loadPlaylistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
+/// Sets the new playlist to the player
+/// \param playlist List of content to be played.
+///
+- (void)loadPlaylist:(NSArray<JWPlayerItem *> * _Nonnull)playlist SWIFT_DEPRECATED_MSG("", "playlist(items:)");
 /// Loads a player item within the current playlist.
 /// \param index The index of the desired item within the playlist. If the index is invalid, this method does nothing.
 ///
@@ -2541,12 +2588,21 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// Sets an array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
 /// seealso:
 /// <code>JWPlayerItem</code>
+/// \param items An array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerConfigurationBuilder * _Nonnull)playlistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
+/// Sets an array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
+/// seealso:
+/// <code>JWPlayerItem</code>
 /// \param playlist An array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWPlayerConfigurationBuilder * _Nonnull)playlist:(NSArray<JWPlayerItem *> * _Nonnull)playlist;
+- (JWPlayerConfigurationBuilder * _Nonnull)playlist:(NSArray<JWPlayerItem *> * _Nonnull)playlist SWIFT_DEPRECATED_MSG("", "playlistWithItems:");
 /// Sets the playlist content url using a URL.
 /// note:
 /// If a playlist array is also set using <code>playlist()</code>, calling <code>build()</code> will throw an exception.
@@ -2629,7 +2685,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// </ul>
 /// \param tracker A config for the desired ad tracker.
 ///
-- (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker;
+- (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker SWIFT_AVAILABILITY(ios,introduced=10.0);
 /// Defines what settings to use during external playback.
 /// <ul>
 ///   <li>
@@ -2745,6 +2801,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to check quickly and accurately if two player items are the same.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -3235,6 +3293,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 
 
 
+
 /// A protocol for listening to time events through the JWPlayerViewController.
 SWIFT_PROTOCOL("_TtP11JWPlayerKit19JWTimeEventListener_")
 @protocol JWTimeEventListener
@@ -3317,7 +3376,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic) NSTimeInterval interfaceFadeDelay;
 /// The poster image to display when there is no Internet connection. By default, it displays the poster image of the current video.
 @property (nonatomic, strong) UIImage * _Nullable offlinePosterImage;
-/// The message to display when Internet connection is lost. By default it is “Internet Lost”.
+/// The message that is displayed when the internet connection is lost.
+/// The default value is “This video cannot be played because of a problem with your internet connection.” which corresponds to the localizable string [jwplayer_errors_bad_connection].
 @property (nonatomic, copy) NSString * _Nonnull offlineMessage;
 /// Automatically create Chromecast-related UI and update the UI based on Chromecast events. The default value is <code>true</code>.
 /// note:
@@ -3365,12 +3425,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 ///
 - (void)transitionToFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 /// This method transitions the player away from fullscreen mode. If the player is not in fullscreen mode this method does not perform any actions, and the completion closure will not be executed.
-/// <ul>
-///   <li>
-///     completion: This closure is called when the player is done transitioning away from full screen mode.
-///   </li>
-/// </ul>
 /// \param animated Set to true if the player should animate away from full screen mode.
+///
+/// \param completion This closure is called when the player is done transitioning away from full screen mode.
 ///
 - (void)dismissFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 - (void)playerView:(JWPlayerView * _Nonnull)view sizeChangedFrom:(CGSize)oldSize to:(CGSize)newSize;
@@ -3718,6 +3775,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit10JWTimeData")
 @property (nonatomic) NSTimeInterval position;
 /// The total time expressed in seconds.
 @property (nonatomic) NSTimeInterval duration;
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -3736,6 +3794,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit11JWTimeRange")
 /// Default initializer. Both <code>start</code> and <code>end</code> are zero.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Initializer for setting <code>start</code> and <code>end</code>.
+/// \param start The start of the timer range, expressed in seconds.
+///
+/// \param end The end of the time range, expressed in seconds.
+///
+- (nonnull instancetype)initWithStart:(NSTimeInterval)start end:(NSTimeInterval)end OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -3820,6 +3884,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWVideoSource")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -3912,6 +3978,8 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
+
+
 
 
 
@@ -4181,6 +4249,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class JWVideoSource;
@@ -4332,6 +4401,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -4440,7 +4511,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdEvent")
 typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
 /// The position of the ad within the content.
 /// note:
-/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWAdPosition</code>.
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
   JWAdEventKeyAdPosition = 0,
 /// Ad system referenced inside of the VAST XML.
 /// note:
@@ -5189,6 +5260,37 @@ SWIFT_CLASS("_TtC11JWPlayerKit15JWCastingDevice")
 @end
 
 
+/// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
+SWIFT_CLASS("_TtC11JWPlayerKit12JWMediaTrack")
+@interface JWMediaTrack : NSObject
+/// Path to the caption or thumbnail track file.
+@property (nonatomic, readonly, copy) NSURL * _Null_unspecified file;
+/// Label to be shown in the player in the captions popup.
+/// note:
+/// Only for captions. Not shown if only one caption track provided.
+@property (nonatomic, readonly, copy) NSString * _Nullable label;
+/// If set to <code>true</code>, the player shows this caption track upon launch. The default value is <code>false</code>.
+/// note:
+/// Only for captions.
+@property (nonatomic, readonly) BOOL defaultTrack;
+/// Init is internal so external developers cannot create this structure on their own.
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to more accurately compare tracks.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+/// Provides information about a chapter track.
+SWIFT_CLASS("_TtC11JWPlayerKit14JWChapterTrack")
+@interface JWChapterTrack : JWMediaTrack
+/// A list of chapter identifiers denoting what chapters are skippable.
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nonnull skippableChapters;
+/// A number of seconds to display the skip button when viewing a skippable chapter.
+@property (nonatomic, readonly) NSTimeInterval skipButtonDuration;
+@end
+
+
 /// The builder for creating a JWMediaTrack used for chapters.
 SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 @interface JWChapterTrackBuilder : NSObject
@@ -5201,7 +5303,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 ///     returns A <code>JWMediaTrack</code> object.
 ///   </li>
 /// </ul>
-- (JWMediaTrack * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+- (JWChapterTrack * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 /// Sets the path to the thumbnail track file.
 /// note:
 /// Files must be in WebVTT format.
@@ -5211,6 +5313,24 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWChapterTrackBuilder * _Nonnull)file:(NSURL * _Nonnull)file;
+/// Designates a list of chapters which are skippable.
+/// note:
+/// Chapter ids should be unique.
+/// \param ids An array of chapter identifiers as specified in the WebVTT file.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWChapterTrackBuilder * _Nonnull)skippableChaptersWithIds:(NSArray<NSString *> * _Nonnull)ids SWIFT_AVAILABILITY(ios,unavailable);
+/// Sets the number of seconds a skip button is displayed for skippable chapters.
+/// note:
+/// If a chapter duration is shorter than the life of the button, the button will not be displayed past the end of the chapter.
+/// \param seconds The number of seconds a skip button will stay on the screen during the chapter.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWChapterTrackBuilder * _Nonnull)skipButtonDurationWithSeconds:(NSTimeInterval)seconds SWIFT_AVAILABILITY(ios,unavailable);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -5310,29 +5430,31 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit25JWDRMContentKeyDataSource_")
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires a <em>content identifier</em> from the application to start the decryption process.
 /// \param url The url of the resource being loaded.
 ///
-/// \param handler The handler block used to provide the JWPlayerKit with the content identifier.
-///
-/// \param contentIdentifier The case of Apple FairPlay this is an opaque identifier for the content and is needed to obtain the <em>SPC (Server Playback Context) message</em> from the operating system.
+/// \param handler The handler block used to provide the JWPlayerKit with the content identifier. In the case of Apple FairPlay this is an opaque identifier for the content and is needed to obtain the <em>SPC (Server Playback Context) message</em> from the operating system.
 ///
 - (void)contentIdentifierForURL:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(NSData * _Nullable))handler;
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires an <em>application identifier</em> from the application to start the decryption process.
 /// \param url The url of the resource being loaded.
 ///
-/// \param handler The handler block used to provide the JWPlayerKit with the application identifier.
-///
-/// \param appIdentifier The case of Apple FairPlay this is the <em>Application Certificate</em> data you receive after registering an FPS playback app.
+/// \param handler The handler block used to provide the JWPlayerKit with the application identifier, <code>appIdentifier</code>, the <em>Application Certificate</em> data you receive after registering an FPS playback app.
 ///
 - (void)appIdentifierForURL:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(NSData * _Nullable))handler;
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires a <em>content key</em> from the application to start the decryption process.
+/// The completion block returned contains the following information:
+/// <ul>
+///   <li>
+///     <code>ckcData</code>: The case of Apple FairPlay, the response is the content key wrapped inside an encrypted Content Key Context (the CKC message) returned by the key server.`
+///   </li>
+///   <li>
+///     <code>renewalDate</code>: In the case of Apple FairPlay, a date for renewal of resources that expire can be specified by passing a renewal date in the completion block.
+///   </li>
+///   <li>
+///     <code>contentType</code>: The UTI indicating the type of data contained by the response. When specifying a <code>renewalDate</code> the content type should be specified.
+///   </li>
+/// </ul>
 /// \param spcData The key request data that must be transmitted to the key vendor to obtain the <em>content key</em>. In the case of Apple FairPlay this is the <em>SPC (Server Playback Context) message</em> from the operating system which must be sent to the Key Server in order to obtain the <em>CKC (Content Key Context) message</em>.
 ///
-/// \param handler The completion block used to provide the JWPlayerKit with the Server Response.
-///
-/// \param ckcData The case of Apple FairPlay, the response is the content key wrapped inside an encrypted Content Key Context (the CKC message) returned by the key server.
-///
-/// \param renewalDate In the case of Apple FairPlay, a date for renewal of resources that expire can be specified by passing a renewal date in the completion block.
-///
-/// \param contentType The UTI indicating the type of data contained by the response. When specifying a <code>renewalDate</code> the content type should be specified.
+/// \param handler The completion block used to provide the JWPlayerKit with the Server Response.`
 ///
 - (void)contentKeyWithSPCData:(NSData * _Nonnull)spcData completionHandler:(void (^ _Nonnull)(NSData * _Nullable, NSDate * _Nullable, NSString * _Nullable))handler;
 @end
@@ -5403,6 +5525,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit7JWError")
 /// Metadata that can be passed externally to supplement the encoded metadata of the underlying media asset.
 SWIFT_CLASS("_TtC11JWPlayerKit18JWExternalMetadata")
 @interface JWExternalMetadata : NSObject
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -5552,11 +5676,11 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 ///
 - (nonnull instancetype)initWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nullable)obstructions OBJC_DESIGNATED_INITIALIZER;
 /// Register friendly obstructions.
-/// \param friendlyObstructions Array with friendly obstructions
+/// \param obstructions Array with friendly obstructions
 ///
 - (void)registerWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
 /// Unregister previously registered friendly obstructions.
-/// \param friendlyObstructions Array with friendly obstructions.
+/// \param obstructions Array with friendly obstructions.
 ///
 - (void)unregisterWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
 /// Unregister all previously registered friendly obstructions.
@@ -5892,6 +6016,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWJSONParser")
 @end
 
 
+
 /// JWLockScreenManager allows setting the active JWPlayer that will be shown on the NowPlaying Controls.
 /// important:
 /// In your App´s <em>Signing & Capabilities</em> you should add <em>Background Modes</em>:
@@ -5995,7 +6120,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWLogoBuilder")
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink;
+- (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink SWIFT_AVAILABILITY(tvos,unavailable);
 /// Distance between the logo and the player’s edge, specified in points. If unspecified, this parameter The default value is <code>8</code>.
 /// \param margin The desired amount of space between the logo and player’s edge.
 ///
@@ -6077,24 +6202,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWMediaSelectionOption")
 @end
 
 
-
-/// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
-SWIFT_CLASS("_TtC11JWPlayerKit12JWMediaTrack")
-@interface JWMediaTrack : NSObject
-/// Path to the caption or thumbnail track file.
-@property (nonatomic, readonly, copy) NSURL * _Null_unspecified file;
-/// Label to be shown in the player in the captions popup.
-/// note:
-/// Only for captions. Not shown if only one caption track provided.
-@property (nonatomic, readonly, copy) NSString * _Nullable label;
-/// If set to <code>true</code>, the player shows this caption track upon launch. The default value is <code>false</code>.
-/// note:
-/// Only for captions.
-@property (nonatomic, readonly) BOOL defaultTrack;
-/// Init is internal so external developers cannot create this structure on their own.
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
 
 /// Constants indicating which type of media the content is.
 typedef SWIFT_ENUM(NSInteger, JWMediaType, open) {
@@ -6353,10 +6460,18 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// returns:
 /// A constant denoting the state of the player. If it cannot determine the state, <code>.unknown</code> is returned.
 - (enum JWPlayerState)getState SWIFT_WARN_UNUSED_RESULT;
+/// Sets the new playlist to the player using its URL.
+/// \param url The URL of the playlist for the player to load.
+///
+- (void)loadPlaylistWithUrl:(NSURL * _Nonnull)url;
 /// Sets the new playlist to the player
 /// \param playlist List of content to be played.
 ///
-- (void)loadPlaylist:(NSArray<JWPlayerItem *> * _Nonnull)playlist;
+- (void)loadPlaylistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
+/// Sets the new playlist to the player
+/// \param playlist List of content to be played.
+///
+- (void)loadPlaylist:(NSArray<JWPlayerItem *> * _Nonnull)playlist SWIFT_DEPRECATED_MSG("", "playlist(items:)");
 /// Loads a player item within the current playlist.
 /// \param index The index of the desired item within the playlist. If the index is invalid, this method does nothing.
 ///
@@ -6493,12 +6608,21 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// Sets an array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
 /// seealso:
 /// <code>JWPlayerItem</code>
+/// \param items An array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerConfigurationBuilder * _Nonnull)playlistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
+/// Sets an array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
+/// seealso:
+/// <code>JWPlayerItem</code>
 /// \param playlist An array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWPlayerConfigurationBuilder * _Nonnull)playlist:(NSArray<JWPlayerItem *> * _Nonnull)playlist;
+- (JWPlayerConfigurationBuilder * _Nonnull)playlist:(NSArray<JWPlayerItem *> * _Nonnull)playlist SWIFT_DEPRECATED_MSG("", "playlistWithItems:");
 /// Sets the playlist content url using a URL.
 /// note:
 /// If a playlist array is also set using <code>playlist()</code>, calling <code>build()</code> will throw an exception.
@@ -6581,7 +6705,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// </ul>
 /// \param tracker A config for the desired ad tracker.
 ///
-- (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker;
+- (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker SWIFT_AVAILABILITY(ios,introduced=10.0);
 /// Defines what settings to use during external playback.
 /// <ul>
 ///   <li>
@@ -6697,6 +6821,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to check quickly and accurately if two player items are the same.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -7187,6 +7313,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 
 
 
+
 /// A protocol for listening to time events through the JWPlayerViewController.
 SWIFT_PROTOCOL("_TtP11JWPlayerKit19JWTimeEventListener_")
 @protocol JWTimeEventListener
@@ -7269,7 +7396,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic) NSTimeInterval interfaceFadeDelay;
 /// The poster image to display when there is no Internet connection. By default, it displays the poster image of the current video.
 @property (nonatomic, strong) UIImage * _Nullable offlinePosterImage;
-/// The message to display when Internet connection is lost. By default it is “Internet Lost”.
+/// The message that is displayed when the internet connection is lost.
+/// The default value is “This video cannot be played because of a problem with your internet connection.” which corresponds to the localizable string [jwplayer_errors_bad_connection].
 @property (nonatomic, copy) NSString * _Nonnull offlineMessage;
 /// Automatically create Chromecast-related UI and update the UI based on Chromecast events. The default value is <code>true</code>.
 /// note:
@@ -7317,12 +7445,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 ///
 - (void)transitionToFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 /// This method transitions the player away from fullscreen mode. If the player is not in fullscreen mode this method does not perform any actions, and the completion closure will not be executed.
-/// <ul>
-///   <li>
-///     completion: This closure is called when the player is done transitioning away from full screen mode.
-///   </li>
-/// </ul>
 /// \param animated Set to true if the player should animate away from full screen mode.
+///
+/// \param completion This closure is called when the player is done transitioning away from full screen mode.
 ///
 - (void)dismissFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 - (void)playerView:(JWPlayerView * _Nonnull)view sizeChangedFrom:(CGSize)oldSize to:(CGSize)newSize;
@@ -7670,6 +7795,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit10JWTimeData")
 @property (nonatomic) NSTimeInterval position;
 /// The total time expressed in seconds.
 @property (nonatomic) NSTimeInterval duration;
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -7688,6 +7814,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit11JWTimeRange")
 /// Default initializer. Both <code>start</code> and <code>end</code> are zero.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Initializer for setting <code>start</code> and <code>end</code>.
+/// \param start The start of the timer range, expressed in seconds.
+///
+/// \param end The end of the time range, expressed in seconds.
+///
+- (nonnull instancetype)initWithStart:(NSTimeInterval)start end:(NSTimeInterval)end OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -7772,6 +7904,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWVideoSource")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -7864,6 +7998,8 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
+
+
 
 
 
@@ -8133,6 +8269,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class JWVideoSource;
@@ -8284,6 +8421,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -8392,7 +8531,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdEvent")
 typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
 /// The position of the ad within the content.
 /// note:
-/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>JWAdPosition</code>.
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>.
   JWAdEventKeyAdPosition = 0,
 /// Ad system referenced inside of the VAST XML.
 /// note:
@@ -9141,6 +9280,37 @@ SWIFT_CLASS("_TtC11JWPlayerKit15JWCastingDevice")
 @end
 
 
+/// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
+SWIFT_CLASS("_TtC11JWPlayerKit12JWMediaTrack")
+@interface JWMediaTrack : NSObject
+/// Path to the caption or thumbnail track file.
+@property (nonatomic, readonly, copy) NSURL * _Null_unspecified file;
+/// Label to be shown in the player in the captions popup.
+/// note:
+/// Only for captions. Not shown if only one caption track provided.
+@property (nonatomic, readonly, copy) NSString * _Nullable label;
+/// If set to <code>true</code>, the player shows this caption track upon launch. The default value is <code>false</code>.
+/// note:
+/// Only for captions.
+@property (nonatomic, readonly) BOOL defaultTrack;
+/// Init is internal so external developers cannot create this structure on their own.
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to more accurately compare tracks.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+/// Provides information about a chapter track.
+SWIFT_CLASS("_TtC11JWPlayerKit14JWChapterTrack")
+@interface JWChapterTrack : JWMediaTrack
+/// A list of chapter identifiers denoting what chapters are skippable.
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nonnull skippableChapters;
+/// A number of seconds to display the skip button when viewing a skippable chapter.
+@property (nonatomic, readonly) NSTimeInterval skipButtonDuration;
+@end
+
+
 /// The builder for creating a JWMediaTrack used for chapters.
 SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 @interface JWChapterTrackBuilder : NSObject
@@ -9153,7 +9323,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 ///     returns A <code>JWMediaTrack</code> object.
 ///   </li>
 /// </ul>
-- (JWMediaTrack * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+- (JWChapterTrack * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 /// Sets the path to the thumbnail track file.
 /// note:
 /// Files must be in WebVTT format.
@@ -9163,6 +9333,24 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWChapterTrackBuilder * _Nonnull)file:(NSURL * _Nonnull)file;
+/// Designates a list of chapters which are skippable.
+/// note:
+/// Chapter ids should be unique.
+/// \param ids An array of chapter identifiers as specified in the WebVTT file.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWChapterTrackBuilder * _Nonnull)skippableChaptersWithIds:(NSArray<NSString *> * _Nonnull)ids SWIFT_AVAILABILITY(ios,unavailable);
+/// Sets the number of seconds a skip button is displayed for skippable chapters.
+/// note:
+/// If a chapter duration is shorter than the life of the button, the button will not be displayed past the end of the chapter.
+/// \param seconds The number of seconds a skip button will stay on the screen during the chapter.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWChapterTrackBuilder * _Nonnull)skipButtonDurationWithSeconds:(NSTimeInterval)seconds SWIFT_AVAILABILITY(ios,unavailable);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -9262,29 +9450,31 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit25JWDRMContentKeyDataSource_")
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires a <em>content identifier</em> from the application to start the decryption process.
 /// \param url The url of the resource being loaded.
 ///
-/// \param handler The handler block used to provide the JWPlayerKit with the content identifier.
-///
-/// \param contentIdentifier The case of Apple FairPlay this is an opaque identifier for the content and is needed to obtain the <em>SPC (Server Playback Context) message</em> from the operating system.
+/// \param handler The handler block used to provide the JWPlayerKit with the content identifier. In the case of Apple FairPlay this is an opaque identifier for the content and is needed to obtain the <em>SPC (Server Playback Context) message</em> from the operating system.
 ///
 - (void)contentIdentifierForURL:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(NSData * _Nullable))handler;
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires an <em>application identifier</em> from the application to start the decryption process.
 /// \param url The url of the resource being loaded.
 ///
-/// \param handler The handler block used to provide the JWPlayerKit with the application identifier.
-///
-/// \param appIdentifier The case of Apple FairPlay this is the <em>Application Certificate</em> data you receive after registering an FPS playback app.
+/// \param handler The handler block used to provide the JWPlayerKit with the application identifier, <code>appIdentifier</code>, the <em>Application Certificate</em> data you receive after registering an FPS playback app.
 ///
 - (void)appIdentifierForURL:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(NSData * _Nullable))handler;
 /// Called when the JWPlayerKit needs to decrypt the current protected content and requires a <em>content key</em> from the application to start the decryption process.
+/// The completion block returned contains the following information:
+/// <ul>
+///   <li>
+///     <code>ckcData</code>: The case of Apple FairPlay, the response is the content key wrapped inside an encrypted Content Key Context (the CKC message) returned by the key server.`
+///   </li>
+///   <li>
+///     <code>renewalDate</code>: In the case of Apple FairPlay, a date for renewal of resources that expire can be specified by passing a renewal date in the completion block.
+///   </li>
+///   <li>
+///     <code>contentType</code>: The UTI indicating the type of data contained by the response. When specifying a <code>renewalDate</code> the content type should be specified.
+///   </li>
+/// </ul>
 /// \param spcData The key request data that must be transmitted to the key vendor to obtain the <em>content key</em>. In the case of Apple FairPlay this is the <em>SPC (Server Playback Context) message</em> from the operating system which must be sent to the Key Server in order to obtain the <em>CKC (Content Key Context) message</em>.
 ///
-/// \param handler The completion block used to provide the JWPlayerKit with the Server Response.
-///
-/// \param ckcData The case of Apple FairPlay, the response is the content key wrapped inside an encrypted Content Key Context (the CKC message) returned by the key server.
-///
-/// \param renewalDate In the case of Apple FairPlay, a date for renewal of resources that expire can be specified by passing a renewal date in the completion block.
-///
-/// \param contentType The UTI indicating the type of data contained by the response. When specifying a <code>renewalDate</code> the content type should be specified.
+/// \param handler The completion block used to provide the JWPlayerKit with the Server Response.`
 ///
 - (void)contentKeyWithSPCData:(NSData * _Nonnull)spcData completionHandler:(void (^ _Nonnull)(NSData * _Nullable, NSDate * _Nullable, NSString * _Nullable))handler;
 @end
@@ -9355,6 +9545,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit7JWError")
 /// Metadata that can be passed externally to supplement the encoded metadata of the underlying media asset.
 SWIFT_CLASS("_TtC11JWPlayerKit18JWExternalMetadata")
 @interface JWExternalMetadata : NSObject
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -9504,11 +9696,11 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 ///
 - (nonnull instancetype)initWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nullable)obstructions OBJC_DESIGNATED_INITIALIZER;
 /// Register friendly obstructions.
-/// \param friendlyObstructions Array with friendly obstructions
+/// \param obstructions Array with friendly obstructions
 ///
 - (void)registerWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
 /// Unregister previously registered friendly obstructions.
-/// \param friendlyObstructions Array with friendly obstructions.
+/// \param obstructions Array with friendly obstructions.
 ///
 - (void)unregisterWithObstructions:(NSArray<JWFriendlyObstruction *> * _Nonnull)obstructions;
 /// Unregister all previously registered friendly obstructions.
@@ -9844,6 +10036,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWJSONParser")
 @end
 
 
+
 /// JWLockScreenManager allows setting the active JWPlayer that will be shown on the NowPlaying Controls.
 /// important:
 /// In your App´s <em>Signing & Capabilities</em> you should add <em>Background Modes</em>:
@@ -9947,7 +10140,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWLogoBuilder")
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink;
+- (JWLogoBuilder * _Nonnull)weblink:(NSURL * _Nonnull)weblink SWIFT_AVAILABILITY(tvos,unavailable);
 /// Distance between the logo and the player’s edge, specified in points. If unspecified, this parameter The default value is <code>8</code>.
 /// \param margin The desired amount of space between the logo and player’s edge.
 ///
@@ -10029,24 +10222,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWMediaSelectionOption")
 @end
 
 
-
-/// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
-SWIFT_CLASS("_TtC11JWPlayerKit12JWMediaTrack")
-@interface JWMediaTrack : NSObject
-/// Path to the caption or thumbnail track file.
-@property (nonatomic, readonly, copy) NSURL * _Null_unspecified file;
-/// Label to be shown in the player in the captions popup.
-/// note:
-/// Only for captions. Not shown if only one caption track provided.
-@property (nonatomic, readonly, copy) NSString * _Nullable label;
-/// If set to <code>true</code>, the player shows this caption track upon launch. The default value is <code>false</code>.
-/// note:
-/// Only for captions.
-@property (nonatomic, readonly) BOOL defaultTrack;
-/// Init is internal so external developers cannot create this structure on their own.
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
 
 /// Constants indicating which type of media the content is.
 typedef SWIFT_ENUM(NSInteger, JWMediaType, open) {
@@ -10305,10 +10480,18 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// returns:
 /// A constant denoting the state of the player. If it cannot determine the state, <code>.unknown</code> is returned.
 - (enum JWPlayerState)getState SWIFT_WARN_UNUSED_RESULT;
+/// Sets the new playlist to the player using its URL.
+/// \param url The URL of the playlist for the player to load.
+///
+- (void)loadPlaylistWithUrl:(NSURL * _Nonnull)url;
 /// Sets the new playlist to the player
 /// \param playlist List of content to be played.
 ///
-- (void)loadPlaylist:(NSArray<JWPlayerItem *> * _Nonnull)playlist;
+- (void)loadPlaylistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
+/// Sets the new playlist to the player
+/// \param playlist List of content to be played.
+///
+- (void)loadPlaylist:(NSArray<JWPlayerItem *> * _Nonnull)playlist SWIFT_DEPRECATED_MSG("", "playlist(items:)");
 /// Loads a player item within the current playlist.
 /// \param index The index of the desired item within the playlist. If the index is invalid, this method does nothing.
 ///
@@ -10445,12 +10628,21 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// Sets an array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
 /// seealso:
 /// <code>JWPlayerItem</code>
+/// \param items An array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerConfigurationBuilder * _Nonnull)playlistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
+/// Sets an array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
+/// seealso:
+/// <code>JWPlayerItem</code>
 /// \param playlist An array of <code>JWPlayerItem</code> objects containing information about different media items to be reproduced in a sequence.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWPlayerConfigurationBuilder * _Nonnull)playlist:(NSArray<JWPlayerItem *> * _Nonnull)playlist;
+- (JWPlayerConfigurationBuilder * _Nonnull)playlist:(NSArray<JWPlayerItem *> * _Nonnull)playlist SWIFT_DEPRECATED_MSG("", "playlistWithItems:");
 /// Sets the playlist content url using a URL.
 /// note:
 /// If a playlist array is also set using <code>playlist()</code>, calling <code>build()</code> will throw an exception.
@@ -10533,7 +10725,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// </ul>
 /// \param tracker A config for the desired ad tracker.
 ///
-- (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker;
+- (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker SWIFT_AVAILABILITY(ios,introduced=10.0);
 /// Defines what settings to use during external playback.
 /// <ul>
 ///   <li>
@@ -10649,6 +10841,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to check quickly and accurately if two player items are the same.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -11139,6 +11333,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 
 
 
+
 /// A protocol for listening to time events through the JWPlayerViewController.
 SWIFT_PROTOCOL("_TtP11JWPlayerKit19JWTimeEventListener_")
 @protocol JWTimeEventListener
@@ -11221,7 +11416,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic) NSTimeInterval interfaceFadeDelay;
 /// The poster image to display when there is no Internet connection. By default, it displays the poster image of the current video.
 @property (nonatomic, strong) UIImage * _Nullable offlinePosterImage;
-/// The message to display when Internet connection is lost. By default it is “Internet Lost”.
+/// The message that is displayed when the internet connection is lost.
+/// The default value is “This video cannot be played because of a problem with your internet connection.” which corresponds to the localizable string [jwplayer_errors_bad_connection].
 @property (nonatomic, copy) NSString * _Nonnull offlineMessage;
 /// Automatically create Chromecast-related UI and update the UI based on Chromecast events. The default value is <code>true</code>.
 /// note:
@@ -11269,12 +11465,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 ///
 - (void)transitionToFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 /// This method transitions the player away from fullscreen mode. If the player is not in fullscreen mode this method does not perform any actions, and the completion closure will not be executed.
-/// <ul>
-///   <li>
-///     completion: This closure is called when the player is done transitioning away from full screen mode.
-///   </li>
-/// </ul>
 /// \param animated Set to true if the player should animate away from full screen mode.
+///
+/// \param completion This closure is called when the player is done transitioning away from full screen mode.
 ///
 - (void)dismissFullScreenWithAnimated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 - (void)playerView:(JWPlayerView * _Nonnull)view sizeChangedFrom:(CGSize)oldSize to:(CGSize)newSize;
@@ -11622,6 +11815,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit10JWTimeData")
 @property (nonatomic) NSTimeInterval position;
 /// The total time expressed in seconds.
 @property (nonatomic) NSTimeInterval duration;
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -11640,6 +11834,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit11JWTimeRange")
 /// Default initializer. Both <code>start</code> and <code>end</code> are zero.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Initializer for setting <code>start</code> and <code>end</code>.
+/// \param start The start of the timer range, expressed in seconds.
+///
+/// \param end The end of the time range, expressed in seconds.
+///
+- (nonnull instancetype)initWithStart:(NSTimeInterval)start end:(NSTimeInterval)end OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -11724,6 +11924,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWVideoSource")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to provide more accurate value comparisons.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -11816,6 +12018,8 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
+
+
 
 
 

@@ -108,6 +108,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
 @objc @_hasMissingDesignatedInitializers @objcMembers public class JWTimeData : ObjectiveC.NSObject {
   @objc public var position: Foundation.TimeInterval
   @objc public var duration: Foundation.TimeInterval
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWTimeRange : ObjectiveC.NSObject {
@@ -117,6 +118,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc override dynamic public var hash: Swift.Int {
     @objc get
   }
+  @objc public init(start: Foundation.TimeInterval, end: Foundation.TimeInterval)
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers @objcMembers public class JWAdImpression : ObjectiveC.NSObject {
@@ -180,6 +182,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc public var type: JWPlayerKit.JWAdType {
     get
   }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWAdBreakBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
@@ -238,6 +241,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   final public let startTime: Foundation.TimeInterval
   final public let endTime: Foundation.TimeInterval
   public init(identifier: Swift.String, startTime: Foundation.TimeInterval, endTime: Foundation.TimeInterval)
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class JWTimeSliderStyle : ObjectiveC.NSObject {
@@ -320,6 +324,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc public var externalMetadata: [JWPlayerKit.JWExternalMetadata]? {
     get
   }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWPlayerItemBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
@@ -703,20 +708,6 @@ public enum JWControlType : Swift.Int {
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, relatedMenuClosedWithMethod method: JWPlayerKit.JWRelatedInteraction)
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, relatedItemBeganPlaying item: JWPlayerKit.JWPlayerItem, atIndex index: Swift.Int, withMethod method: JWPlayerKit.JWRelatedInteraction)
 }
-@objc public enum JWInterfaceBehavior : Swift.Int {
-  case normal
-  case hidden
-  case alwaysOnScreen
-  public init?(rawValue: Swift.Int)
-  public typealias RawValue = Swift.Int
-  public var rawValue: Swift.Int {
-    get
-  }
-}
-@objc public protocol JWTimeEventListener {
-  @objc func onMediaTimeEvent(_ time: JWPlayerKit.JWTimeData)
-  @objc func onAdTimeEvent(_ time: JWPlayerKit.JWTimeData)
-}
 @objc @_inheritsConvenienceInitializers @objcMembers open class JWPlayerViewController : UIKit.UIViewController, AVKit.AVPictureInPictureControllerDelegate, JWPlayerKit.JWPlayerViewDelegate, JWPlayerKit.JWPlayerDelegate, JWPlayerKit.JWPlayerStateDelegate, JWPlayerKit.JWAVDelegate, JWPlayerKit.JWAdDelegate, JWPlayerKit.JWAirPlayDelegate, JWPlayerKit.JWAccessLogMetadataDelegate, JWPlayerKit.JWDateRangeMetadataDelegate, JWPlayerKit.JWID3MetadataDelegate, JWPlayerKit.JWExternalMetadataDelegate, JWPlayerKit.JWProgramDateTimeMetadataDelegate, JWPlayerKit.JWMediaMetadataDelegate, JWPlayerKit.JWCastDelegate, JWPlayerKit.JWTimeEventListener, UIKit.UIPopoverPresentationControllerDelegate {
   @objc public var allowsPictureInPicturePlayback: Swift.Bool {
     @objc get
@@ -915,6 +906,7 @@ public typealias JSONPayload = [Swift.AnyHashable : Any]
   @objc public var defaultVideo: Swift.Bool {
     get
   }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWVideoSourceBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
@@ -1107,7 +1099,10 @@ public protocol JWBuilder {
   @objc func skipAd()
   @objc func openAdClickthrough()
   @objc func getState() -> JWPlayerKit.JWPlayerState
-  @objc func loadPlaylist(_ playlist: [JWPlayerKit.JWPlayerItem])
+  @objc func loadPlaylist(url: Foundation.URL)
+  @objc func loadPlaylist(items: [JWPlayerKit.JWPlayerItem])
+  @objc @available(*, deprecated, renamed: "playlist(items:)")
+  func loadPlaylist(_ playlist: [JWPlayerKit.JWPlayerItem])
   @objc func loadPlayerItemAt(index: Swift.Int)
   @objc var currentItem: JWPlayerKit.JWPlayerItem? { get }
   @objc func getCues() -> [JWPlayerKit.JWCue]
@@ -1140,6 +1135,9 @@ public protocol JWBuilder {
   public typealias Output = JWPlayerKit.JWPlayerConfiguration
   @objc public func build() throws -> JWPlayerKit.JWPlayerConfiguration
   @objc @discardableResult
+  public func playlist(items: [JWPlayerKit.JWPlayerItem]) -> JWPlayerKit.JWPlayerConfigurationBuilder
+  @objc @discardableResult
+  @available(*, deprecated, renamed: "playlist(items:)")
   public func playlist(_ playlist: [JWPlayerKit.JWPlayerItem]) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
   public func playlist(url: Foundation.URL) -> JWPlayerKit.JWPlayerConfigurationBuilder
@@ -1157,12 +1155,23 @@ public protocol JWBuilder {
   public func repeatContent(_ repeatContent: Swift.Bool) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
   public func externalMetadata(_ externalMetadata: [JWPlayerKit.JWExternalMetadata]) -> JWPlayerKit.JWPlayerConfigurationBuilder
-  @objc @discardableResult
+  @objc @available(iOS 10.0, *)
+  @discardableResult
   public func adTracker(_ tracker: JWPlayerKit.JWAdTrackerConfig) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
   public func externalPlaybackSettings(_ settings: JWPlayerKit.JWExternalPlaybackSettings) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc override dynamic public init()
   @objc deinit
+}
+@objc public enum JWInterfaceBehavior : Swift.Int {
+  case normal
+  case hidden
+  case alwaysOnScreen
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWProgramDateTimeMetadata : ObjectiveC.NSObject {
   @objc final public let start: Foundation.TimeInterval
@@ -1205,6 +1214,7 @@ public protocol JWBuilder {
   @objc public var defaultTrack: Swift.Bool {
     get
   }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
 }
 @objc public protocol JWAccessLogMetadataDelegate {
@@ -1238,10 +1248,16 @@ extension UIKit.UIStackView {
   @objc override dynamic open func point(inside point: CoreGraphics.CGPoint, with event: UIKit.UIEvent?) -> Swift.Bool
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWChapterTrackBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
-  public typealias Output = JWPlayerKit.JWMediaTrack
-  @objc public func build() throws -> JWPlayerKit.JWMediaTrack
+  public typealias Output = JWPlayerKit.JWChapterTrack
+  @objc public func build() throws -> JWPlayerKit.JWChapterTrack
   @objc @discardableResult
   public func file(_ file: Foundation.URL) -> JWPlayerKit.JWChapterTrackBuilder
+  @objc @available(iOS, unavailable)
+  @discardableResult
+  public func skippableChapters(ids: [Swift.String]) -> JWPlayerKit.JWChapterTrackBuilder
+  @objc @available(iOS, unavailable)
+  @discardableResult
+  public func skipButtonDuration(seconds: Foundation.TimeInterval) -> JWPlayerKit.JWChapterTrackBuilder
   @objc override dynamic public init()
   @objc deinit
 }
@@ -1326,6 +1342,15 @@ extension UIKit.UIStackView {
   @objc public func disconnect()
   @objc public func cast()
   @objc public func stopCasting()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWChapterTrack : JWPlayerKit.JWMediaTrack {
+  @objc public var skippableChapters: [Swift.String] {
+    get
+  }
+  @objc public var skipButtonDuration: Swift.Double {
+    get
+  }
   @objc deinit
 }
 @objc public enum JWAdPosition : Swift.Int {
@@ -1489,7 +1514,8 @@ extension UIKit.UIStackView {
   public func imageFile(_ imageFile: Foundation.URL) -> JWPlayerKit.JWLogoBuilder
   @objc @discardableResult
   public func fades(_ fades: Swift.Bool) -> JWPlayerKit.JWLogoBuilder
-  @objc @discardableResult
+  @objc @available(tvOS, unavailable)
+  @discardableResult
   public func weblink(_ weblink: Foundation.URL) -> JWPlayerKit.JWLogoBuilder
   @objc @discardableResult
   public func margin(_ margin: Swift.Int) -> JWPlayerKit.JWLogoBuilder
@@ -1551,6 +1577,10 @@ extension UIKit.UIStackView {
 @objc public protocol JWAirPlayDelegate {
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, airPlayStatusChanged status: JWPlayerKit.JWAirPlayStatus)
 }
+@objc public protocol JWTimeEventListener {
+  @objc func onMediaTimeEvent(_ time: JWPlayerKit.JWTimeData)
+  @objc func onAdTimeEvent(_ time: JWPlayerKit.JWTimeData)
+}
 extension JWPlayerKit.JWPlayerState : Swift.Equatable {}
 extension JWPlayerKit.JWPlayerState : Swift.Hashable {}
 extension JWPlayerKit.JWPlayerState : Swift.RawRepresentable {}
@@ -1593,9 +1623,6 @@ extension JWPlayerKit.JWRelatedOnComplete : Swift.RawRepresentable {}
 extension JWPlayerKit.JWRelatedOnClick : Swift.Equatable {}
 extension JWPlayerKit.JWRelatedOnClick : Swift.Hashable {}
 extension JWPlayerKit.JWRelatedOnClick : Swift.RawRepresentable {}
-extension JWPlayerKit.JWInterfaceBehavior : Swift.Equatable {}
-extension JWPlayerKit.JWInterfaceBehavior : Swift.Hashable {}
-extension JWPlayerKit.JWInterfaceBehavior : Swift.RawRepresentable {}
 extension JWPlayerKit.JWVisualQualityMode : Swift.Equatable {}
 extension JWPlayerKit.JWVisualQualityMode : Swift.Hashable {}
 extension JWPlayerKit.JWVisualQualityMode : Swift.RawRepresentable {}
@@ -1614,6 +1641,9 @@ extension JWPlayerKit.JWIdleReason : Swift.RawRepresentable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.Equatable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.Hashable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.RawRepresentable {}
+extension JWPlayerKit.JWInterfaceBehavior : Swift.Equatable {}
+extension JWPlayerKit.JWInterfaceBehavior : Swift.Hashable {}
+extension JWPlayerKit.JWInterfaceBehavior : Swift.RawRepresentable {}
 extension JWPlayerKit.JWAdCompanionType : Swift.Equatable {}
 extension JWPlayerKit.JWAdCompanionType : Swift.Hashable {}
 extension JWPlayerKit.JWAdCompanionType : Swift.RawRepresentable {}
