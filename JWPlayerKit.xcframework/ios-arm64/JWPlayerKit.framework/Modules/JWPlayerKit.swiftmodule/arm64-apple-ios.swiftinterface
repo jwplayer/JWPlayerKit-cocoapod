@@ -422,7 +422,6 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     get
   }
 }
-@available(tvOS, unavailable)
 @objc public enum JWContentKeyType : Swift.Int {
   case persistable
   case nonpersistable
@@ -432,7 +431,6 @@ public let JWMediaSelectionOptionDefault: Swift.Int
     get
   }
 }
-@available(tvOS, unavailable)
 @objc public protocol JWDRMContentKeyManager {
   @objc func contentLoader(_ contentLoader: JWPlayerKit.JWDRMContentLoader, writePersistableContentKey contentKey: Foundation.Data, contentKeyIdentifier: Swift.String)
   @objc func contentLoader(_ contentLoader: JWPlayerKit.JWDRMContentLoader, didWritePersistableContentKey contentKeyIdentifier: Swift.String)
@@ -894,12 +892,13 @@ public enum JWControlType : Swift.Int {
   @objc final public let level: JWPlayerKit.JWVisualQualityLevel
   @objc deinit
 }
-@objc @available(tvOS, unavailable)
-@objcMembers public class JWDRMContentLoader : ObjectiveC.NSObject {
-  @objc public init(dataSource: JWPlayerKit.JWDRMContentKeyDataSource, keyManager: JWPlayerKit.JWDRMContentKeyManager?)
-  @objc public func load(items: [JWPlayerKit.JWPlayerItem])
-  @objc public func load(playlist url: Foundation.URL)
+@objc @objcMembers public class JWDRMContentLoader : ObjectiveC.NSObject {
+  @objc required public init(dataSource: JWPlayerKit.JWDRMContentKeyDataSource, keyManager: JWPlayerKit.JWDRMContentKeyManager?)
   @objc deinit
+}
+extension JWPlayerKit.JWDRMContentLoader {
+  @objc dynamic public func load(items: [JWPlayerKit.JWPlayerItem])
+  @objc dynamic public func load(playlist url: Foundation.URL)
 }
 public typealias JSONPayload = [Swift.AnyHashable : Any]
 @_hasMissingDesignatedInitializers @objc public class JWAdOffset : ObjectiveC.NSObject {
@@ -1151,8 +1150,7 @@ public protocol JWBuilder {
   @objc var visualQualityLevels: [JWPlayerKit.JWVideoSource] { get }
   @objc var visualQuality: JWPlayerKit.JWVisualQuality? { get }
   @objc var contentKeyDataSource: JWPlayerKit.JWDRMContentKeyDataSource? { get set }
-  @objc @available(tvOS, unavailable)
-  var contentLoader: JWPlayerKit.JWDRMContentLoader? { get set }
+  @objc var contentLoader: JWPlayerKit.JWDRMContentLoader? { get set }
   @objc var friendlyObstructions: JWPlayerKit.JWFriendlyObstructionManager { get }
 }
 @objc public protocol JWPlayer : JWPlayerKit.JWPlayerProtocol {
@@ -1633,11 +1631,8 @@ extension JWPlayerKit.JWFriendlyObstructionPurpose : Swift.RawRepresentable {}
 extension JWPlayerKit.JWAdShownOnSeek : Swift.Equatable {}
 extension JWPlayerKit.JWAdShownOnSeek : Swift.Hashable {}
 extension JWPlayerKit.JWAdShownOnSeek : Swift.RawRepresentable {}
-@available(tvOS, unavailable)
 extension JWPlayerKit.JWContentKeyType : Swift.Equatable {}
-@available(tvOS, unavailable)
 extension JWPlayerKit.JWContentKeyType : Swift.Hashable {}
-@available(tvOS, unavailable)
 extension JWPlayerKit.JWContentKeyType : Swift.RawRepresentable {}
 extension JWPlayerKit.JWRelatedInteraction : Swift.Equatable {}
 extension JWPlayerKit.JWRelatedInteraction : Swift.Hashable {}

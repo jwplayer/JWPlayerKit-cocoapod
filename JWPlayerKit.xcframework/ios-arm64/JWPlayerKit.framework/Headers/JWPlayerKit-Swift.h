@@ -1488,7 +1488,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit25JWDRMContentKeyDataSource_")
 @class JWError;
 
 /// A protocol for classes which are informed about events and requests dealing with content keys for protected content.
-SWIFT_PROTOCOL("_TtP11JWPlayerKit22JWDRMContentKeyManager_") SWIFT_AVAILABILITY(tvos,unavailable)
+SWIFT_PROTOCOL("_TtP11JWPlayerKit22JWDRMContentKeyManager_")
 @protocol JWDRMContentKeyManager
 /// Requests that the content key associated with the given identifier is recorded.
 /// \param contentLoader The <code>JWDRMContentLoader</code> instance.
@@ -1546,10 +1546,9 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit22JWDRMContentKeyManager_") SWIFT_AVAILABILITY(
 - (void)contentLoader:(JWDRMContentLoader * _Nonnull)contentLoader failedWithError:(JWError * _Nonnull)error;
 @end
 
-@class JWPlayerItem;
 
 /// This loader is used to interface with FairPlay and decode streams for download.
-SWIFT_CLASS("_TtC11JWPlayerKit18JWDRMContentLoader") SWIFT_AVAILABILITY(tvos,unavailable)
+SWIFT_CLASS("_TtC11JWPlayerKit18JWDRMContentLoader")
 @interface JWDRMContentLoader : NSObject
 /// This is the initializer. Designating a key manager is optional, but if one is specified it will receive events for persistable content.
 /// \param dataSource The content key data source for processing licensed content.
@@ -1557,6 +1556,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWDRMContentLoader") SWIFT_AVAILABILITY(tvos,una
 /// \param keyManager The content key manager associated with this loader.
 ///
 - (nonnull instancetype)initWithDataSource:(id <JWDRMContentKeyDataSource> _Nonnull)dataSource keyManager:(id <JWDRMContentKeyManager> _Nullable)keyManager OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+@class JWPlayerItem;
+
+@interface JWDRMContentLoader (SWIFT_EXTENSION(JWPlayerKit))
 /// Loads the supplied items as persistable content.
 /// \param items An array of items to load.
 ///
@@ -1565,8 +1571,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWDRMContentLoader") SWIFT_AVAILABILITY(tvos,una
 /// \param url The URL designating the playlist. This URL must be to a playlist defined in the JW Player dashboard or a signed URL for a playlist.
 ///
 - (void)loadWithPlaylist:(NSURL * _Nonnull)url;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 /// Types of DRM encryption
@@ -2655,7 +2659,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// is set instead, this property will be populated automatically when <code>configurePlayer(with:)</code> is called.
 /// note:
 /// If this property is set, the <code>contentKeyDataSource</code> property should remain <code>nil</code>.
-@property (nonatomic, strong) JWDRMContentLoader * _Nullable contentLoader SWIFT_AVAILABILITY(tvos,unavailable);
+@property (nonatomic, strong) JWDRMContentLoader * _Nullable contentLoader;
 /// An interface to  add/remove friendly obstructions
 @property (nonatomic, readonly, strong) id <JWFriendlyObstructionManager> _Nonnull friendlyObstructions;
 @end
@@ -3432,6 +3436,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 
 
 
+
 /// A protocol for listening to time events through the JWPlayerViewController.
 SWIFT_PROTOCOL("_TtP11JWPlayerKit19JWTimeEventListener_")
 @protocol JWTimeEventListener
@@ -3517,9 +3522,11 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// The message that is displayed when the internet connection is lost.
 /// The default value is “This video cannot be played because of a problem with your internet connection.” which corresponds to the localizable string [jwplayer_errors_bad_connection].
 @property (nonatomic, copy) NSString * _Nonnull offlineMessage;
-/// Automatically create Chromecast-related UI and update the UI based on Chromecast events. The default value is <code>true</code>.
-/// note:
-/// This property affects initialization. Changes to the property during runtime do not have any effect.
+/// Returns a Boolean indicating whether to automatically create Chromecast-related UI and update the UI based on Chromecast events.
+/// Override this property in a subclass to signal your intention to not rely on the SDK’s default Chromecast UI integration.
+///
+/// returns:
+/// <code>true</code> if your <code>JWPlayerViewController</code> subclass lets the SDK handle Chromecast-related UI creation and updates, or <code>false</code> if you intend to display on your own custom UI instead. The default value of this property returns <code>true</code>.
 @property (nonatomic, readonly) BOOL handleCastingInternally;
 /// The JWPlayer interface, used to control playback and configure the player.
 @property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
