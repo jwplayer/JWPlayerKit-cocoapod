@@ -239,11 +239,11 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, externalMetadataCueParsed metadata: JWPlayerKit.JWExternalMetadata)
   @objc func jwplayer(_ player: JWPlayerKit.JWPlayer, externalMetadata metadata: JWPlayerKit.JWExternalMetadata)
 }
-@objc public class JWExternalMetadata : ObjectiveC.NSObject {
-  final public let identifier: Swift.String
-  final public let startTime: Foundation.TimeInterval
-  final public let endTime: Foundation.TimeInterval
-  public init(identifier: Swift.String, startTime: Foundation.TimeInterval, endTime: Foundation.TimeInterval)
+@objc @objcMembers public class JWExternalMetadata : ObjectiveC.NSObject {
+  @objc final public let identifier: Swift.String
+  @objc final public let startTime: Foundation.TimeInterval
+  @objc final public let endTime: Foundation.TimeInterval
+  @objc public init(identifier: Swift.String, startTime: Foundation.TimeInterval, endTime: Foundation.TimeInterval)
   @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc deinit
 }
@@ -447,6 +447,50 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc public func unregister(obstructions: [JWPlayerKit.JWFriendlyObstruction])
   @objc public func unregisterAllObstructions()
 }
+@objc public enum JWCaptionAlignment : Swift.Int {
+  case left
+  case center
+  case right
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWCaptionPosition : ObjectiveC.NSObject {
+  public var width: Swift.Int? {
+    get
+  }
+  public var alignment: JWPlayerKit.JWCaptionAlignment? {
+    get
+  }
+  public var position: Swift.Int? {
+    get
+  }
+  public var linePercentage: Swift.Int? {
+    get
+  }
+  public var lineIndex: Swift.Int? {
+    get
+  }
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class JWCaptionPositionBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
+  public typealias Output = JWPlayerKit.JWCaptionPosition
+  @objc public func build() throws -> JWPlayerKit.JWCaptionPosition
+  @objc @discardableResult
+  public func width(percentage: Swift.Int) -> JWPlayerKit.JWCaptionPositionBuilder
+  @objc @discardableResult
+  public func alignment(_ alignment: JWPlayerKit.JWCaptionAlignment) -> JWPlayerKit.JWCaptionPositionBuilder
+  @objc @discardableResult
+  public func horizontalPosition(percentage: Swift.Int) -> JWPlayerKit.JWCaptionPositionBuilder
+  @objc @discardableResult
+  public func verticalPosition(percentage: Swift.Int) -> JWPlayerKit.JWCaptionPositionBuilder
+  @objc @discardableResult
+  public func verticalPosition(lineIndex: Swift.Int) -> JWPlayerKit.JWCaptionPositionBuilder
+  @objc override dynamic public init()
+  @objc deinit
+}
 @objc public enum JWRelatedInteraction : Swift.Int {
   case user
   case contentComplete
@@ -520,7 +564,7 @@ public let JWMediaSelectionOptionDefault: Swift.Int
   @objc override dynamic public init()
   @objc deinit
 }
-public enum JWVisibilityState : Swift.Int {
+@objc public enum JWVisibilityState : Swift.Int {
   case hidden
   case visible
   public init?(rawValue: Swift.Int)
@@ -529,7 +573,7 @@ public enum JWVisibilityState : Swift.Int {
     get
   }
 }
-public enum JWControlType : Swift.Int {
+@objc public enum JWControlType : Swift.Int {
   case fastForwardButton
   case rewindButton
   case pictureInPictureButton
@@ -570,6 +614,10 @@ public enum JWControlType : Swift.Int {
   public func titleIsVisible(_ titleIsVisible: Swift.Bool) -> JWPlayerKit.JWPlayerSkinBuilder
   @objc @discardableResult
   public func descriptionIsVisible(_ descriptionIsVisible: Swift.Bool) -> JWPlayerKit.JWPlayerSkinBuilder
+  @objc @discardableResult
+  public func adCueColor(_ color: UIKit.UIColor) -> JWPlayerKit.JWPlayerSkinBuilder
+  @objc @discardableResult
+  public func chapterCueColor(_ color: UIKit.UIColor) -> JWPlayerKit.JWPlayerSkinBuilder
   @objc override dynamic public init()
   @objc deinit
 }
@@ -582,7 +630,21 @@ public enum JWControlType : Swift.Int {
   @objc public func build() -> JWPlayerKit.JWImaSettings
   @objc @discardableResult
   public func locale(_ locale: Swift.String) -> JWPlayerKit.JWImaSettingsBuilder
+  @objc @discardableResult
+  public func ppid(_ ppid: Swift.String) -> JWPlayerKit.JWImaSettingsBuilder
+  @objc @discardableResult
+  public func maxRedirects(_ redirectLimit: Swift.UInt) -> JWPlayerKit.JWImaSettingsBuilder
+  @objc @discardableResult
+  public func sessionID(_ sessionID: Swift.String) -> JWPlayerKit.JWImaSettingsBuilder
+  @objc @discardableResult
+  public func debugMode(_ enabled: Swift.Bool) -> JWPlayerKit.JWImaSettingsBuilder
   @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWCaptionTrack : JWPlayerKit.JWMediaTrack {
+  @objc public var locale: Swift.String? {
+    get
+  }
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class JWPlayerConfiguration : ObjectiveC.NSObject {
@@ -620,6 +682,7 @@ public enum JWControlType : Swift.Int {
   @objc var pictureInPictureController: AVKit.AVPictureInPictureController? { get }
   @objc var videoGravity: JWPlayerKit.JWVideoGravity { get set }
   @objc var allowsPictureInPicturePlayback: Swift.Bool { get set }
+  @objc var videoRect: CoreFoundation.CGRect { get }
 }
 @objc public protocol JWPlayerViewDelegate {
   @objc func playerView(_ view: JWPlayerKit.JWPlayerView, sizeChangedFrom oldSize: CoreFoundation.CGSize, to newSize: CoreFoundation.CGSize)
@@ -656,6 +719,9 @@ public enum JWControlType : Swift.Int {
   @_Concurrency.MainActor(unsafe) @objc public var captionInsets: UIKit.UIEdgeInsets {
     @objc get
     @objc set
+  }
+  @_Concurrency.MainActor(unsafe) @objc public var videoRect: CoreFoundation.CGRect {
+    @objc get
   }
   @_Concurrency.MainActor(unsafe) @objc public var pictureInPictureController: AVKit.AVPictureInPictureController? {
     @objc get
@@ -860,6 +926,10 @@ public enum JWControlType : Swift.Int {
   @_Concurrency.MainActor(unsafe) @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
   @_Concurrency.MainActor(unsafe) @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: UIKit.UIViewControllerTransitionCoordinator?)
 }
+@available(*, unavailable)
+@objc extension JWPlayerKit.JWPlayerViewController {
+  @objc @_Concurrency.MainActor(unsafe) dynamic public func setVisibility(_ visibility: JWPlayerKit.JWVisibilityState, forControls controls: [Foundation.NSNumber])
+}
 @objc public enum JWVisualQualityMode : Swift.Int {
   case auto
   case manual
@@ -1062,6 +1132,9 @@ public protocol JWBuilder {
   @objc public var edgeStyle: JWPlayerKit.JWCaptionEdgeStyle {
     get
   }
+  @objc public var position: JWPlayerKit.JWCaptionPosition? {
+    get
+  }
   @objc deinit
 }
 @objc public enum JWCaptionEdgeStyle : Swift.Int {
@@ -1090,18 +1163,22 @@ public protocol JWBuilder {
   public func font(_ font: UIKit.UIFont) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc @discardableResult
   public func edgeStyle(_ edgeStyle: JWPlayerKit.JWCaptionEdgeStyle) -> JWPlayerKit.JWCaptionStyleBuilder
+  @objc @discardableResult
+  public func position(_ position: JWPlayerKit.JWCaptionPosition) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc override dynamic public init()
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWCaptionTrackBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
-  public typealias Output = JWPlayerKit.JWMediaTrack
-  @objc public func build() throws -> JWPlayerKit.JWMediaTrack
+  public typealias Output = JWPlayerKit.JWCaptionTrack
+  @objc public func build() throws -> JWPlayerKit.JWCaptionTrack
   @objc @discardableResult
   public func file(_ file: Foundation.URL) -> JWPlayerKit.JWCaptionTrackBuilder
   @objc @discardableResult
   public func label(_ label: Swift.String) -> JWPlayerKit.JWCaptionTrackBuilder
   @objc @discardableResult
   public func defaultTrack(_ defaultTrack: Swift.Bool) -> JWPlayerKit.JWCaptionTrackBuilder
+  @objc @discardableResult
+  public func locale(_ locale: Swift.String) -> JWPlayerKit.JWCaptionTrackBuilder
   @objc override dynamic public init()
   @objc deinit
 }
@@ -1226,9 +1303,9 @@ public protocol JWBuilder {
   }
 }
 @_hasMissingDesignatedInitializers @objc public class JWAdCompanion : ObjectiveC.NSObject {
-  @objc final public let clickUrl: Foundation.URL
+  @objc final public let clickUrl: Foundation.URL?
   @objc final public let size: CoreFoundation.CGSize
-  @objc final public let resource: Foundation.URL
+  @objc final public let resource: Foundation.URL?
   @objc final public let type: JWPlayerKit.JWAdCompanionType
   @objc public var creativeViewArray: Foundation.NSArray? {
     @objc get
@@ -1291,6 +1368,21 @@ extension UIKit.UIStackView {
   @discardableResult
   public func skipButtonDuration(seconds: Foundation.TimeInterval) -> JWPlayerKit.JWChapterTrackBuilder
   @objc override dynamic public init()
+  @objc deinit
+}
+@objc @available(tvOS, unavailable)
+@objcMembers public class JWCompanionAdSlot : ObjectiveC.NSObject {
+  @objc public var view: UIKit.UIView! {
+    get
+  }
+  public var width: Swift.Int? {
+    get
+  }
+  public var height: Swift.Int? {
+    get
+  }
+  @objc(initWithView:) public init(_ view: UIKit.UIView)
+  @objc(initWithView:size:) public init(_ view: UIKit.UIView, size: CoreFoundation.CGSize)
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class JWExternalPlaybackSettings : ObjectiveC.NSObject {
@@ -1491,6 +1583,12 @@ extension UIKit.UIStackView {
   public func friendlyObstructionsContainer(_ container: JWPlayerKit.JWFriendlyObstructionsContainer) -> JWPlayerKit.JWImaAdvertisingConfigBuilder
   @objc @discardableResult
   public func imaSettings(_ imaSettings: JWPlayerKit.JWImaSettings) -> JWPlayerKit.JWImaAdvertisingConfigBuilder
+  @objc @discardableResult
+  @available(tvOS, unavailable)
+  public func companionAdSlots(_ companionAdSlots: [JWPlayerKit.JWCompanionAdSlot]) -> JWPlayerKit.JWImaAdvertisingConfigBuilder
+  @objc @discardableResult
+  @available(tvOS, unavailable)
+  public func companionAdSlot(_ companionAdSlot: JWPlayerKit.JWCompanionAdSlot) -> JWPlayerKit.JWImaAdvertisingConfigBuilder
   @objc override dynamic public init()
   @objc deinit
 }
@@ -1634,6 +1732,9 @@ extension JWPlayerKit.JWAdShownOnSeek : Swift.RawRepresentable {}
 extension JWPlayerKit.JWContentKeyType : Swift.Equatable {}
 extension JWPlayerKit.JWContentKeyType : Swift.Hashable {}
 extension JWPlayerKit.JWContentKeyType : Swift.RawRepresentable {}
+extension JWPlayerKit.JWCaptionAlignment : Swift.Equatable {}
+extension JWPlayerKit.JWCaptionAlignment : Swift.Hashable {}
+extension JWPlayerKit.JWCaptionAlignment : Swift.RawRepresentable {}
 extension JWPlayerKit.JWRelatedInteraction : Swift.Equatable {}
 extension JWPlayerKit.JWRelatedInteraction : Swift.Hashable {}
 extension JWPlayerKit.JWRelatedInteraction : Swift.RawRepresentable {}

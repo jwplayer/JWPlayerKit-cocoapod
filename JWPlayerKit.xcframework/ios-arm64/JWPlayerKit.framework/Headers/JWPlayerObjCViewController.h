@@ -117,6 +117,21 @@ JWTimeEventListener>
 */
 - (void)dismissFullScreenAnimated:(BOOL)animated completion:(void (^)(void))completion;
 
+/**
+ Sets the visibility of controls on the player's interface.
+ 
+ @discussion
+ Use the `JWControlType` enum to initialize a `NSNumber` object with the desired control type.
+ 
+ @code
+ [controller setVisibility:FALSE forControls:@[@(JWControlTypePictureInPictureButton)]]
+ @endcode
+ 
+ @param isVisible The desired visibility of each control that is provided.
+ @param controls The controls to set the visibility of.
+ */
+- (void)setVisibility:(BOOL)isVisible forControls:(NSArray<NSNumber *> * _Nonnull)controls;
+
 @end
 
 #endif /* JWPlayerObjCViewController_h */

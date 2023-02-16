@@ -472,11 +472,11 @@ enum JWAdCompanionType : NSInteger;
 SWIFT_CLASS("_TtC11JWPlayerKit13JWAdCompanion")
 @interface JWAdCompanion : NSObject
 /// URL to go to when the ad is clicked.
-@property (nonatomic, readonly, copy) NSURL * _Nonnull clickUrl;
+@property (nonatomic, readonly, copy) NSURL * _Nullable clickUrl;
 /// The dimensions of the companion.
 @property (nonatomic, readonly) CGSize size;
 /// The URL to the static/iframe resource, or the raw HTML content.
-@property (nonatomic, readonly, copy) NSURL * _Nonnull resource;
+@property (nonatomic, readonly, copy) NSURL * _Nullable resource;
 /// The type of creative
 @property (nonatomic, readonly) enum JWAdCompanionType type;
 /// An array of included creativeview event tracking pixels.
@@ -1032,6 +1032,16 @@ typedef SWIFT_ENUM(NSInteger, JWBufferReason, open) {
   JWBufferReasonStalled = 1,
 };
 
+/// Constants describing the text alignment of a caption within the box containing it.
+typedef SWIFT_ENUM(NSInteger, JWCaptionAlignment, open) {
+/// The caption’s left side is flush with the left side of the caption box.
+  JWCaptionAlignmentLeft = 0,
+/// The caption is centered within the caption box.
+  JWCaptionAlignmentCenter = 1,
+/// The caption’s right side is flush with the right side of the caption box.
+  JWCaptionAlignmentRight = 2,
+};
+
 /// Constants defining the border style of the caption.
 typedef SWIFT_ENUM(NSInteger, JWCaptionEdgeStyle, open) {
 /// No style defined.
@@ -1047,6 +1057,70 @@ typedef SWIFT_ENUM(NSInteger, JWCaptionEdgeStyle, open) {
 /// Border style is rendered as uniform.
   JWCaptionEdgeStyleUniform = 6,
 };
+
+
+/// An object describing the position, size, and behavior of a caption on the screen. In order to instantiate an instance of this class, use <code>JWCaptionPositionBuilder</code>.
+SWIFT_CLASS("_TtC11JWPlayerKit17JWCaptionPosition")
+@interface JWCaptionPosition : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// The builder for creating a <code>JWCaptionPosition</code> and verifying its properties.
+SWIFT_CLASS("_TtC11JWPlayerKit24JWCaptionPositionBuilder")
+@interface JWCaptionPositionBuilder : NSObject
+- (JWCaptionPosition * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+/// Specifies the width of caption box as a percentage in the range [0…100]. This is a percentage based on the width of the video player. If unspecified, the caption box will automatically resize to fit the caption text.
+/// note:
+/// If you specify a value outside of the range [0…100], <code>build()</code> will throw an error.
+/// \param percentage The desired width of the caption box specified as a percentage in the range [0…100].
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionPositionBuilder * _Nonnull)widthWithPercentage:(NSInteger)percentage;
+/// Specifies the alignment of the caption text within the caption box. If unspecified, the default value is <code>.center</code>.
+/// \param alignment The desired text alignment of the caption within its caption box.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionPositionBuilder * _Nonnull)alignment:(enum JWCaptionAlignment)alignment;
+/// Specifies the horizontal position of caption box as a percentage in the range [0…100]. This is a percentage based on the width of the video player. If unspecified, the default value is <code>50</code>.
+/// note:
+/// If you specify a value outside of the range [0…100], <code>build()</code> will throw an error.
+/// note:
+/// This value is not observed if <code>width</code> has not been specified.
+/// \param percentage The desired position of the caption box specified as a percentage in the range [0…100].
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionPositionBuilder * _Nonnull)horizontalPositionWithPercentage:(NSInteger)percentage;
+/// Specifies the vertical position of caption box as a percentage in the range [0…100]. This is a percentage based on the height of the video player.
+/// note:
+/// Do not call this method if you are also calling <code>verticalPosition(lineIndex:)</code>, or <code>build()</code> will throw an error.
+/// note:
+/// If you specify a value outside of the range [0…100], <code>build()</code> will throw an error.
+/// \param percentage The desired position of the caption box specified as a percentage in the range [0…100].
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionPositionBuilder * _Nonnull)verticalPositionWithPercentage:(NSInteger)percentage;
+/// Specifies the vertical position of caption box as a line index.
+/// If this is expressed as a negative number it counts the lines starting at the bottom edge of the video player. If it is a positive number it counts the lines starting from the top edge of the player. The height of a line is dependent on the font being used for the caption.
+/// note:
+/// Do not call this method if you are also calling <code>verticalPosition(percentage:)</code>, or <code>build()</code> will throw an error.
+/// \param lineIndex The desired position of the caption box specified as a line index.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionPositionBuilder * _Nonnull)verticalPositionWithLineIndex:(NSInteger)lineIndex;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
 
 @class UIColor;
 @class UIFont;
@@ -1075,6 +1149,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 /// note:
 /// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly) enum JWCaptionEdgeStyle edgeStyle;
+/// The default position of captions displayed in the player.
+/// This position is used if no position is specified by the caption itself, and this is only used with side-loaded captions.
+/// Because SRT captions contain no positional data, SRT captions will always be displayed using what is described by this property. For WebVTT captions, if no positional data is specified within the caption, the default position of the caption will be equal to what is described by this property.
+@property (nonatomic, readonly, strong) JWCaptionPosition * _Nullable position;
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -1130,10 +1208,47 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionStyleBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWCaptionStyleBuilder * _Nonnull)edgeStyle:(enum JWCaptionEdgeStyle)edgeStyle;
+/// Sets the default position of side-loaded captions displayed in the player.
+/// This position is used if no position is specified by the caption itself, and this is only used with side-loaded captions.
+/// Because SRT captions contain no positional data, SRT captions will always be displayed using what is described by this property. For WebVTT captions, if no positional data is specified within the caption, the default position of the caption will be equal to what is described by this property.
+/// \param position The desired default position of the rendered captions.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionStyleBuilder * _Nonnull)position:(JWCaptionPosition * _Nonnull)position;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class JWMediaTrack;
+
+/// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
+SWIFT_CLASS("_TtC11JWPlayerKit12JWMediaTrack")
+@interface JWMediaTrack : NSObject
+/// Path to the caption or thumbnail track file.
+@property (nonatomic, readonly, copy) NSURL * _Null_unspecified file;
+/// Label to be shown in the player in the captions popup.
+/// note:
+/// Only for captions. Not shown if only one caption track provided.
+@property (nonatomic, readonly, copy) NSString * _Nullable label;
+/// If set to <code>true</code>, the player shows this caption track upon launch. The default value is <code>false</code>.
+/// note:
+/// Only for captions.
+@property (nonatomic, readonly) BOOL defaultTrack;
+/// Init is internal so external developers cannot create this structure on their own.
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Overridden to more accurately compare tracks.
+- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+/// Provides information about a caption track.
+SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionTrack")
+@interface JWCaptionTrack : JWMediaTrack
+/// The locale specified for this caption track. This value is <code>nil</code> if unknown.
+@property (nonatomic, readonly, copy) NSString * _Nullable locale;
+@end
+
 
 /// The builder for creating a JWMediaTrack used for captions.
 SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionTrackBuilder")
@@ -1147,7 +1262,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionTrackBuilder")
 ///     returns A <code>JWMediaTrack</code> object.
 ///   </li>
 /// </ul>
-- (JWMediaTrack * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+- (JWCaptionTrack * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 /// Sets the path to the caption track file.
 /// note:
 /// Accepts WebVTT, SRT, and TTML format, though JW Player strongly suggests using WEBVTT if possible.
@@ -1177,6 +1292,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionTrackBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWCaptionTrackBuilder * _Nonnull)defaultTrack:(BOOL)defaultTrack;
+/// Sets the locale for the caption track.
+/// \param locale The ISO 639-1 code for the language in the caption track.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionTrackBuilder * _Nonnull)locale:(NSString * _Nonnull)locale;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1278,27 +1400,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit15JWCastingDevice")
 @end
 
 
-/// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
-SWIFT_CLASS("_TtC11JWPlayerKit12JWMediaTrack")
-@interface JWMediaTrack : NSObject
-/// Path to the caption or thumbnail track file.
-@property (nonatomic, readonly, copy) NSURL * _Null_unspecified file;
-/// Label to be shown in the player in the captions popup.
-/// note:
-/// Only for captions. Not shown if only one caption track provided.
-@property (nonatomic, readonly, copy) NSString * _Nullable label;
-/// If set to <code>true</code>, the player shows this caption track upon launch. The default value is <code>false</code>.
-/// note:
-/// Only for captions.
-@property (nonatomic, readonly) BOOL defaultTrack;
-/// Init is internal so external developers cannot create this structure on their own.
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-/// Overridden to more accurately compare tracks.
-- (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
-@end
-
-
 /// Provides information about a chapter track.
 SWIFT_CLASS("_TtC11JWPlayerKit14JWChapterTrack")
 @interface JWChapterTrack : JWMediaTrack
@@ -1352,11 +1453,64 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class UIView;
+
+/// A companion ad slot.
+/// This will be used to serve ad accompanying info into your application.
+/// The SDK will use the view to render the content.
+SWIFT_CLASS("_TtC11JWPlayerKit17JWCompanionAdSlot") SWIFT_AVAILABILITY(tvos,unavailable)
+@interface JWCompanionAdSlot : NSObject
+/// The view the companion will be rendered in.
+/// Display this view in your application before video ad starts.
+@property (nonatomic, readonly, strong) UIView * _Null_unspecified view;
+/// Creates a companion ad slot.
+/// This will be used to serve ad accompanying info into your application.
+/// The SDK will use the view to render the content.
+/// \param view A UIView where the SDK will render the ad information.
+///
+- (nonnull instancetype)initWithView:(UIView * _Nonnull)view OBJC_DESIGNATED_INITIALIZER;
+/// Creates a companion ad slot.
+/// This will be used to serve ad accompanying info into your application.
+/// The SDK will use the view to render the content.
+/// \param view A UIView where the SDK will render the ad information.
+///
+/// \param size A  size that will be used to set the pixel height and width to send to the Google DFP ad server for targeting.
+///
+- (nonnull instancetype)initWithView:(UIView * _Nonnull)view size:(CGSize)size OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
 typedef SWIFT_ENUM(NSInteger, JWContentKeyType, open) {
 /// The content key is persistable.
   JWContentKeyTypePersistable = 0,
 /// The content key is not persistable.
   JWContentKeyTypeNonpersistable = 1,
+};
+
+/// Controls on the player’s interface
+typedef SWIFT_ENUM(NSInteger, JWControlType, open) {
+/// Button to fast-forward
+  JWControlTypeFastForwardButton = 0,
+/// Button to rewind
+  JWControlTypeRewindButton = 1,
+/// Button to enter picture in picture mode
+  JWControlTypePictureInPictureButton = 2,
+/// Button to control  AirPlay
+  JWControlTypeAirplayButton = 3,
+/// Button to control Chromecast
+  JWControlTypeChromecastButton = 4,
+/// Button to go to the next item
+  JWControlTypeNextButton = 5,
+/// Button to go to the previous item
+  JWControlTypePreviousButton = 6,
+/// Button to open the settings menu
+  JWControlTypeSettingsButton = 7,
+/// Button to open the audio & subtitles menu
+  JWControlTypeLanguagesButton = 8,
+/// Button to enter and exit fullscreen mode
+  JWControlTypeFullscreenButton = 9,
 };
 
 @class JWCueTime;
@@ -1639,6 +1793,20 @@ SWIFT_CLASS("_TtC11JWPlayerKit7JWError")
 /// Metadata that can be passed externally to supplement the encoded metadata of the underlying media asset.
 SWIFT_CLASS("_TtC11JWPlayerKit18JWExternalMetadata")
 @interface JWExternalMetadata : NSObject
+/// A unique identifier used to identify metadata when it surfaces.
+@property (nonatomic, readonly, copy) NSString * _Nonnull identifier;
+/// Start time of the external metadata.
+@property (nonatomic, readonly) NSTimeInterval startTime;
+/// End time of the external metadata.
+@property (nonatomic, readonly) NSTimeInterval endTime;
+/// Initializer for creating metadata.
+/// \param identifier A string used to identify the metadata.
+///
+/// \param startTime The number of seconds into the content when the metadata should be reported.
+///
+/// \param endTime The number of seconds into the content when the metadata information ends.
+///
+- (nonnull instancetype)initWithIdentifier:(NSString * _Nonnull)identifier startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime OBJC_DESIGNATED_INITIALIZER;
 /// Overridden to provide more accurate value comparisons.
 - (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -1679,7 +1847,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit33JWExternalPlaybackSettingsBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class UIView;
 enum JWFriendlyObstructionPurpose : NSInteger;
 
 /// This class represents an obstruction that is marked as friendly for viewability measurement purposes.
@@ -2020,6 +2187,22 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWImaAdvertisingConfigBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWImaAdvertisingConfigBuilder * _Nonnull)imaSettings:(JWImaSettings * _Nonnull)imaSettings;
+/// The array of companion ad slot to serve accompanying content for IMA ads.
+/// seealso:
+/// <a href="x-source-tag://JWCompanionAdSlot">JWCompanionAdSlot.swift</a>
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaAdvertisingConfigBuilder * _Nonnull)companionAdSlots:(NSArray<JWCompanionAdSlot *> * _Nonnull)companionAdSlots SWIFT_AVAILABILITY(tvos,unavailable);
+/// Adds a companion ad slot to serve accompanying content for IMA ads.
+/// note:
+/// This method adds to the existing companion ad slots, and does not overwrite the existing value.
+/// seealso:
+/// <a href="x-source-tag://JWCompanionAdSlot">JWCompanionAdSlot.swift</a>
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaAdvertisingConfigBuilder * _Nonnull)companionAdSlot:(JWCompanionAdSlot * _Nonnull)companionAdSlot SWIFT_AVAILABILITY(tvos,unavailable);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2087,6 +2270,36 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWImaSettingsBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWImaSettingsBuilder * _Nonnull)locale:(NSString * _Nonnull)locale;
+/// Sets the Publisher Provided Identification (PPID) that will be sent with ads request.
+/// \param ppid The publisher provided identification String.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaSettingsBuilder * _Nonnull)ppid:(NSString * _Nonnull)ppid;
+/// Set the maximum number of redirects.
+/// \param redirectLimit An unsigend integer for the amount of redirects allowed.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaSettingsBuilder * _Nonnull)maxRedirects:(NSUInteger)redirectLimit;
+/// Sets the session ID to identify a single user session. This should be a UUID string.
+/// \param sessionID A String for a unique identifier.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaSettingsBuilder * _Nonnull)sessionID:(NSString * _Nonnull)sessionID;
+/// Enable the IMA debug mode which will output detailed log information to the console.
+/// warning:
+/// This should be disabled for releases.
+/// \param enabled A boolean for the expected debug mode.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWImaSettingsBuilder * _Nonnull)debugMode:(BOOL)enabled;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2459,7 +2672,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWOMIDConfigBuilder")
 /// </ul>
 - (JWOMIDConfig * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 /// Specify a list of vendors whose code is allowed to execute in Open Measurement.
-/// \param vender A list of vendor identities.
+/// \param vendors A list of vendor identities.
 ///
 ///
 /// returns:
@@ -2641,6 +2854,18 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// The index of the currently active captions track. A value of -1 means there is no captions track in use.
 @property (nonatomic) NSInteger currentCaptionsTrack;
 /// Returns an array of objects based on available captions. Information for each object may vary depending on the caption types.
+/// The caption tracks are in a predetermined order.
+/// <ul>
+///   <li>
+///     The first item in the array is alway <code>None</code>, for disabling captions.
+///   </li>
+///   <li>
+///     Embedded captions come second, in an order denoted by the HLS manifest.
+///   </li>
+///   <li>
+///     Side-loaded captions are last in the array, in the same order as added to the config.
+///   </li>
+/// </ul>
 @property (nonatomic, readonly, copy) NSArray<JWMediaSelectionOption *> * _Nonnull captionsTracks;
 /// The index of the currently active audio track.
 @property (nonatomic) NSInteger currentAudioTrack;
@@ -3180,6 +3405,20 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerSkinBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerSkinBuilder * _Nonnull)descriptionIsVisible:(BOOL)descriptionIsVisible;
+/// Sets the default for ad cues in the control bar.
+/// \param color The desired color for the cue markers.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerSkinBuilder * _Nonnull)adCueColor:(UIColor * _Nonnull)color;
+/// Sets the default for chapter cues in the control bar.
+/// \param color The desired color for the cue markers.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerSkinBuilder * _Nonnull)chapterCueColor:(UIColor * _Nonnull)color;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -3398,6 +3637,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewProtocol_")
 /// attention:
 /// <code>canStartPictureInPictureAutomaticallyFromInline</code> is not set to <code>true</code> when enabling this property, Picture in Picture mode should only be initiated when using a dedicated UI button.
 @property (nonatomic) BOOL allowsPictureInPicturePlayback;
+/// Returns the region where the video is being rendered.
+@property (nonatomic, readonly) CGRect videoRect;
 @end
 
 @protocol JWPlayerViewDelegate;
@@ -3416,6 +3657,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 @property (nonatomic, strong) JWCaptionStyle * _Nullable captionStyle;
 /// The amount of spaced to inset the captions from the edges of the player. The default value is 0.
 @property (nonatomic) UIEdgeInsets captionInsets;
+@property (nonatomic, readonly) CGRect videoRect;
 /// The picture in picture controller for the player.
 /// note:
 /// Picture in picture works in iOS 14 and above for iPhones, and iOS 13 and above for iPads.
@@ -3676,6 +3918,23 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// \param transitionCoordinator The transition coordinator that is managing the transition.
 ///
 - (void)presentationController:(UIPresentationController * _Nonnull)presentationController willPresentWithAdaptiveStyle:(UIModalPresentationStyle)style transitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nullable)transitionCoordinator;
+@end
+
+enum JWVisibilityState : NSInteger;
+@class NSNumber;
+
+SWIFT_UNAVAILABLE
+@interface JWPlayerViewController (SWIFT_EXTENSION(JWPlayerKit))
+/// Sets the visibility of controls on the player’s interface.
+/// Use the <code>JWControlType</code> enum to initialize a <code>NSNumber</code> object with the desired control type.
+/// \code
+/// [controller setVisibility:FALSE forControls:@[@(JWControlTypePictureInPictureButton)]]
+///
+/// \endcode\param isVisible The desired visibility of each control that is provided.
+///
+/// \param controls The controls to set the visibility of.
+///
+- (void)setVisibility:(enum JWVisibilityState)visibility forControls:(NSArray<NSNumber *> * _Nonnull)controls;
 @end
 
 
@@ -4073,6 +4332,14 @@ SWIFT_CLASS("_TtC11JWPlayerKit20JWVideoSourceBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+/// Possible visibility states for UI elements.
+typedef SWIFT_ENUM(NSInteger, JWVisibilityState, open) {
+/// The element is completely hidden.
+  JWVisibilityStateHidden = 0,
+/// The element is completely visible.
+  JWVisibilityStateVisible = 1,
+};
+
 enum JWVisualQualityReason : NSInteger;
 enum JWVisualQualityMode : NSInteger;
 @class JWVisualQualityLevel;
@@ -4123,6 +4390,7 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
+
 
 
 
