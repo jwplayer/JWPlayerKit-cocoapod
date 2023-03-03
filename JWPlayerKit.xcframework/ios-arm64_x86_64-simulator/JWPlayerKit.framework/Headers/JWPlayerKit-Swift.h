@@ -2769,8 +2769,16 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// Stops the current content, and plays the previous video in the playlist.
 - (void)previous;
 /// Plays an ad immediately, which is primarily useful for situations where the built-in ad schedule of JW Player cannot be used.
-/// warning:
-/// If Google IMA DAI is specified as the client, a warning will be thrown.
+/// In order to utilize this method, you must supply an ad configuration to your <code>JWPlayerConfiguration</code>. This configuration can either be empty, or have a default ad tag.
+/// \code
+/// let vastConfig = try JWAdsAdvertisingConfigBuilder().build()
+///
+/// \endcodeor
+/// \code
+/// let imaConfig = try JWImaAdvertisingConfigBuilder().build()
+///
+/// \endcodewarning:
+/// This function is not avilable for the Google IMA DAI ad client.
 /// \param tag The VAST tag URL that should be loaded into the player.
 ///
 /// \param client The ad client to use. This feature is not supported by Google IMA DAI.
@@ -7205,8 +7213,16 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// Stops the current content, and plays the previous video in the playlist.
 - (void)previous;
 /// Plays an ad immediately, which is primarily useful for situations where the built-in ad schedule of JW Player cannot be used.
-/// warning:
-/// If Google IMA DAI is specified as the client, a warning will be thrown.
+/// In order to utilize this method, you must supply an ad configuration to your <code>JWPlayerConfiguration</code>. This configuration can either be empty, or have a default ad tag.
+/// \code
+/// let vastConfig = try JWAdsAdvertisingConfigBuilder().build()
+///
+/// \endcodeor
+/// \code
+/// let imaConfig = try JWImaAdvertisingConfigBuilder().build()
+///
+/// \endcodewarning:
+/// This function is not avilable for the Google IMA DAI ad client.
 /// \param tag The VAST tag URL that should be loaded into the player.
 ///
 /// \param client The ad client to use. This feature is not supported by Google IMA DAI.
