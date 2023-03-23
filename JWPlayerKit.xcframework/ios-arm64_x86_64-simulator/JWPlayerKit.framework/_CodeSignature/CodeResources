@@ -19,7 +19,7 @@
 		</dict>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		oU4WAjK5KMuf0V+FkvpFrgrYepA=
+		16ZZ09/45G8RonyUTdUImnHDBVo=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -79,7 +79,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ny6QjhrZKz/v2VV4sNIthAEju1U=
+		Q2gdbRUwhd9JXBxRByflnZBG54Q=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -111,7 +111,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		Si1/6BFAmMcGglhELc9QpcC5FF8=
+		diSpxuAxv4h8INDIvvdQb6VLvus=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -119,7 +119,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		gp20GNhOcfzMXNTkoc8Lp/28yos=
+		LEliII3PkZYFCwKqF1xPMwRS2ts=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
@@ -127,11 +127,11 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		KOKLb/B5Fl8Lb6bw4GjhnKVol9E=
+		mSrcPePhjuXwNf+taRQGXuNKAic=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		Si1/6BFAmMcGglhELc9QpcC5FF8=
+		diSpxuAxv4h8INDIvvdQb6VLvus=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -139,7 +139,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		i4GhfmksT1687l6NLnAJT5MXAp8=
+		sZG0JnXBvT9KclzXq6x/Ub5x3Tk=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
@@ -147,7 +147,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		8Ca4kz5+3lQz06ypqsHgVmO6jgg=
+		ww9aKOVP/aIqCHJF7MHrmuzLIXc=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -281,7 +281,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			zMLQ1sgrBcuOwTDF/7iCRGNwSxE=
+			n220nPHPH25iuNkhfUhHmkYbckI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -493,7 +493,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			PIiMiz5ZH6tOKa++2RsUjE9/N19QliwdJufn6+UbQ5I=
+			1mRgPoTmfMyRi02aHk4Y+eB8UH03QzVQT281oWJtNv0=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -647,7 +647,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ZrU5m2TNcqE/SifW+s+PXBp9KT0UBXNlZ152kBm1qxc=
+			Io7wbpj2ztPSUCXy2belEXRFkIbR2ugJUEYi1Gf8TY8=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
@@ -661,7 +661,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1nfmCRyUD05bMBTaaFfZzNijLE9oQmQPNGUPxIYAGmY=
+			GWyARtFmjpHcWek4Gu7a+/wAfOGQkZZlco+8ckc8a4E=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
@@ -675,14 +675,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			G1ONay0pmUZrAp1gCP2iVo+EimCWWcLREla2F1axD84=
+			buNbTBlJBU1DuqziFIBnGwAmOQCxPjBpRxQttUbevjU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ZrU5m2TNcqE/SifW+s+PXBp9KT0UBXNlZ152kBm1qxc=
+			Io7wbpj2ztPSUCXy2belEXRFkIbR2ugJUEYi1Gf8TY8=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
@@ -696,7 +696,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ickCfJV6LEHv7CmN2KLBVu200UFL0F4G4ulnchr9zTs=
+			JEZyK5frz+v4T2eaWaLkpi2R7IX6/eo7YKA6MMPT744=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
@@ -710,7 +710,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			tOSCK9KSlMnH51D+f9sRJKInYFIkHv5rgA2QxQkKEk4=
+			rQaLVN23Yvzx9VDA9PjqYLthQwytsBQD5AuT5t8GeQ8=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -914,7 +914,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			dO7kRL22nsJ1Kh/IP0d6APpJsulaIVxnEtLhTulkWbM=
+			MvE2VjTS9BPpSWnrD8THtNp1OVZgP+r8IG0TR5jnlnw=
 			</data>
 			<key>optional</key>
 			<true/>

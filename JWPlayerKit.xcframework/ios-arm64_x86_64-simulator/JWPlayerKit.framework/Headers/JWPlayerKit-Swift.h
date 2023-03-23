@@ -2785,6 +2785,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 ///
 - (void)playWithAd:(NSURL * _Nonnull)tag client:(enum JWAdClient)client;
 /// Skips the currently playing ad.
+/// note:
+/// If a skip offset is configured for the currently playing ad, calling <code>skipAd()</code> will have no effect unless the skip offset is reached.
 - (void)skipAd;
 /// Performs a clickthrough on the current advertisement using the default browser.
 /// note:
@@ -7229,6 +7231,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 ///
 - (void)playWithAd:(NSURL * _Nonnull)tag client:(enum JWAdClient)client;
 /// Skips the currently playing ad.
+/// note:
+/// If a skip offset is configured for the currently playing ad, calling <code>skipAd()</code> will have no effect unless the skip offset is reached.
 - (void)skipAd;
 /// Performs a clickthrough on the current advertisement using the default browser.
 /// note:
