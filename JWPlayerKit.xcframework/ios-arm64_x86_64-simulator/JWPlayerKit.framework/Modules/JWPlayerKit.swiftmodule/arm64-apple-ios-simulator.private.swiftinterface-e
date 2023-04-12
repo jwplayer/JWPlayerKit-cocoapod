@@ -1127,7 +1127,7 @@ public protocol JWBuilder {
     get
   }
   @objc public var font: UIKit.UIFont? {
-    get
+    @objc get
   }
   @objc public var edgeStyle: JWPlayerKit.JWCaptionEdgeStyle {
     get

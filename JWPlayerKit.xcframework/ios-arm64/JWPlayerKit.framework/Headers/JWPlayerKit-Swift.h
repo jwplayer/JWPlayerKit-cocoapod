@@ -3782,7 +3782,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic, readonly) BOOL handleCastingInternally;
 /// The JWPlayer interface, used to control playback and configure the player.
 @property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
-/// The desc the player is initialized with for the ad interface.
+/// The default ad interface style to use when presenting JWP VAST ads.
 @property (nonatomic, strong) JWAdInterfaceStyle * _Nonnull adInterfaceStyle;
 /// If true, the player will go full screen when rotated into landscape orientation. The default value is <code>true</code>.
 @property (nonatomic) BOOL forceFullScreenOnLandscape;
