@@ -6,20 +6,20 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		e+7tDd5CN6JcXm4GpmNzHON+2D8=
+		PypoyL6gsN3Cpy6ZtyvEYBW3VxU=
 		</data>
 		<key>English.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			77jGLkdX77QZYKZzJQU2nQyz9j4=
+			n220nPHPH25iuNkhfUhHmkYbckI=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		2eT1jm3sy7qMYI2BQXxUBfsz2Z8=
+		5Sn5g34SwGdbkBDeDRwKZNwLlTQ=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -79,7 +79,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ZlzqOIyXXhqyAm9E4rdNLT51mIY=
+		e1/iQHJ+QZQIm6WxK8RoREcE4WE=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -111,43 +111,43 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		0rnJiid7wT2OkSiuMJT6PqwGnik=
+		miU+8Y/NFdU0oZIx91IJp5Q6i08=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		gi7r2qX+NWzcHKy6j11u45Bja0Y=
+		mRdm8aHsWD3gSj0UrOaWPijvCF0=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		5ry+ngBRZNkFA9WMl3/z1x3VOUw=
+		BH0JqAPS5+QWvB7dOON2iI/OMvI=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		gi7r2qX+NWzcHKy6j11u45Bja0Y=
+		mRdm8aHsWD3gSj0UrOaWPijvCF0=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		dk28gg72UJ8kywvQfHyVd2asyAw=
+		Bd0J0OfVVjW1MskyXBSn+FD96Vw=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		0rnJiid7wT2OkSiuMJT6PqwGnik=
+		miU+8Y/NFdU0oZIx91IJp5Q6i08=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		Mepn/rb57T8F1RKDli1IPeZQrSI=
+		a65YOAx/SkWIq6weC+rNZRmVBCQ=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		5F5jRus3G2LpCpf5ML04+Kh1evE=
+		tii0AS7B4xYrxjp67rFfW7zW8IU=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		Mepn/rb57T8F1RKDli1IPeZQrSI=
+		a65YOAx/SkWIq6weC+rNZRmVBCQ=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		AysPvAYeXmxQJy+5G8Gpmzkalus=
+		NLg2HiLoRHwTQfQEKyzQNEev8Pc=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -217,9 +217,13 @@
 		<data>
 		jluV4l8+56ULbgTE5rHKYPTCCWk=
 		</data>
-		<key>XIBS/LiveInterface.nib</key>
+		<key>XIBS/LiveInterface.nib/objects-13.0+.nib</key>
 		<data>
-		LCz9hGDEag8ZCrHDk9WCXv2s5MI=
+		81wri26tlKlE1QwnFNvmnaa0tt4=
+		</data>
+		<key>XIBS/LiveInterface.nib/runtime.nib</key>
+		<data>
+		iweMjgWh2f9SxKMnenprMJnqd38=
 		</data>
 		<key>XIBS/LiveMediaInterface.nib</key>
 		<data>
@@ -477,14 +481,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			HF+0SFictinjSlskiUM2CUua2PcvwbOC5V80LcE8S9g=
+			bTuXmLaNlCIUVgjucGzTRLdWUvvHubs3sJ/HKL+/Ps0=
 			</data>
 		</dict>
 		<key>English.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			7gNGCzmAf4DvcTHcwsB0I+jzWR1uS3lO7R6r9I3zmKY=
+			MvE2VjTS9BPpSWnrD8THtNp1OVZgP+r8IG0TR5jnlnw=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -493,7 +497,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			juXEDkPR0kSvNowHLyPEA0fwwk1dp1xVI+25ZCWTe7s=
+			hz3RYlQ7BFl33hyarg9NN4xGu9EdERI2e+DtzUywLOI=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -647,70 +651,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			HqoLcD7/P2XUjDwFjpZ2+kfaVxvbfk+CUGbblJE8RnA=
+			GPT5zlbJMWXj/2kBhi4vPJ9yiMu0oMIz6PGWLUUAUHM=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			VZXGWsSS+V9QhJgDCT8kDT9XOZi49m0MQoE0W65t9QY=
+			jX1EpDXf9X78zWTUg0VVGqPBZ0aO21iX2pLZqnbkIBA=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Dibwxg6bARhZFktGzngMTrE+jGjgIcWXX1e9Y1xNWUc=
+			zaDCGPSeWcANQuiMJX4fRPQMP15vfmrvggfZbI6AbhU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			VZXGWsSS+V9QhJgDCT8kDT9XOZi49m0MQoE0W65t9QY=
+			jX1EpDXf9X78zWTUg0VVGqPBZ0aO21iX2pLZqnbkIBA=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JwfbX/GhedSAmxVpNp4b1GAinX38uXXvvaL7+S0EhP0=
+			1dZcKjpQZbrpnH77wTUgr/6vWXT2fOCN97qMQql5AVE=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HqoLcD7/P2XUjDwFjpZ2+kfaVxvbfk+CUGbblJE8RnA=
+			GPT5zlbJMWXj/2kBhi4vPJ9yiMu0oMIz6PGWLUUAUHM=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			97RYMtP+08ZNrWSvDx3irncxqApD7jR/6CsFJNam6gw=
+			bEqlFcrov2ENVz2chNXIo7mpLgzT2rBHsrSu2kNS1PY=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			KqXzpdTNj8A2NXIZ4PMWLtLqz+bKs7J3/SB1B0eze4g=
+			PM6QLyA+vyyfZ0rkkIImPh78ixBXhk7BRkXa3gs1jvg=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			97RYMtP+08ZNrWSvDx3irncxqApD7jR/6CsFJNam6gw=
+			bEqlFcrov2ENVz2chNXIo7mpLgzT2rBHsrSu2kNS1PY=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JVlj1u8mkgS4TxRUjbnVsnGigv2Y39Ys6ezFnxCatcQ=
+			kuBpX9Oeac1AlMJDK1YJlcdpRHgJn+o28cuxt90QU5g=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -832,11 +836,18 @@
 			fIKtTzavzGgtlm6r86XaDZ2OjKqDX3bdIvtVuxixVG4=
 			</data>
 		</dict>
-		<key>XIBS/LiveInterface.nib</key>
+		<key>XIBS/LiveInterface.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			WSCj2pFm4SfmBApbUJwgvXkxmX4L2zEOVSCNQ+Y69Sg=
+			0lK5w1mL7eYieR7q5rYu87V/LX5gkKCInAn6Zjj3Gp8=
+			</data>
+		</dict>
+		<key>XIBS/LiveInterface.nib/runtime.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+Bg4HoeYNkO8MGQizJsgcToGNa9VbfYZ1Un3+L7WNBE=
 			</data>
 		</dict>
 		<key>XIBS/LiveMediaInterface.nib</key>

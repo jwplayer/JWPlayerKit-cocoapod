@@ -72,6 +72,8 @@ import os
   @objc deinit
 }
 public let sdkVersion: Swift.String
+public typealias JSONObject = [Swift.String : Any]
+public typealias JSONArray = [Any]
 @objc public enum JWPlayerState : Swift.Int {
   case unknown
   case idle
@@ -970,7 +972,6 @@ extension JWPlayerKit.JWDRMContentLoader {
   @objc dynamic public func load(items: [JWPlayerKit.JWPlayerItem])
   @objc dynamic public func load(playlist url: Foundation.URL)
 }
-public typealias JSONPayload = [Swift.AnyHashable : Any]
 @_hasMissingDesignatedInitializers @objc public class JWAdOffset : ObjectiveC.NSObject {
   @objc public static func preroll() -> JWPlayerKit.JWAdOffset
   @objc public static func postroll() -> JWPlayerKit.JWAdOffset
@@ -1269,6 +1270,10 @@ public protocol JWBuilder {
   public func adTracker(_ tracker: JWPlayerKit.JWAdTrackerConfig) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
   public func externalPlaybackSettings(_ settings: JWPlayerKit.JWExternalPlaybackSettings) -> JWPlayerKit.JWPlayerConfigurationBuilder
+  @objc @discardableResult
+  public func configuration(json: JWPlayerKit.JSONObject) -> JWPlayerKit.JWPlayerConfigurationBuilder
+  @objc @discardableResult
+  public func configuration(data: Foundation.Data) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc override dynamic public init()
   @objc deinit
 }
