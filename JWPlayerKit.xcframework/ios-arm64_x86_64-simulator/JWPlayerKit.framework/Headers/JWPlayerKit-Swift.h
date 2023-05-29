@@ -3072,6 +3072,28 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// \param settings The settings object defining external playback behavior.
 ///
 - (JWPlayerConfigurationBuilder * _Nonnull)externalPlaybackSettings:(JWExternalPlaybackSettings * _Nonnull)settings;
+/// Allows a configuration to be created using a natively-defined JSONObject.
+/// warning:
+/// If this method is called, it will override any parameters set using other methods in this builder. Calling <code>configuration(json: Data)</code> will throw an error when <code>build()</code> is called.
+/// <ul>
+///   <li>
+///     returns The builder, so setters can be chained.
+///   </li>
+/// </ul>
+/// \param json The dictionary defining the configuration.
+///
+- (JWPlayerConfigurationBuilder * _Nonnull)configurationWithJson:(NSDictionary<NSString *, id> * _Nonnull)json;
+/// Allows a configuration to be created using a data blob containing JSON. If the supplied data cannot be converted into JSON, or the JSON in the data is not formatted correctly, the <code>build()</code> method will throw an error.
+/// warning:
+/// If this method is called, it will override any parameters set using other methods in this builder. Calling <code>configuration(json: JSONObject)</code> will throw an error when <code>build()</code> is called.
+/// <ul>
+///   <li>
+///     returns The builder, so setters can be chained.
+///   </li>
+/// </ul>
+/// \param data The JSON data defining the configuration.
+///
+- (JWPlayerConfigurationBuilder * _Nonnull)configurationWithData:(NSData * _Nonnull)data;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -3782,7 +3804,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic, readonly) BOOL handleCastingInternally;
 /// The JWPlayer interface, used to control playback and configure the player.
 @property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
-/// The desc the player is initialized with for the ad interface.
+/// The default ad interface style to use when presenting JWP VAST ads.
 @property (nonatomic, strong) JWAdInterfaceStyle * _Nonnull adInterfaceStyle;
 /// If true, the player will go full screen when rotated into landscape orientation. The default value is <code>true</code>.
 @property (nonatomic) BOOL forceFullScreenOnLandscape;
@@ -7518,6 +7540,28 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// \param settings The settings object defining external playback behavior.
 ///
 - (JWPlayerConfigurationBuilder * _Nonnull)externalPlaybackSettings:(JWExternalPlaybackSettings * _Nonnull)settings;
+/// Allows a configuration to be created using a natively-defined JSONObject.
+/// warning:
+/// If this method is called, it will override any parameters set using other methods in this builder. Calling <code>configuration(json: Data)</code> will throw an error when <code>build()</code> is called.
+/// <ul>
+///   <li>
+///     returns The builder, so setters can be chained.
+///   </li>
+/// </ul>
+/// \param json The dictionary defining the configuration.
+///
+- (JWPlayerConfigurationBuilder * _Nonnull)configurationWithJson:(NSDictionary<NSString *, id> * _Nonnull)json;
+/// Allows a configuration to be created using a data blob containing JSON. If the supplied data cannot be converted into JSON, or the JSON in the data is not formatted correctly, the <code>build()</code> method will throw an error.
+/// warning:
+/// If this method is called, it will override any parameters set using other methods in this builder. Calling <code>configuration(json: JSONObject)</code> will throw an error when <code>build()</code> is called.
+/// <ul>
+///   <li>
+///     returns The builder, so setters can be chained.
+///   </li>
+/// </ul>
+/// \param data The JSON data defining the configuration.
+///
+- (JWPlayerConfigurationBuilder * _Nonnull)configurationWithData:(NSData * _Nonnull)data;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -8228,7 +8272,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic, readonly) BOOL handleCastingInternally;
 /// The JWPlayer interface, used to control playback and configure the player.
 @property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
-/// The desc the player is initialized with for the ad interface.
+/// The default ad interface style to use when presenting JWP VAST ads.
 @property (nonatomic, strong) JWAdInterfaceStyle * _Nonnull adInterfaceStyle;
 /// If true, the player will go full screen when rotated into landscape orientation. The default value is <code>true</code>.
 @property (nonatomic) BOOL forceFullScreenOnLandscape;
