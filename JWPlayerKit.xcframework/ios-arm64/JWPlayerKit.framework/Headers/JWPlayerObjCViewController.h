@@ -30,15 +30,17 @@ JWExternalMetadataDelegate,
 JWProgramDateTimeMetadataDelegate,
 JWMediaMetadataDelegate,
 JWCastDelegate,
+JWChaptersDelegate,
+JWRelatedEventDelegate,
 JWTimeEventListener>
 
 /// The JWPlayer interface, used to control playback and configure the player.
-@property (nonatomic, readonly) id<JWPlayer> player;
+@property (nonatomic, readonly) id<JWPlayer> _Nonnull player;
 /// The view containing the player.
-@property (nonatomic, readonly) JWPlayerView *playerView;
+@property (nonatomic, readonly) JWPlayerView * _Nonnull playerView;
 
 /// The delegate to receive JWPlayerViewController events.
-@property (nonatomic, weak, readwrite) id<JWPlayerViewControllerDelegate> delegate;
+@property (nonatomic, weak, readwrite) id<JWPlayerViewControllerDelegate> _Nullable delegate;
 
 /// The behavior desired for the interface. The default value is JWInterfaceBehaviorNormal.
 @property (nonatomic, assign, readwrite) JWInterfaceBehavior interfaceBehavior;
@@ -50,23 +52,23 @@ JWTimeEventListener>
 @property (nonatomic, assign, readwrite) BOOL forceLandscapeOnFullScreen;
 
 /// The poster image to display when there is no Internet connection. By default, it displays the poster image of the current video.
-@property (nonatomic, retain, readwrite) UIImage *offlinePosterImage;
+@property (nonatomic, retain, readwrite) UIImage * _Nullable offlinePosterImage;
 
 /**
  The message that is displayed when the internet connection is lost.
  
  The default value is "This video cannot be played because of a problem with your internet connection." which corresponds to the localizable string [jwplayer_errors_bad_connection].
  */
-@property (nonatomic, retain, readwrite) NSString *offlineMessage;
+@property (nonatomic, retain, readwrite) NSString * _Nullable offlineMessage;
 
 /// The style used to customize the player.
-@property (nonatomic, retain, readwrite) JWPlayerSkin *styling;
+@property (nonatomic, retain, readwrite) JWPlayerSkin * _Nullable styling;
 
 /// The style defining the Next Up card and its behavior. The default value is nil (no card).
-@property (nonatomic, retain, readwrite) JWNextUpStyle *nextUpStyle;
+@property (nonatomic, retain, readwrite) JWNextUpStyle * _Nullable nextUpStyle;
 
 /// Sets a custom logo to display on the player.
-@property (nonatomic, retain, readwrite) JWLogo *logo;
+@property (nonatomic, retain, readwrite) JWLogo * _Nullable logo;
 
 /**
  The number of seconds to wait when fading the interface. The default value is 3 seconds.
@@ -82,10 +84,10 @@ JWTimeEventListener>
  @discussion
  This property is automatically sorted. If an empty array is specified, 1.0 becomes the only available option. Rates must be greater than 0 and less than or equal to 4.0. Invalid rates are removed from the array.
  */
-@property (nonatomic, assign) NSArray<NSNumber *> *playbackRates;
+@property (nonatomic, assign) NSArray<NSNumber *> * _Nonnull playbackRates;
 
 /// The desc the player is initialized with for the ad interface.
-@property (nonatomic, retain) JWAdInterfaceStyle *adInterfaceStyle;
+@property (nonatomic, retain) JWAdInterfaceStyle * _Nonnull adInterfaceStyle;
 
 /// It enables the lock screen controls to be synchronized with the player. The default is YES.
 @property (nonatomic, assign) BOOL enableLockScreenControls;
