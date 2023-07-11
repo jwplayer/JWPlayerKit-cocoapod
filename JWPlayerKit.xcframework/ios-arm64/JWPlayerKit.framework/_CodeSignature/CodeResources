@@ -34,7 +34,7 @@
 		</data>
 		<key>Headers/OMIDAdSessionContext.h</key>
 		<data>
-		vPfaxOGM4AI/6LWnPUJQx4vsBSQ=
+		P6ngszkNnp9YuujnYOYpfT6TQAk=
 		</data>
 		<key>Headers/OMIDFriendlyObstructionType.h</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Headers/OMIDSDK.h</key>
 		<data>
-		FzWRqk8V/iwYBdgpzD2imE1xiMk=
+		G3ZGnBM4JVbHTNLQt9v0gsyshjY=
 		</data>
 		<key>Headers/OMIDScriptInjector.h</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		33YBAkSbaKkyoI/dkGDIMtlevT8=
+		xe4Prt9D13kj7TLq3/14XjOKbcw=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		N4Cex3RcP6TtKm67DCSxiLUKWLM=
+		LKT5Q3tyWjEUY+9PAxxvpM/s5gQ=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
@@ -122,7 +122,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		1bewdGQ9ouuqFqasTnwBanO9PBM=
+		j1dDIUm//JlSG0pk74aCMjIg5k8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -146,11 +146,11 @@
 		</data>
 		<key>XIBS/ErrorInterface.nib</key>
 		<data>
-		LfOkl2Fy5N7ws7+h2t+WxmwLpxo=
+		EhO7eG8tLUTxkNhSDKfqWOTPRcU=
 		</data>
 		<key>XIBS/FloatingInterface.nib</key>
 		<data>
-		UPcyzB7Xj2rcQ51EQ/YjNLcKlLU=
+		XcIutjOmF56qxpxHXrf21SGv0lg=
 		</data>
 		<key>XIBS/Gallery.storyboardc/Info.plist</key>
 		<data>
@@ -210,11 +210,11 @@
 		</data>
 		<key>XIBS/NextUpCard.nib</key>
 		<data>
-		dgJl2vA+0kZI3rt3IlLL4zcoAjY=
+		UohDpOr2s/eslU7R/wXbvIGjq+g=
 		</data>
 		<key>XIBS/VoDInterface.nib</key>
 		<data>
-		IyYtN+dlpViuiNeoudZYr7dRVS8=
+		tAg8rVGBm4XFLnvfEDNSXtSwjFE=
 		</data>
 		<key>XIBS/VoDMediaInterface.nib</key>
 		<data>
@@ -260,7 +260,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Hx4XuyyRCBnKGWAXIt8tNWN6IMw=
+			1jsJDe6YfF9kAEOBcjaWS03gr+Y=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -366,7 +366,7 @@
 		</dict>
 		<key>omsdk-v1.js</key>
 		<data>
-		urCbE0LYn/0TBad5Cvw/KhQyivA=
+		gHGQFei4PigMPCDxMe1k+dLcbPA=
 		</data>
 		<key>pl.lproj/Localizable.strings</key>
 		<dict>
@@ -509,7 +509,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			rEIgPcVWFQwpWmbdIDbVU8Zuo8EET5TAF3XUq02+guA=
+			VI6LwSHe+ioOJQ8u7TnLx80xhTZB0RTRiYbZQ8tAsBg=
 			</data>
 		</dict>
 		<key>Headers/OMIDFriendlyObstructionType.h</key>
@@ -544,7 +544,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			VOQZam+ZkRNqWNgxBbHadRtndB8X0ig+KAd2eZ+oUS8=
+			tnbXOg4tS7+2vAqMPVLJq83Kg5XCLBa/ZJ9sYVDobR4=
 			</data>
 		</dict>
 		<key>Headers/OMIDScriptInjector.h</key>
@@ -628,7 +628,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/I1sLzUN1Ai1Fm97qopzhiGWWRsMHSqTMeFPwmYfZSI=
+			BfGceDQ/ihvbMI7+YUsrPKfxDDnAm6tJ+87KHEOowRc=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
@@ -656,7 +656,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ijyunl0LH+Uivg54PbOQ3L85nG3z6rCAejxfmb24TiY=
+			z6J8Gs09AXiymXd9ww1HVJqMwatuhh5WG/U0e0bfnYw=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -698,14 +698,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			EDdelWNQ4mBMZcVJIqb0csDlHRCW1YJamnt2R2OXUkM=
+			L5BPDn5ZO1KcSERgKi4pw0U2JTYFCTVxS4ODBgeMyXE=
 			</data>
 		</dict>
 		<key>XIBS/FloatingInterface.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			1GGuWZ8aKS3aXpXmHcnu1N9FOMMtfpRS2uS8Gwi4FxQ=
+			zOGj1mMz84egvXpIFBRr1YsM8t0kSLZVSN1nqMVQ6tY=
 			</data>
 		</dict>
 		<key>XIBS/Gallery.storyboardc/Info.plist</key>
@@ -810,14 +810,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			hMWcr4K4uJoUmjomQWGObsQrJuhy2WfU/bUK0arG+Jo=
+			/3fc49BLWWTx0X/Q3XqHWyY9x9MegsABrwyX6mL4kU0=
 			</data>
 		</dict>
 		<key>XIBS/VoDInterface.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lznCjPPNKQ/E/0/hF6i9/dEagdxGa3MlfDcFN9Rxj0Y=
+			nrfuwlI7MCb42oUSFv13fdjRb/7EXh+bHpMisRRJJkU=
 			</data>
 		</dict>
 		<key>XIBS/VoDMediaInterface.nib</key>
@@ -867,7 +867,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			TUeup4RRXN3rAlPmNcJh1fbmqJZy7dZa/UzzyT/6FVE=
+			zZporAYFTM17vFHIdEWVYm0qS/hIUTzzIDFan0XOupw=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -975,7 +975,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			VMPZuE+LRRWlGyfMyr2wPLNE39Q1ryStQortDbg9GXY=
+			n8WuqMyGPNYJumH+VtISaEBXQFrTsdDte7rIWtThJ/s=
 			</data>
 		</dict>
 		<key>pl.lproj/Localizable.strings</key>
