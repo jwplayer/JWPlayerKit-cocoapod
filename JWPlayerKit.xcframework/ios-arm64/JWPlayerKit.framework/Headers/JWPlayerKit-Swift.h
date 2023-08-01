@@ -661,6 +661,14 @@ typedef SWIFT_ENUM(NSInteger, JWAdEventKey, open) {
 /// note:
 /// When used in conjunction with <code>JWAdEvent</code>, the value is returned as an <code>Int</code>.
   JWAdEventKeyViewable = 25,
+/// The raw VAST XML string.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>String</code>. Only available for JWPlayer Ads.
+  JWAdEventKeyXml = 26,
+/// Time the ad took to load in milliseconds.
+/// note:
+/// When used in conjunction with <code>JWAdEvent</code>, the value is returned as a <code>Double</code>. Only available for JWPlayer Ads.
+  JWAdEventKeyTimeLoading = 27,
 };
 
 /// Constants denoting a type of ad event.
@@ -691,6 +699,15 @@ typedef SWIFT_ENUM(NSInteger, JWAdEventType, open) {
   JWAdEventTypeStarted = 11,
 /// This event relays information about ad companions.
   JWAdEventTypeCompanion = 12,
+/// This event fires when the VAST ad client loads an ad tag.
+/// The payload contains the <code>JWAdEventKey.xml</code> key that exposes the XML downloaded from the tag.
+/// note:
+/// Only available for JWPlayer Ads.
+  JWAdEventTypeLoadedXML = 13,
+/// This event is reported when the VAST XML has been parsed, loaded, and is ready for display.
+/// note:
+/// Only available for JWPlayer Ads.
+  JWAdEventTypeLoaded = 14,
 };
 
 enum JWAdPosition : NSInteger;
@@ -1618,7 +1635,16 @@ SWIFT_CLASS("_TtC11JWPlayerKit5JWCue")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 - (NSDictionary<NSString *, id> * _Nonnull)toJSONObject SWIFT_WARN_UNUSED_RESULT;
-/// Calling this method converts the <code>JSONObject</code> into a <code>JWCue</code>.
+/// Calling this method converts a <code>JSONObject</code> into a <code>JWCue</code>.
+/// The <code>JSONObject</code> is expected to have the following values. If required properties are not found within the <code>JSONObject</code>, this method return <code>nil</code>.
+/// <em>“begin” [Double or String] (required)</em>
+/// If this is a <code>Double</code>, it represents a number of seconds from the beginning of the content, otherwise if it is a <code>String</code>, it represents a position defined by a pecentage of the duration, and is of the format <code>"{percent}%"</code>.
+/// <em>“cueType” [String] (optional)</em>
+/// Valid values are <code>"chapters"</code> and <code>"ads"</code>.
+/// <em>“end” [Double or String] (optional)</em>
+/// If this is a <code>Double</code>, it represents a number of seconds from the beginning of the content, otherwise if it is a <code>String</code>, it represents a position defined by a pecentage of the duration, and is of the format <code>"{percent}%"</code>.
+/// <em>“text” [String] (required)</em>
+/// The text for the queue.
 ///
 /// returns:
 /// A <code>JWCue</code> object, or <code>nil</code> if it does not succeed.
@@ -1626,29 +1652,33 @@ SWIFT_CLASS("_TtC11JWPlayerKit5JWCue")
 @end
 
 
-/// A JWCueTime can represent any accepted format of time in a cue.
+/// This object represents a position in the media where a cue begins or ends.
+/// Cue times can be represented in one of two ways. First, the time can be represented a number of seconds into the media.
+/// Second, it can be expressed as a percentage. The percentage is calculated based on the duration of the content.
 SWIFT_CLASS("_TtC11JWPlayerKit9JWCueTime")
 @interface JWCueTime : NSObject
-/// Number of seconds from the beginning of the content.
+/// The number of seconds into the content.
+/// This will only return a valid value if this object was initialized with a number of seconds. If this object was initialized with a percentage, this property will return <code>Double.nan</code>.
 @property (nonatomic, readonly) NSTimeInterval seconds;
-/// The point at which the cue exists within the video, expressed as a percentage from 0 - 100.
+/// The point at which the cue exists within the video, expressed as a percentage of the duration from 0 - 100.
+/// This will only return a valid value if this object was initialized with a percentage of the duration. If this object was initialized with a number of seconds, this property will return <code>Double.nan</code>.
 @property (nonatomic, readonly) double percentage;
-/// Initialize a JWCueTime with a TimeInterval value.
+/// Initialize with a <code>TimeInterval</code> value.
 /// note:
-/// This initializer will fail if value is not a positive number, and doing so will return nil.
+/// This initializer will fail if the value is not a positive number, or a non-real number. Doing so will return <code>nil</code>.
 /// \param seconds Number of seconds from the beginning of the content.
 ///
 - (nullable instancetype)initWithSeconds:(NSTimeInterval)seconds OBJC_DESIGNATED_INITIALIZER;
-/// Initialize a JWCueTime with a Double value.
+/// Initialize a with a <code>Double</code> value representation of a percentage.
 /// note:
-/// This initializer will fail if the parameter value is not in range of 0 - 100, and doing so will return nil.
+/// This initializer will fail if the parameter value is not in range of 0 - 100. If an invalid value is supplied, this initializer will return <code>nil</code>.
 /// \param percentage The point at which the cue exists within the media, expressed as a percentage from 0 - 100 relative to the duration of the content.
 ///
 - (nullable instancetype)initWithPercentage:(double)percentage OBJC_DESIGNATED_INITIALIZER;
-/// Initialize a JWCueTime with a String value representation of percentage.
+/// Initialize a with a <code>String</code> value representation of a percentage.
 /// note:
-/// This initializer can fail, and doing so will return nil.
-/// \param percentageString The point at which the cue exists within the video, expressed as a percentage from 0 - 100. With the format “{percent}%”.
+/// This initializer can fail if the string is invalid or in an unexpected format. In these cases, it will return <code>nil</code>.
+/// \param percentageString The point at which the cue exists within the video, expressed as a percentage from 0 - 100, in the format “{percent}%”.
 ///
 - (nullable instancetype)initWithPercentageString:(NSString * _Nonnull)percentageString OBJC_DESIGNATED_INITIALIZER;
 /// Initializes and returns a JWCueTime with the provided seconds. This is used as a shorthand initializer when type context is provided.
@@ -3178,6 +3208,19 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// \param settings The settings object defining external playback behavior.
 ///
 - (JWPlayerConfigurationBuilder * _Nonnull)externalPlaybackSettings:(JWExternalPlaybackSettings * _Nonnull)settings;
+/// Sets the player’s “Dashboard Player Configuration Key” (<code>pid</code>) used by JWDashboard analytics.
+/// warning:
+/// Must be an 8-char alphanumeric, otherwise calling <code>build()</code> will throw a warning.
+/// precondition:
+/// The playerID must already exist in the JW Dashboard property associated with the
+/// License Key, or else it will be ignored by the analytics platform.
+/// note:
+/// Not to be confused with the JS player’s <code>id</code> property, which is a reference used to tag the actual
+/// element/object (such as the <code>div</code> in a web browser context).
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerConfigurationBuilder * _Nonnull)playerId:(NSString * _Nonnull)playerId;
 /// Allows a configuration to be created using a natively-defined JSONObject.
 /// warning:
 /// If this method is called, it will override any parameters set using other methods in this builder. Calling <code>configuration(json: Data)</code> will throw an error when <code>build()</code> is called.
@@ -3802,7 +3845,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 /// The delegate which will receive events related to the JWPlayerView.
 @property (nonatomic, weak) id <JWPlayerViewDelegate> _Nullable delegate;
 @property (nonatomic) BOOL allowsPictureInPicturePlayback;
-/// The currently defined style for captions. If nil, it reverts to default settings as specified within the SDK or the user’s accessibility settings.
+/// This is the currently utilized caption style for side-loaded captions.
+/// What is set here is not necessarily what will be used. If a caption style is designated in a JSON configuration, the style in JSON will take priority. Furthermore, if the user’s accessibility settings do not allow specific settings to be overridden by the video, the user’s settings will take priority.
 @property (nonatomic, strong) JWCaptionStyle * _Nullable captionStyle;
 /// The amount of spaced to inset the captions from the edges of the player. The default value is 0.
 @property (nonatomic) UIEdgeInsets captionInsets;
@@ -4583,6 +4627,7 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
+
 
 
 

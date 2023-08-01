@@ -685,6 +685,9 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.CustomStringConvertible {
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class JWPlayerConfiguration : ObjectiveC.NSObject {
   public var externalPlaybackSettings: JWPlayerKit.JWExternalPlaybackSettings?
+  public var playerId: Swift.String? {
+    get
+  }
   @objc deinit
 }
 @objc public enum JWPreload : Swift.Int, Swift.CustomStringConvertible {
@@ -1180,7 +1183,7 @@ public protocol JWBuilder {
     get
   }
   @objc public var font: UIKit.UIFont? {
-    @objc get
+    get
   }
   @objc public var edgeStyle: JWPlayerKit.JWCaptionEdgeStyle {
     get
@@ -1330,6 +1333,8 @@ public protocol JWBuilder {
   public func adTracker(_ tracker: JWPlayerKit.JWAdTrackerConfig) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
   public func externalPlaybackSettings(_ settings: JWPlayerKit.JWExternalPlaybackSettings) -> JWPlayerKit.JWPlayerConfigurationBuilder
+  @objc @discardableResult
+  public func playerId(_ playerId: Swift.String) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
   public func configuration(json: JWPlayerKit.JSONObject) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
@@ -1598,6 +1603,8 @@ extension UIKit.UIStackView {
   case skipped
   case started
   case companion
+  case loadedXML
+  case loaded
   public init?(rawValue: Swift.Int)
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
@@ -1631,6 +1638,8 @@ extension UIKit.UIStackView {
   case tag
   case type
   case viewable
+  case xml
+  case timeLoading
   public var description: Swift.String {
     get
   }
