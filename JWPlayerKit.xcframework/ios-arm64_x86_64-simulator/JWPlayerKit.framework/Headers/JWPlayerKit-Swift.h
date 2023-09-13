@@ -1847,8 +1847,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWDRMContentLoader")
 /// \param items An array of items to load.
 ///
 - (void)loadWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
-/// Loads content from a JW Player Dashboard playlist URL.
-/// \param url The URL designating the playlist. This URL must be to a playlist defined in the JW Player dashboard or a signed URL for a playlist.
+/// Loads content from a JW Platform playlist URL.
+/// note:
+/// Only default the JSON format is supported.
+/// \param url The URL designating the playlist. This URL must point to a playlist delivered by the JW Platform Delivery API (signed or unsigned).
 ///
 - (void)loadWithPlaylist:(NSURL * _Nonnull)url;
 @end
@@ -2931,14 +2933,16 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 ///
 - (void)playWithRelatedContent:(NSInteger)index;
 /// Sets the new playlist to the player using its URL.
-/// \param url The URL of the playlist for the player to load.
+/// \param url A <code>URL</code> pointing to a playlist object delivered by the <a href="https://docs.jwplayer.com/platform/reference/get_v2-playlists-playlist-id">JW Platform Delivery API</a>
+/// (signed or unsigned). The requested format should be ‘JSON’ or none — MRSS and XML formats are not supported
+/// by the iOS SDK.
 ///
 - (void)loadPlaylistWithUrl:(NSURL * _Nonnull)url;
-/// Sets the new playlist to the player
+/// Sets the new playlist to the player.
 /// \param playlist List of content to be played.
 ///
 - (void)loadPlaylistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
-/// Sets the new playlist to the player
+/// Sets the new playlist to the player.
 /// \param playlist List of content to be played.
 ///
 - (void)loadPlaylist:(NSArray<JWPlayerItem *> * _Nonnull)playlist SWIFT_DEPRECATED_MSG("", "playlist(items:)");
@@ -4507,6 +4511,7 @@ typedef SWIFT_ENUM(NSInteger, JWVideoGravity, open) {
 /// The player should preserve the video’s aspect ratio and fit the video within the view’s bounds.
   JWVideoGravityResizeAspect = 0,
 /// The player should preserve the video’s aspect ratio and fill the view’s bounds.
+/// This gravity value may crop the video image along its horizontal or vertical dimension.
   JWVideoGravityResizeAspectFill = 1,
 /// The video should be stretched to fill the view’s bounds.
   JWVideoGravityResize = 2,
@@ -6521,8 +6526,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWDRMContentLoader")
 /// \param items An array of items to load.
 ///
 - (void)loadWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
-/// Loads content from a JW Player Dashboard playlist URL.
-/// \param url The URL designating the playlist. This URL must be to a playlist defined in the JW Player dashboard or a signed URL for a playlist.
+/// Loads content from a JW Platform playlist URL.
+/// note:
+/// Only default the JSON format is supported.
+/// \param url The URL designating the playlist. This URL must point to a playlist delivered by the JW Platform Delivery API (signed or unsigned).
 ///
 - (void)loadWithPlaylist:(NSURL * _Nonnull)url;
 @end
@@ -7605,14 +7612,16 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 ///
 - (void)playWithRelatedContent:(NSInteger)index;
 /// Sets the new playlist to the player using its URL.
-/// \param url The URL of the playlist for the player to load.
+/// \param url A <code>URL</code> pointing to a playlist object delivered by the <a href="https://docs.jwplayer.com/platform/reference/get_v2-playlists-playlist-id">JW Platform Delivery API</a>
+/// (signed or unsigned). The requested format should be ‘JSON’ or none — MRSS and XML formats are not supported
+/// by the iOS SDK.
 ///
 - (void)loadPlaylistWithUrl:(NSURL * _Nonnull)url;
-/// Sets the new playlist to the player
+/// Sets the new playlist to the player.
 /// \param playlist List of content to be played.
 ///
 - (void)loadPlaylistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
-/// Sets the new playlist to the player
+/// Sets the new playlist to the player.
 /// \param playlist List of content to be played.
 ///
 - (void)loadPlaylist:(NSArray<JWPlayerItem *> * _Nonnull)playlist SWIFT_DEPRECATED_MSG("", "playlist(items:)");
@@ -9181,6 +9190,7 @@ typedef SWIFT_ENUM(NSInteger, JWVideoGravity, open) {
 /// The player should preserve the video’s aspect ratio and fit the video within the view’s bounds.
   JWVideoGravityResizeAspect = 0,
 /// The player should preserve the video’s aspect ratio and fill the view’s bounds.
+/// This gravity value may crop the video image along its horizontal or vertical dimension.
   JWVideoGravityResizeAspectFill = 1,
 /// The video should be stretched to fill the view’s bounds.
   JWVideoGravityResize = 2,

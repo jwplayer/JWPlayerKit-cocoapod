@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		/UBGGEoOFwcn1DqPCoLO/Aj6/Kg=
+		PTU3fDN7NGizNabPA5XvuiaWgjk=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		5HoUxal0hx2uBsadig3zqSDnvSM=
+		GPhdbQEjVtzyQrYkLAGUA/5qYMQ=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		VjBqan6ZawzRykpZgEj9nPmQffI=
+		BLkn6G4EsHvqLLxVSPNZpJs3rbI=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
@@ -114,7 +114,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		HSzPrGKwfyVEtz0IUnKtmXFcXq8=
+		VgfTvee5G7GmpQcnBa7xWhobAhw=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
@@ -122,7 +122,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		wj67Cg0kq1WdtYcVwn6pqW4P7hU=
+		uD6ILyPDBCiiPGtn1s7mv6bE6D8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -467,7 +467,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			heWwUFRmGbLuQHb4AP4sPo/swQdboaan4Vj3iGdqBl8=
+			DZ1+hMsEQNPxmW0qK8wnLLitV3i5UwOXXITz0EZSCPc=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -628,7 +628,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9RDx7iJ2KeFnAfj7ILvPEVPerlm1FxFJqjcahNZfXa8=
+			VCegooGS7bN4A8lHwDAWQ2ncC2kbRCkhNHv6qlH6Q6s=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
@@ -642,7 +642,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wZAIGTKc/pMq3UPcQm2xC0LM4ttQJv4/4TEHUrnp9lQ=
+			f5hgiL0vMp49jTeMclnZtCFMeMSPOXS+xSVPLCWC7TM=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
@@ -656,7 +656,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			YAcFFmaph0HU4pJ9E8X/ADtsenuw09RdW7eLrYMtMuU=
+			bjq8rZ+rqk2KJ7XBHIpkrLyHXrg/WA05QyTshBhg5GE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
