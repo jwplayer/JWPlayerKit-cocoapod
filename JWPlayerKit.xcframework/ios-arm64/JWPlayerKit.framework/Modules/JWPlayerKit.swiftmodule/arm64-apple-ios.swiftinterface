@@ -207,7 +207,7 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.CustomStringConvertible {
   }
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWAdBreak : ObjectiveC.NSObject {
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWAdBreak : ObjectiveC.NSObject, JWPlayerKit.JWJSONEncodable {
   @objc public var tags: [Foundation.URL] {
     get
   }
@@ -221,16 +221,22 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.CustomStringConvertible {
     get
   }
   @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public func copy() -> Any
+  @objc public func toJSONObject() -> JWPlayerKit.JSONObject
+  @objc public static func from(json: JWPlayerKit.JSONObject) -> Swift.AnyObject?
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWAdBreakBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
   public typealias Output = JWPlayerKit.JWAdBreak
+  @objc override dynamic public init()
+  @objc public init(from adBreak: JWPlayerKit.JWAdBreak? = nil)
   @objc public func build() throws -> JWPlayerKit.JWAdBreak
   @objc @discardableResult
   public func tags(_ tags: [Foundation.URL]) -> JWPlayerKit.JWAdBreakBuilder
   @objc @discardableResult
   public func offset(_ offset: JWPlayerKit.JWAdOffset) -> JWPlayerKit.JWAdBreakBuilder
-  @objc override dynamic public init()
+  @objc @discardableResult
+  public func skipOffset(_ offset: Foundation.TimeInterval) -> JWPlayerKit.JWAdBreakBuilder
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWMediaMetadata : ObjectiveC.NSObject {
@@ -371,6 +377,7 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.CustomStringConvertible {
   @objc public var thumbnailTrack: JWPlayerKit.JWMediaTrack? {
     @objc get
   }
+  @objc override dynamic public func copy() -> Any
   @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
   @objc public func toJSONObject() -> JWPlayerKit.JSONObject
   @objc public static func from(json: JWPlayerKit.JSONObject) -> Swift.AnyObject?
@@ -378,6 +385,8 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.CustomStringConvertible {
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWPlayerItemBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
   public typealias Output = JWPlayerKit.JWPlayerItem
+  @objc override dynamic public init()
+  @objc public init(from playerItem: JWPlayerKit.JWPlayerItem? = nil)
   @objc public func build() throws -> JWPlayerKit.JWPlayerItem
   @objc @discardableResult
   public func file(_ file: Foundation.URL) -> JWPlayerKit.JWPlayerItemBuilder
@@ -403,14 +412,13 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.CustomStringConvertible {
   @objc @discardableResult
   public func adSchedule(vmapURL: Foundation.URL) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
-  public func adSchedule(breaks: [JWPlayerKit.JWAdBreak]) -> JWPlayerKit.JWPlayerItemBuilder
+  public func adSchedule(breaks: [JWPlayerKit.JWAdBreak]?) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
   public func assetOptions(_ assetOptions: [Swift.String : Any]) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
   public func googleDAIStream(_ googleDAIStream: JWPlayerKit.JWGoogleDAIStream) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
   public func externalMetadata(_ externalMetadata: [JWPlayerKit.JWExternalMetadata]) -> JWPlayerKit.JWPlayerItemBuilder
-  @objc override dynamic public init()
   @objc deinit
 }
 @objc public enum JWFriendlyObstructionPurpose : Swift.Int {
@@ -1243,6 +1251,8 @@ public protocol JWBuilder {
   @objc override dynamic public init()
   @objc deinit
 }
+public typealias JWPlayerItemCompletion = (JWPlayerKit.JWPlayerItem?) -> ()
+public typealias JWPlayerPlaylistItemCallback = (_ item: JWPlayerKit.JWPlayerItem, _ index: Swift.Int, _ completion: (JWPlayerKit.JWPlayerItem?) -> ()) -> Swift.Void
 @objc public protocol JWPlayerDelegate {
   @objc func jwplayerIsReady(_ player: any JWPlayerKit.JWPlayer)
   @objc func jwplayer(_ player: any JWPlayerKit.JWPlayer, failedWithError code: Swift.UInt, message: Swift.String)
@@ -1269,6 +1279,8 @@ public protocol JWBuilder {
   @objc func openAdClickthrough()
   @objc func getState() -> JWPlayerKit.JWPlayerState
   @objc func play(relatedContent index: Swift.Int)
+  @objc func setPlaylistItemCallback(_ callback: @escaping JWPlayerKit.JWPlayerPlaylistItemCallback)
+  @objc func removePlaylistItemCallback()
   @objc func loadPlaylist(url: Foundation.URL)
   @objc func loadPlaylist(items: [JWPlayerKit.JWPlayerItem])
   @objc @available(*, deprecated, renamed: "playlist(items:)")
@@ -1286,6 +1298,7 @@ public protocol JWBuilder {
   @objc var currentAudioTrack: Swift.Int { get set }
   @objc var audioTracks: [JWPlayerKit.JWMediaSelectionOption] { get }
   @objc var currentVisualQuality: Swift.Int { get set }
+  @objc var nextUpPlaylistIndex: Swift.Int { get set }
   @objc var visualQualityLevels: [JWPlayerKit.JWVideoSource] { get }
   @objc var visualQuality: JWPlayerKit.JWVisualQuality? { get }
   @objc var contentKeyDataSource: (any JWPlayerKit.JWDRMContentKeyDataSource)? { get set }

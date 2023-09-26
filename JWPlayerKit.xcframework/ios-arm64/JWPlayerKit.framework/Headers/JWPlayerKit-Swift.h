@@ -410,13 +410,29 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit27JWAccessLogMetadataDelegate_")
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didReceiveAccessLogMetadata:(JWAccessLogMetadata * _Nonnull)metadata;
 @end
 
+
+/// Objects which need the ability to be converted into JSON conform to this protocol.
+SWIFT_PROTOCOL("_TtP11JWPlayerKit15JWJSONEncodable_")
+@protocol JWJSONEncodable
+/// Calling this method converts the object into a <code>JSONObject</code>.
+///
+/// returns:
+/// A <code>JSONObject</code> representing this object.
+- (NSDictionary<NSString *, id> * _Nonnull)toJSONObject SWIFT_WARN_UNUSED_RESULT;
+/// Calling this method converts the <code>JSONObject</code> into an object.
+///
+/// returns:
+/// An object, or <code>nil</code> if it does not succeed.
++ (id _Nullable)fromJson:(NSDictionary<NSString *, id> * _Nonnull)json SWIFT_WARN_UNUSED_RESULT;
+@end
+
 @class NSURL;
 @class JWAdOffset;
 enum JWAdType : NSInteger;
 
 /// A location or point in time where one or more ads may be scheduled for delivery.
 SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
-@interface JWAdBreak : NSObject
+@interface JWAdBreak : NSObject <JWJSONEncodable>
 /// Contains the VAST ad assembled urls used by our player to retrieve ads.
 /// note:
 /// If you are calling this from Objective-C, use <code>tagArray</code> instead.
@@ -451,12 +467,27 @@ SWIFT_CLASS("_TtC11JWPlayerKit9JWAdBreak")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 /// Overridden to provide more accurate value comparisons.
 - (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
+- (id _Nonnull)copy SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)toJSONObject SWIFT_WARN_UNUSED_RESULT;
++ (id _Nullable)fromJson:(NSDictionary<NSString *, id> * _Nonnull)json SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
 /// The builder for JWAdBreak.
 SWIFT_CLASS("_TtC11JWPlayerKit16JWAdBreakBuilder")
 @interface JWAdBreakBuilder : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+/// Returns a new <code>JWAdBreakBuilder</code> instance with initial values equal to an existing ad break object.
+/// These values can still be subsequently assigned. For example, to have a copy of a preroll in the postroll slot, retaining ad tag url etc.:
+/// \code
+/// // myPreroll is a JWAdBreak
+/// let myPostroll = try! JWAdBreakBuilder(from: myPreroll)
+///     .offset(.postroll())
+///     .build()
+///
+/// \endcode\param adBreak The <code>JWAdBreak</code> object from which the builder will copy values.
+///
+- (nonnull instancetype)initFrom:(JWAdBreak * _Nullable)adBreak OBJC_DESIGNATED_INITIALIZER;
 /// Builds an ad break based off the settings provided.
 /// <ul>
 ///   <li>
@@ -481,7 +512,14 @@ SWIFT_CLASS("_TtC11JWPlayerKit16JWAdBreakBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWAdBreakBuilder * _Nonnull)offset:(JWAdOffset * _Nonnull)offset;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+/// Sets the number of seconds to wait before enabling the skip button.
+/// The value set here will take priority over any value set in <code>JWAdvertisingConfig</code>, in the VAST XML, or in <code>JWAdInterfaceStyle</code>.
+/// \param offset The number of seconds to wait before enabling the skip ad button.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWAdBreakBuilder * _Nonnull)skipOffset:(NSTimeInterval)offset;
 @end
 
 /// Constants representing supported ad clients.
@@ -1602,22 +1640,6 @@ typedef SWIFT_ENUM(NSInteger, JWControlType, open) {
 /// Button to enter and exit fullscreen mode
   JWControlTypeFullscreenButton = 9,
 };
-
-
-/// Objects which need the ability to be converted into JSON conform to this protocol.
-SWIFT_PROTOCOL("_TtP11JWPlayerKit15JWJSONEncodable_")
-@protocol JWJSONEncodable
-/// Calling this method converts the object into a <code>JSONObject</code>.
-///
-/// returns:
-/// A <code>JSONObject</code> representing this object.
-- (NSDictionary<NSString *, id> * _Nonnull)toJSONObject SWIFT_WARN_UNUSED_RESULT;
-/// Calling this method converts the <code>JSONObject</code> into an object.
-///
-/// returns:
-/// An object, or <code>nil</code> if it does not succeed.
-+ (id _Nullable)fromJson:(NSDictionary<NSString *, id> * _Nonnull)json SWIFT_WARN_UNUSED_RESULT;
-@end
 
 @class JWCueTime;
 
@@ -2932,6 +2954,16 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// \param index The index of the desired related content.
 ///
 - (void)playWithRelatedContent:(NSInteger)index;
+/// Sets a blocking callback to run before loading the next item in a playlist.
+/// note:
+/// Assigning a callback to this property overwrites any previously assigned callback.
+/// warning:
+/// This is a blocking callback, so failure to provide a response to the completion handler will result in unpredictable behavior. Make sure all logical paths do so.
+/// \param callback A <code>JWPlayerPlaylistItemCallback</code> closure used to notify about the next item in a playlist.
+///
+- (void)setPlaylistItemCallback:(void (^ _Nonnull)(JWPlayerItem * _Nonnull, NSInteger, SWIFT_NOESCAPE void (^ _Nonnull)(JWPlayerItem * _Nullable)))callback;
+/// Removes the playlistItem callback (by deregistering the observer).
+- (void)removePlaylistItemCallback;
 /// Sets the new playlist to the player using its URL.
 /// \param url A <code>URL</code> pointing to a playlist object delivered by the <a href="https://docs.jwplayer.com/platform/reference/get_v2-playlists-playlist-id">JW Platform Delivery API</a>
 /// (signed or unsigned). The requested format should be ‘JSON’ or none — MRSS and XML formats are not supported
@@ -3018,6 +3050,12 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 @property (nonatomic, readonly, copy) NSArray<JWMediaSelectionOption *> * _Nonnull audioTracks;
 /// The current visual quality, expressed as an index into the visual quality levels array.
 @property (nonatomic) NSInteger currentVisualQuality;
+/// The index of the playlist item to be played next.
+/// note:
+/// This property only works for regular playlists.
+/// warning:
+/// Using this API for recommendations will result in unpredictable behavior.
+@property (nonatomic) NSInteger nextUpPlaylistIndex;
 /// Returns an array of the playable visual quality levels of the current asset in the player.
 @property (nonatomic, readonly, copy) NSArray<JWVideoSource *> * _Nonnull visualQualityLevels;
 /// The current visual quality source.
@@ -3359,6 +3397,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+- (id _Nonnull)copy SWIFT_WARN_UNUSED_RESULT;
 /// Overridden to check quickly and accurately if two player items are the same.
 - (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 - (NSDictionary<NSString *, id> * _Nonnull)toJSONObject SWIFT_WARN_UNUSED_RESULT;
@@ -3373,6 +3412,17 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// The builder for JWPlayerItem, ensuring it is built correctly.
 SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 @interface JWPlayerItemBuilder : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+/// Returns a <code>JWPlayerItemBuilder</code> instance with initial values equal to an existing player item object if provided.
+/// These values can still be subsequently assigned. For example, to change the file URL, retaining all the previous player item values:
+/// \code
+/// let breakingNewsVideo = try! JWPlayerItemBuilder(from: currentVideo)
+///     .file(breakingNewsVideoURL)
+///     .build()
+///
+/// \endcode\param playerItem The <code>JWPlayerItem</code> object from which the builder will copy values.
+///
+- (nonnull instancetype)initFrom:(JWPlayerItem * _Nullable)playerItem OBJC_DESIGNATED_INITIALIZER;
 /// Builds a JWPlayerItem modeled after the specified parameters.
 ///
 /// throws:
@@ -3469,7 +3519,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWPlayerItemBuilder * _Nonnull)adScheduleWithBreaks:(NSArray<JWAdBreak *> * _Nonnull)breaks;
+- (JWPlayerItemBuilder * _Nonnull)adScheduleWithBreaks:(NSArray<JWAdBreak *> * _Nullable)breaks;
 /// Sets URL asset .
 /// note:
 /// To see available options, refer to <a href="https://developer.apple.com/documentation/avfoundation/avurlasset/initialization_options">Initialization Options</a>
@@ -3497,7 +3547,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)externalMetadata:(NSArray<JWExternalMetadata *> * _Nonnull)externalMetadata;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
