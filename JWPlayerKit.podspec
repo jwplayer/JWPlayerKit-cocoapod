@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
 
   s.authors      = { "JW Player" => "support@jwplayer.com" }
 
-  s.platform     = :ios, "12.0"
+  s.platform     = :ios, "14.0"
   s.documentation_url = "https://developer.jwplayer.com/sdk/ios/docs/developer-guide/"
   s.source       = { :git => "https://github.com/jwplayer/JWPlayerKit-cocoapod.git", :tag => s.version.to_s }
 
