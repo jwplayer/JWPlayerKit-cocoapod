@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.8 (swiftlang-5.8.0.124.2 clang-1403.0.22.11.100)
-// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name JWPlayerKit
+// swift-module-flags: -target x86_64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name JWPlayerKit
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import AVFAudio
 import AVFoundation
@@ -211,10 +211,10 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.CustomStringConvertible {
   @objc public var tags: [Foundation.URL] {
     get
   }
-  public var skipOffset: Foundation.TimeInterval? {
+  @objc public var offset: JWPlayerKit.JWAdOffset {
     get
   }
-  @objc public var offset: JWPlayerKit.JWAdOffset {
+  public var skipOffset: Foundation.TimeInterval? {
     get
   }
   @objc public var type: JWPlayerKit.JWAdType {
@@ -902,7 +902,8 @@ extension JWPlayerKit.JWRelatedInteraction : Swift.CustomStringConvertible {
   @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
   @objc override dynamic open func viewDidLoad()
   @objc override dynamic open func didMove(toParent parent: UIKit.UIViewController?)
-  @objc public static func registerController()
+  @objc @available(iOS, deprecated: 13.0, message: "No longer needed as SDK 4.17.0+ does not support iOS versions requiring this API.")
+  public static func registerController()
   public func setVisibility(_ visibility: JWPlayerKit.JWVisibilityState, for controls: [JWPlayerKit.JWControlType])
   @objc override dynamic open func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
   @objc public func transitionToFullScreen(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
@@ -1276,6 +1277,7 @@ public typealias JWPlayerPlaylistItemCallback = (_ item: JWPlayerKit.JWPlayerIte
   @objc func previous()
   @objc func play(ad tag: Foundation.URL, client: JWPlayerKit.JWAdClient)
   @objc func skipAd()
+  @objc func skipAdBreak()
   @objc func openAdClickthrough()
   @objc func getState() -> JWPlayerKit.JWPlayerState
   @objc func play(relatedContent index: Swift.Int)
@@ -1341,8 +1343,7 @@ public typealias JWPlayerPlaylistItemCallback = (_ item: JWPlayerKit.JWPlayerIte
   public func repeatContent(_ repeatContent: Swift.Bool) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
   public func externalMetadata(_ externalMetadata: [JWPlayerKit.JWExternalMetadata]) -> JWPlayerKit.JWPlayerConfigurationBuilder
-  @objc @available(iOS 10.0, *)
-  @discardableResult
+  @objc @discardableResult
   public func adTracker(_ tracker: JWPlayerKit.JWAdTrackerConfig) -> JWPlayerKit.JWPlayerConfigurationBuilder
   @objc @discardableResult
   public func externalPlaybackSettings(_ settings: JWPlayerKit.JWExternalPlaybackSettings) -> JWPlayerKit.JWPlayerConfigurationBuilder
@@ -1455,12 +1456,6 @@ extension UIKit.UIStackView {
   @objc public func build() throws -> JWPlayerKit.JWChapterTrack
   @objc @discardableResult
   public func file(_ file: Foundation.URL) -> JWPlayerKit.JWChapterTrackBuilder
-  @objc @available(iOS, unavailable)
-  @discardableResult
-  public func skippableChapters(ids: [Swift.String]) -> JWPlayerKit.JWChapterTrackBuilder
-  @objc @available(iOS, unavailable)
-  @discardableResult
-  public func skipButtonDuration(seconds: Foundation.TimeInterval) -> JWPlayerKit.JWChapterTrackBuilder
   @objc override dynamic public init()
   @objc deinit
 }

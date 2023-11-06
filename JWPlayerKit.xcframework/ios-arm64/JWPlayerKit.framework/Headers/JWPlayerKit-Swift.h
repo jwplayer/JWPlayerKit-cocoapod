@@ -1532,24 +1532,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWChapterTrackBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWChapterTrackBuilder * _Nonnull)file:(NSURL * _Nonnull)file;
-/// Designates a list of chapters which are skippable.
-/// note:
-/// Chapter ids should be unique.
-/// \param ids An array of chapter identifiers as specified in the WebVTT file.
-///
-///
-/// returns:
-/// The builder, so setters can be chained.
-- (JWChapterTrackBuilder * _Nonnull)skippableChaptersWithIds:(NSArray<NSString *> * _Nonnull)ids SWIFT_AVAILABILITY(ios,unavailable);
-/// Sets the number of seconds a skip button is displayed for skippable chapters.
-/// note:
-/// If a chapter duration is shorter than the life of the button, the button will not be displayed past the end of the chapter.
-/// \param seconds The number of seconds a skip button will stay on the screen during the chapter.
-///
-///
-/// returns:
-/// The builder, so setters can be chained.
-- (JWChapterTrackBuilder * _Nonnull)skipButtonDurationWithSeconds:(NSTimeInterval)seconds SWIFT_AVAILABILITY(ios,unavailable);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2939,6 +2921,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// note:
 /// If a skip offset is configured for the currently playing ad, calling <code>skipAd()</code> will have no effect unless the skip offset is reached.
 - (void)skipAd;
+/// If an ad break is currently playing, discard it and resume content playback. Otherwise, ignore the next scheduled ad break.
+- (void)skipAdBreak;
 /// Performs a clickthrough on the current advertisement using the default browser.
 /// note:
 /// Does nothing if no ad clickthrough URL is available or no ad is playing.
@@ -3240,7 +3224,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit28JWPlayerConfigurationBuilder")
 /// </ul>
 /// \param tracker A config for the desired ad tracker.
 ///
-- (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker SWIFT_AVAILABILITY(ios,introduced=10.0);
+- (JWPlayerConfigurationBuilder * _Nonnull)adTracker:(JWAdTrackerConfig * _Nonnull)tracker;
 /// Defines what settings to use during external playback.
 /// <ul>
 ///   <li>
@@ -3871,8 +3855,6 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewProtocol_")
 /// The amount of spaced to inset the captions from the edges of the player. The default value is 0.
 @property (nonatomic) UIEdgeInsets captionInsets;
 /// The picture in picture controller for the player.
-/// note:
-/// Picture in picture works in iOS 14 and above for iPhones, and iOS 13 and above for iPads.
 @property (nonatomic, readonly, strong) AVPictureInPictureController * _Nullable pictureInPictureController;
 /// How to display video content within the bounds of a view.
 @property (nonatomic) enum JWVideoGravity videoGravity;
@@ -3905,8 +3887,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 @property (nonatomic) UIEdgeInsets captionInsets;
 @property (nonatomic, readonly) CGRect videoRect;
 /// The picture in picture controller for the player.
-/// note:
-/// Picture in picture works in iOS 14 and above for iPhones, and iOS 13 and above for iPads.
 @property (nonatomic, readonly, strong) AVPictureInPictureController * _Nullable pictureInPictureController;
 /// Indicates how to display the video content within the bounds of the view.  The default value is <code>resizeAspect</code>.
 @property (nonatomic) enum JWVideoGravity videoGravity;
@@ -4072,8 +4052,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)didMoveToParentViewController:(UIViewController * _Nullable)parent;
 /// If your App supports iOS 12 and below, subclasses of JWPlayerViewController require runtime initialization before using it, they won’t be available for Storyboard or Nib use if you have not previously initialized the subclass.
 /// note:
-/// For more information on why this is needed <a href="https://swift.org/blog/library-evolution/#objective-c-interoperability">Swift Docs</a>
-+ (void)registerController;
+/// For more information on why this is needed, see the <a href="https://swift.org/blog/library-evolution/#objective-c-interoperability">Swift docs</a>.
++ (void)registerController SWIFT_AVAILABILITY(ios,deprecated=13.0,message="No longer needed as SDK 4.17.0+ does not support iOS versions requiring this API.");
 /// Notifies the container that the size of its view is about to change. For more information, refer to <code>UIViewController</code> documentation.
 /// \param size The new size for the container’s view.
 ///

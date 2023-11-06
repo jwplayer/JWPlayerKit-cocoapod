@@ -6,11 +6,11 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		gDHgGmEkk2tYA9fV6p/XP2mAStU=
+		tVTvUEjeDb9pRwYfrpdoYSUdd2s=
 		</data>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		pK3KXEIpK9lcAmXia5+7iRdd9Ic=
+		etcdo2aDisWQYJwUMY5fpkpy5Bw=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>Headers/JWPlayerObjCViewController.h</key>
 		<data>
-		VxyRBF5HVwKMgsTLrEBw8lvVQkI=
+		HPmJJqkyuPjZm92zo/OAiHOu7/c=
 		</data>
 		<key>Headers/OMIDAdEvents.h</key>
 		<data>
@@ -70,23 +70,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		7aWwbPrSDXpds7vbUJ3P2zenHrY=
+		+ifPbmapiflbrUuh3t9b0+ox39Q=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
-		JE28iw4GGnX0SJgGUn6WAYOa/uU=
+		hjsCvzGMqQDEQFBNNyiLzgQqTDk=
 		</data>
 		<key>JS/jwplayer.core.js</key>
 		<data>
-		2Yqu58U8uGZ1wb0u0++U5n73W54=
+		XOqLLA+A4xybioVkb9MIsjQ8McE=
 		</data>
 		<key>JS/jwplayer.js</key>
 		<data>
-		LhCSk+QNz39vSc2B+F8/NyOTADo=
+		3tRUe/0hYSSw54v19zS9F8j1wPE=
 		</data>
 		<key>JS/jwpsrv.js</key>
 		<data>
-		jZ3yPoM8MPDXv2HlNv1/6uWQGxQ=
+		aQl80B9wbQIsK9mSO3GOoiRwJ9Y=
 		</data>
 		<key>JS/promise.js</key>
 		<data>
@@ -102,27 +102,27 @@
 		</data>
 		<key>JS/vast.js</key>
 		<data>
-		SPSF3rQsJR/dYun/IWveqI1Ct7k=
+		+3yYpRrT3I4JuDe5kwkqBGNDtys=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		n69e49MikcQMaseMKSa0pMcb6Uc=
+		I9hdpwaiv+m7nr/N5WqwZWR3hK0=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		BzBnzD0cj0EsLDLMlqt/XYe0agc=
+		yHoFW0mOMKz43HTkeh2GgBFTfBo=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		g3FyWQmM2c77Z2VWaGP2v8zIEow=
+		izKkCDC/nS18/3xfyGJKJKqhOhY=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		BzBnzD0cj0EsLDLMlqt/XYe0agc=
+		yHoFW0mOMKz43HTkeh2GgBFTfBo=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		xLxjbukpbMUmmIAi/Pg6Ki1GJzY=
+		+LYFk2DRGKpVffeV2Hm+RvnJUP0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -156,49 +156,29 @@
 		<data>
 		RFBDnOe9E6k9MjtM+gLKxWqNgn0=
 		</data>
-		<key>XIBS/Gallery.storyboardc/UICollectionViewController-fGG-AE-QRC.nib/objects-12.3+.nib</key>
+		<key>XIBS/Gallery.storyboardc/UICollectionViewController-fGG-AE-QRC.nib</key>
 		<data>
 		pfMbkWj7HY6FKgv/Na+/vmdkR1U=
 		</data>
-		<key>XIBS/Gallery.storyboardc/UICollectionViewController-fGG-AE-QRC.nib/runtime.nib</key>
-		<data>
-		pfMbkWj7HY6FKgv/Na+/vmdkR1U=
-		</data>
-		<key>XIBS/Gallery.storyboardc/UIViewController-YGd-jg-2kT.nib/objects-12.3+.nib</key>
+		<key>XIBS/Gallery.storyboardc/UIViewController-YGd-jg-2kT.nib</key>
 		<data>
 		EdW6l5B044K89mnQYieru8JT8Jc=
 		</data>
-		<key>XIBS/Gallery.storyboardc/UIViewController-YGd-jg-2kT.nib/runtime.nib</key>
-		<data>
-		EdW6l5B044K89mnQYieru8JT8Jc=
-		</data>
-		<key>XIBS/Gallery.storyboardc/YGd-jg-2kT-view-93J-aQ-g70.nib/objects-12.3+.nib</key>
+		<key>XIBS/Gallery.storyboardc/YGd-jg-2kT-view-93J-aQ-g70.nib</key>
 		<data>
 		V0i4vlxyXI3Z6JBY6rPlOE+0O8A=
 		</data>
-		<key>XIBS/Gallery.storyboardc/YGd-jg-2kT-view-93J-aQ-g70.nib/runtime.nib</key>
-		<data>
-		V0i4vlxyXI3Z6JBY6rPlOE+0O8A=
-		</data>
-		<key>XIBS/Gallery.storyboardc/fGG-AE-QRC-view-YRh-kC-JDX.nib/objects-12.3+.nib</key>
+		<key>XIBS/Gallery.storyboardc/fGG-AE-QRC-view-YRh-kC-JDX.nib</key>
 		<data>
 		DhpN0Ucjq2AFURvcgGVol4o37E8=
-		</data>
-		<key>XIBS/Gallery.storyboardc/fGG-AE-QRC-view-YRh-kC-JDX.nib/runtime.nib</key>
-		<data>
-		gYkfRfWWAC7RxtDyjKHGh3LsxpY=
 		</data>
 		<key>XIBS/GalleryCountdownHeader.nib</key>
 		<data>
 		jluV4l8+56ULbgTE5rHKYPTCCWk=
 		</data>
-		<key>XIBS/LiveInterface.nib/objects-13.0+.nib</key>
+		<key>XIBS/LiveInterface.nib</key>
 		<data>
 		81wri26tlKlE1QwnFNvmnaa0tt4=
-		</data>
-		<key>XIBS/LiveInterface.nib/runtime.nib</key>
-		<data>
-		iweMjgWh2f9SxKMnenprMJnqd38=
 		</data>
 		<key>XIBS/LiveMediaInterface.nib</key>
 		<data>
@@ -210,7 +190,7 @@
 		</data>
 		<key>XIBS/NextUpCard.nib</key>
 		<data>
-		UohDpOr2s/eslU7R/wXbvIGjq+g=
+		9qXjH4F1WmzNI/W2lXpYFTGJEGc=
 		</data>
 		<key>XIBS/VoDInterface.nib</key>
 		<data>
@@ -460,14 +440,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			TghXcmhWOkjSwnY+rbNKizfOUbOCpknX69H2aQsoHz4=
+			eyEZHa6tyHtDnbXckYRqQqN0dTMFIxSKC/yePQBS7bk=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wS5NU712r6ZpbW2M3YofqGPiYGEz8s5b/V2ptgo7/YY=
+			/mG5Tlb2JirBfcasW7U3mOqk4zWpF3YaFjAQsLM7rqs=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -481,7 +461,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			yGCkvrktWZl8CgE48028kDeYgxhu5HEaCnqSy3e/7zo=
+			M4tnivPXrn6VPZojHHd5ENmH2LdCkDA5s4RAYLzrAPI=
 			</data>
 		</dict>
 		<key>Headers/OMIDAdEvents.h</key>
@@ -572,28 +552,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ILGUpkh4upHSGb1I+oXOf/6PyeQ1471DpWICYEFpeAI=
+			ew3Zu+Q3avqi/Bgb1cePL7eYmSL+e9CY3F5NMMB+zzY=
 			</data>
 		</dict>
 		<key>JS/jwplayer.core.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			thf6PMEjG6JwB2YMEhtGfS5VME1kDcq6hsN3vL9I910=
+			nTctRgx6JtD0wzBEqt+ffWLX3SyDUqIPooZcg9xkQHs=
 			</data>
 		</dict>
 		<key>JS/jwplayer.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3xoLDlgZqL3P12eju1dQjVsX9aB6k9zFPLWte5LnscI=
+			gfv6QIMFHZ3r3h8kJ7wvwa6pWa/OYfqguErCD78qoz4=
 			</data>
 		</dict>
 		<key>JS/jwpsrv.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Iawl8VRuB1apsrjFgy1qEgZTtgAguAqmnhVhCobEI9E=
+			zOdozug54BwwSkJvDbzkKY9gJNhW0avmnv5FCsNYY7Q=
 			</data>
 		</dict>
 		<key>JS/promise.js</key>
@@ -621,42 +601,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xrS7MN329RKDiuQsy8u4lR4pCZtmEQLXQt394s5+xUI=
+			C1uy30y7i573Jr6p+YQE2I/s8qjDdBuSvJkqqNKX5NE=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			tOf/mPfZV+FXhVFYCb/Sq2SZuJ/ylopFvSivwfWEv6w=
+			2Lcg30eZ8zwQYvwPf3EjBHrDSCk3PFUe/1d+tDeITKU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cie6c9aaSoyX+TWArAkcYBmGsuC+GAzOuCdtc1rWM8w=
+			G7VOCwdStpo0YMe6p3l3MKT6AqSSadp6rKDqI/CBMbE=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UFnjWunECUiGdRCMjNL6yBO9I3JAU4wRQ4+DIOtmfjQ=
+			ltvjisAxUAfxPLp4zbIfLabFagn/AP94yqtYkB/yo74=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cie6c9aaSoyX+TWArAkcYBmGsuC+GAzOuCdtc1rWM8w=
+			G7VOCwdStpo0YMe6p3l3MKT6AqSSadp6rKDqI/CBMbE=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			NEPVM7eOzXxdoLfiseJ+9pNFYLrZqSjtykyYz3UP8+g=
+			Nc6gDpmlk3zzy2xHpKyo8Lj+dhrR49lVqJ0c9qikFmc=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -715,60 +695,32 @@
 			zKEIEB7Frb4pBabkbcKSXuFfRO/z736HngSo0gjn6ok=
 			</data>
 		</dict>
-		<key>XIBS/Gallery.storyboardc/UICollectionViewController-fGG-AE-QRC.nib/objects-12.3+.nib</key>
+		<key>XIBS/Gallery.storyboardc/UICollectionViewController-fGG-AE-QRC.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			2SuIWjoXBhnWENw33FsSzYCPFT/gtOrO9EC66TG0xiY=
 			</data>
 		</dict>
-		<key>XIBS/Gallery.storyboardc/UICollectionViewController-fGG-AE-QRC.nib/runtime.nib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			2SuIWjoXBhnWENw33FsSzYCPFT/gtOrO9EC66TG0xiY=
-			</data>
-		</dict>
-		<key>XIBS/Gallery.storyboardc/UIViewController-YGd-jg-2kT.nib/objects-12.3+.nib</key>
+		<key>XIBS/Gallery.storyboardc/UIViewController-YGd-jg-2kT.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			Vyx1NnAixkVl2Ysg1q9wqsAju/+jAmzhEC6G94Nxi+I=
 			</data>
 		</dict>
-		<key>XIBS/Gallery.storyboardc/UIViewController-YGd-jg-2kT.nib/runtime.nib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			Vyx1NnAixkVl2Ysg1q9wqsAju/+jAmzhEC6G94Nxi+I=
-			</data>
-		</dict>
-		<key>XIBS/Gallery.storyboardc/YGd-jg-2kT-view-93J-aQ-g70.nib/objects-12.3+.nib</key>
+		<key>XIBS/Gallery.storyboardc/YGd-jg-2kT-view-93J-aQ-g70.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			jbQH1/eHPXfjqZzdR1MQBVK5SGDA19abBAniTNhrhf4=
 			</data>
 		</dict>
-		<key>XIBS/Gallery.storyboardc/YGd-jg-2kT-view-93J-aQ-g70.nib/runtime.nib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			jbQH1/eHPXfjqZzdR1MQBVK5SGDA19abBAniTNhrhf4=
-			</data>
-		</dict>
-		<key>XIBS/Gallery.storyboardc/fGG-AE-QRC-view-YRh-kC-JDX.nib/objects-12.3+.nib</key>
+		<key>XIBS/Gallery.storyboardc/fGG-AE-QRC-view-YRh-kC-JDX.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			qebmbwAfWegRCiLaTGjZ44uMPsNQTlefoJd6mQFh26Y=
-			</data>
-		</dict>
-		<key>XIBS/Gallery.storyboardc/fGG-AE-QRC-view-YRh-kC-JDX.nib/runtime.nib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			igfUrPnRWZj4BrL/2Ymh/QFxvNWVL8yoNUVWJMBjhoE=
 			</data>
 		</dict>
 		<key>XIBS/GalleryCountdownHeader.nib</key>
@@ -778,18 +730,11 @@
 			fIKtTzavzGgtlm6r86XaDZ2OjKqDX3bdIvtVuxixVG4=
 			</data>
 		</dict>
-		<key>XIBS/LiveInterface.nib/objects-13.0+.nib</key>
+		<key>XIBS/LiveInterface.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			0lK5w1mL7eYieR7q5rYu87V/LX5gkKCInAn6Zjj3Gp8=
-			</data>
-		</dict>
-		<key>XIBS/LiveInterface.nib/runtime.nib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			+Bg4HoeYNkO8MGQizJsgcToGNa9VbfYZ1Un3+L7WNBE=
 			</data>
 		</dict>
 		<key>XIBS/LiveMediaInterface.nib</key>
@@ -810,7 +755,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/3fc49BLWWTx0X/Q3XqHWyY9x9MegsABrwyX6mL4kU0=
+			hHgjejet/oVt2XtCbpT2Ge78g6R0gOyODGyx9MkGNqo=
 			</data>
 		</dict>
 		<key>XIBS/VoDInterface.nib</key>

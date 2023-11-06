@@ -107,7 +107,7 @@ JWTimeEventListener>
  @param animated Set to true if the player should animate into full screen.
  @param completion This closure is called when the player is done transitioning to full screen mode.
 */
-- (void)transitionToFullScreenAnimated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)transitionToFullScreenAnimated:(BOOL)animated completion:(void (^_Nullable)(void))completion;
 /**
  This method transitions the player away from fullscreen mode.
  
@@ -117,7 +117,7 @@ JWTimeEventListener>
  @param animated Set to true if the player should animate away from full screen mode.
  @param completion This closure is called when the player is done transitioning away from full screen mode.
 */
-- (void)dismissFullScreenAnimated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)dismissFullScreenAnimated:(BOOL)animated completion:(void (^_Nullable)(void))completion;
 
 /**
  Sets the visibility of controls on the player's interface.
