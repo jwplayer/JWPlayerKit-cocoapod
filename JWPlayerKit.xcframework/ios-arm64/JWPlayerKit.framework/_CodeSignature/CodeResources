@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		etcdo2aDisWQYJwUMY5fpkpy5Bw=
+		Cf8mtSrOHSOjeonaislCW0Jx9+M=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -70,23 +70,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		+ifPbmapiflbrUuh3t9b0+ox39Q=
+		RLfWliNFb/CzYooPgg5ImgXneso=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
-		hjsCvzGMqQDEQFBNNyiLzgQqTDk=
+		1Y52Rj+Mn3BFqWWXQjwdnAqZB2U=
 		</data>
 		<key>JS/jwplayer.core.js</key>
 		<data>
-		XOqLLA+A4xybioVkb9MIsjQ8McE=
+		2r5wXyIOxZx/7IA/WEyVWnWJHy8=
 		</data>
 		<key>JS/jwplayer.js</key>
 		<data>
-		3tRUe/0hYSSw54v19zS9F8j1wPE=
+		9sBbJdyrDDl8F17es9gs9spI0uY=
 		</data>
 		<key>JS/jwpsrv.js</key>
 		<data>
-		aQl80B9wbQIsK9mSO3GOoiRwJ9Y=
+		Zk/qkIoAgsNeFu7hSHrurRXQ3no=
 		</data>
 		<key>JS/promise.js</key>
 		<data>
@@ -102,27 +102,27 @@
 		</data>
 		<key>JS/vast.js</key>
 		<data>
-		+3yYpRrT3I4JuDe5kwkqBGNDtys=
+		qxCAzXD9ezgbfhPTuEU/3Fljfy4=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		I9hdpwaiv+m7nr/N5WqwZWR3hK0=
+		jHwWfshPgDS5UwtaFJ1wTToER7A=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		yHoFW0mOMKz43HTkeh2GgBFTfBo=
+		KsxlITcnMVhzqkOVksM+wqKfOrI=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		izKkCDC/nS18/3xfyGJKJKqhOhY=
+		1vUfYY/r5NOIGWMDTokHNueI0Qs=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		yHoFW0mOMKz43HTkeh2GgBFTfBo=
+		KsxlITcnMVhzqkOVksM+wqKfOrI=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		+LYFk2DRGKpVffeV2Hm+RvnJUP0=
+		MB4BQo+JXJBJyDcNskC1ihmfKpY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -150,7 +150,7 @@
 		</data>
 		<key>XIBS/FloatingInterface.nib</key>
 		<data>
-		XcIutjOmF56qxpxHXrf21SGv0lg=
+		ht48bsKumeOhbuYcZOJ7EK2Pb9o=
 		</data>
 		<key>XIBS/Gallery.storyboardc/Info.plist</key>
 		<data>
@@ -182,7 +182,7 @@
 		</data>
 		<key>XIBS/LiveMediaInterface.nib</key>
 		<data>
-		u31YzQZDLnKTaKqXA+gJFsH4diM=
+		V19ugph6yNIPIugjOfGPM706QCA=
 		</data>
 		<key>XIBS/MenuItemCell.nib</key>
 		<data>
@@ -198,7 +198,7 @@
 		</data>
 		<key>XIBS/VoDMediaInterface.nib</key>
 		<data>
-		SkcH82VQ7xMEiY25klF3dcTlt9E=
+		Xcoy8POzBLgiV2CX51c8ojzjbRc=
 		</data>
 		<key>ar.lproj/Localizable.strings</key>
 		<dict>
@@ -240,7 +240,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1jsJDe6YfF9kAEOBcjaWS03gr+Y=
+			NeY0j1VLgDBNtoRan1DMHXH5w1E=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -384,10 +384,6 @@
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>storage.proxy.js</key>
-		<data>
-		MGpYqgJQAcln+wOjkYzGZHiu6vo=
-		</data>
 		<key>sv.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash</key>
@@ -447,7 +443,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/mG5Tlb2JirBfcasW7U3mOqk4zWpF3YaFjAQsLM7rqs=
+			If2mPNsXkpm1N5OunaL+s9ayg3lmmDrfuJYGhA+7k1k=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -552,28 +548,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ew3Zu+Q3avqi/Bgb1cePL7eYmSL+e9CY3F5NMMB+zzY=
+			l4PcbQUpdXNth90L12kDAe53Cq1ztKtmi+CUNb82qik=
 			</data>
 		</dict>
 		<key>JS/jwplayer.core.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nTctRgx6JtD0wzBEqt+ffWLX3SyDUqIPooZcg9xkQHs=
+			+iETdBLPuM9WwXceO8zKqSyzivPggXmK/JJec4xuKU4=
 			</data>
 		</dict>
 		<key>JS/jwplayer.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gfv6QIMFHZ3r3h8kJ7wvwa6pWa/OYfqguErCD78qoz4=
+			OZype1h4QxfnRRDrgmUIBs3UA5tHkAFWhnKN7ykY6d8=
 			</data>
 		</dict>
 		<key>JS/jwpsrv.js</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zOdozug54BwwSkJvDbzkKY9gJNhW0avmnv5FCsNYY7Q=
+			fEXI19Lp02ad56bA/ZhiE/5yhq+/FExxfLBEX6pRWuQ=
 			</data>
 		</dict>
 		<key>JS/promise.js</key>
@@ -601,42 +597,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			C1uy30y7i573Jr6p+YQE2I/s8qjDdBuSvJkqqNKX5NE=
+			wynzmUMSo07I9hJaTaZKBHQfOsxKNWes7M+o5c3HQ2A=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			2Lcg30eZ8zwQYvwPf3EjBHrDSCk3PFUe/1d+tDeITKU=
+			Q8EcrAZ8csMXqje7Ts0M6pCM7jvol45P9nvV4I5tHrM=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			G7VOCwdStpo0YMe6p3l3MKT6AqSSadp6rKDqI/CBMbE=
+			yEOz01PqX6AZ4/tKYeQus6t+NcRo4PYHKB901ThE65o=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ltvjisAxUAfxPLp4zbIfLabFagn/AP94yqtYkB/yo74=
+			BntQnLUz17nRaM7IvNyMSi45I5kUPQuHhiMFIuEPF7o=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			G7VOCwdStpo0YMe6p3l3MKT6AqSSadp6rKDqI/CBMbE=
+			yEOz01PqX6AZ4/tKYeQus6t+NcRo4PYHKB901ThE65o=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Nc6gDpmlk3zzy2xHpKyo8Lj+dhrR49lVqJ0c9qikFmc=
+			uLXfvEYq2pwMkvYIE6fmqimCN2iJV7/XhbFswFHevvQ=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -685,7 +681,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			zOGj1mMz84egvXpIFBRr1YsM8t0kSLZVSN1nqMVQ6tY=
+			8Sf4BObXGlsRFWPLcxRtSpcYvWayLfs150g9WjPLmFo=
 			</data>
 		</dict>
 		<key>XIBS/Gallery.storyboardc/Info.plist</key>
@@ -741,7 +737,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			cJI5lFNRbvqxDdPF2MhYCCpv7ul9H7+VqUISFJGolGo=
+			q3uLOTpRhBr30sk/IgBv6kFxFEoZRdWZfi4eDPu9XCE=
 			</data>
 		</dict>
 		<key>XIBS/MenuItemCell.nib</key>
@@ -769,7 +765,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			x13Xu1aNs98jbry67bDF0zoI2RLyOGUIRRzRCXWa1ZQ=
+			gzb31ai3vIJicOV7y3rlaxi2g3FZZ73FGo4gJb0HMZ8=
 			</data>
 		</dict>
 		<key>ar.lproj/Localizable.strings</key>
@@ -812,7 +808,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			zZporAYFTM17vFHIdEWVYm0qS/hIUTzzIDFan0XOupw=
+			euBS4wdJ/yS1c4whh5zZH9LCpXoNKmIV1ukiQqc0woQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -958,13 +954,6 @@
 			</data>
 			<key>optional</key>
 			<true/>
-		</dict>
-		<key>storage.proxy.js</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			qSBDec5nTsoXsSu2McOOhO3QzhWyJWRryptIAiJA+oQ=
-			</data>
 		</dict>
 		<key>sv.lproj/Localizable.strings</key>
 		<dict>

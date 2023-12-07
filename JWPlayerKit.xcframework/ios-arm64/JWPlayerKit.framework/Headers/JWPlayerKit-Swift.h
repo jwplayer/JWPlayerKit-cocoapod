@@ -1226,7 +1226,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 /// note:
 /// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly, strong) UIColor * _Nullable highlightColor;
-/// Overrides the default font style and font size.
+/// Overrides the default font style and font size. Supports Dynamic Type.
 /// note:
 /// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly, strong) UIFont * _Nullable font;
@@ -3701,6 +3701,8 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player willPlayWithReason:(enum JWPlayReason)reason;
 /// Reports when the player is buffering.
+/// note:
+/// Analagous to the <code>onBuffer</code> event in version 3.x.
 /// \param player The player that is buffering.
 ///
 /// \param reason The reason the player is buffering.
@@ -3711,7 +3713,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// Analagous to the <code>onBuffer</code> event in version 3.x.
 /// \param player The player emitting the event.
 ///
-- (void)jwplayerContentIsBuffering:(id <JWPlayer> _Nonnull)player;
+- (void)jwplayerContentIsBuffering:(id <JWPlayer> _Nonnull)player SWIFT_DEPRECATED_MSG("Instead use jwplayer(_ player: JWPlayer, isBufferingWithReason reason: JWBufferReason)");
 /// Reports when additional data has been added to the buffer.
 /// note:
 /// Analagous to the <code>onBufferChange</code> event in version 3.x.
@@ -4661,6 +4663,7 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
+
 
 
 
