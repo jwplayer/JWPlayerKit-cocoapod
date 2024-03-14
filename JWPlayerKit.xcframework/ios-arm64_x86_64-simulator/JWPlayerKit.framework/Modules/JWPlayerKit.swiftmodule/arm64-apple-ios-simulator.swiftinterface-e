@@ -974,9 +974,6 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) @objc dynamic public init()
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func didMove(toParent parent: UIKit.UIViewController?)
   @objc @available(iOS, deprecated: 13.0, message: "No longer needed as SDK 4.17.0+ does not support iOS versions requiring this API.")
@@ -1056,6 +1053,8 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
   @_Concurrency.MainActor(unsafe) @objc open func jwplayer(_ player: any JWPlayerKit.JWPlayer, relatedItemBeganPlaying item: JWPlayerKit.JWPlayerItem, atIndex index: Swift.Int, withMethod method: JWPlayerKit.JWRelatedMethod)
   @_Concurrency.MainActor(unsafe) @objc public func adaptivePresentationStyle(for controller: UIKit.UIPresentationController, traitCollection: UIKit.UITraitCollection) -> UIKit.UIModalPresentationStyle
   @_Concurrency.MainActor(unsafe) @objc public func presentationController(_ presentationController: UIKit.UIPresentationController, willPresentWithAdaptiveStyle style: UIKit.UIModalPresentationStyle, transitionCoordinator: (any UIKit.UIViewControllerTransitionCoordinator)?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
 }
 @available(*, unavailable)
 @objc extension JWPlayerKit.JWPlayerViewController {
@@ -1290,25 +1289,37 @@ extension JWPlayerKit.JWIdleReason : Swift.CustomStringConvertible {
   }
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWCaptionStyle : ObjectiveC.NSObject {
+  @objc public var font: UIKit.UIFont? {
+    get
+  }
+  public var fontSize: CoreFoundation.CGFloat? {
+    get
+  }
   @objc public var fontColor: UIKit.UIColor? {
     get
   }
   @objc public var backgroundColor: UIKit.UIColor? {
     get
   }
-  @objc public var highlightColor: UIKit.UIColor? {
+  public var backgroundOpacity: CoreFoundation.CGFloat? {
     get
   }
-  @objc public var font: UIKit.UIFont? {
+  public var textOpacity: CoreFoundation.CGFloat? {
     get
   }
   @objc public var edgeStyle: JWPlayerKit.JWCaptionEdgeStyle {
+    get
+  }
+  @objc public var highlightColor: UIKit.UIColor? {
     get
   }
   @objc public var position: JWPlayerKit.JWCaptionPosition? {
     get
   }
   @objc public var allowScaling: Swift.Bool {
+    get
+  }
+  public var overrideStrategy: JWPlayerKit.JWCaptionStyleOverrideStrategy? {
     get
   }
   @objc deinit
@@ -1331,19 +1342,41 @@ extension JWPlayerKit.JWCaptionEdgeStyle : Swift.CustomStringConvertible {
     get
   }
 }
+@objc public enum JWCaptionStyleOverrideStrategy : Swift.Int {
+  case videoOverrideOnly
+  case always
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension JWPlayerKit.JWCaptionStyleOverrideStrategy : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWCaptionStyleBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
   public typealias Output = JWPlayerKit.JWCaptionStyle
   @objc public func build() throws -> JWPlayerKit.JWCaptionStyle
+  @objc @discardableResult
+  public func font(_ font: UIKit.UIFont) -> JWPlayerKit.JWCaptionStyleBuilder
+  @objc @discardableResult
+  public func fontSize(_ fontSize: CoreFoundation.CGFloat) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc @discardableResult
   public func fontColor(_ fontColor: UIKit.UIColor) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc @discardableResult
   public func backgroundColor(_ backgroundColor: UIKit.UIColor) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc @discardableResult
-  public func highlightColor(_ highlightColor: UIKit.UIColor) -> JWPlayerKit.JWCaptionStyleBuilder
+  public func backgroundOpacity(_ backgroundOpacity: CoreFoundation.CGFloat) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc @discardableResult
-  public func font(_ font: UIKit.UIFont) -> JWPlayerKit.JWCaptionStyleBuilder
+  public func textOpacity(_ textOpacity: CoreFoundation.CGFloat) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc @discardableResult
   public func edgeStyle(_ edgeStyle: JWPlayerKit.JWCaptionEdgeStyle) -> JWPlayerKit.JWCaptionStyleBuilder
+  @objc @discardableResult
+  public func overrideStrategy(_ strategy: JWPlayerKit.JWCaptionStyleOverrideStrategy) -> JWPlayerKit.JWCaptionStyleBuilder
+  @objc @discardableResult
+  public func highlightColor(_ highlightColor: UIKit.UIColor) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc @discardableResult
   public func position(_ position: JWPlayerKit.JWCaptionPosition) -> JWPlayerKit.JWCaptionStyleBuilder
   @objc @discardableResult
@@ -2052,6 +2085,9 @@ extension JWPlayerKit.JWIdleReason : Swift.RawRepresentable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.Equatable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.Hashable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.RawRepresentable {}
+extension JWPlayerKit.JWCaptionStyleOverrideStrategy : Swift.Equatable {}
+extension JWPlayerKit.JWCaptionStyleOverrideStrategy : Swift.Hashable {}
+extension JWPlayerKit.JWCaptionStyleOverrideStrategy : Swift.RawRepresentable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.Equatable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.Hashable {}
 extension JWPlayerKit.JWInterfaceBehavior : Swift.RawRepresentable {}

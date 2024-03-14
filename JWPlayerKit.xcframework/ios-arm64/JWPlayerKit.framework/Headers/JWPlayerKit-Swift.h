@@ -1239,35 +1239,51 @@ SWIFT_CLASS("_TtC11JWPlayerKit24JWCaptionPositionBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class UIColor;
 @class UIFont;
+@class UIColor;
 
 /// Configuration object used to customize the captions.
-/// Styles specified using this structure will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
+/// note:
+/// Styles specified using this structure will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// warning:
+/// EIA-608 captions always default to the user’s accessibility settings.
 SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 @interface JWCaptionStyle : NSObject
-/// Overrides the default font color of the captions, including its opacity.
+/// Overrides the default font style and font size. Supports Dynamic Type.
 /// note:
-/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
+/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// warning:
+/// EIA-608 captions always default to the user’s accessibility settings.
+@property (nonatomic, readonly, strong) UIFont * _Nullable font;
+/// Overrides the default font color of the captions.
+/// This controls the color only, <em>not</em> including its opacity.
+/// seealso:
+/// <code>JWCaptionStyle.textOpacity</code>
+/// note:
+/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// warning:
+/// EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly, strong) UIColor * _Nullable fontColor;
 /// Changes the background color and the opacity of the overall window the captions reside in.
 /// note:
-/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
+/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// warning:
+/// EIA-608 captions always default to the user’s accessibility settings.
 /// important:
 /// Keep in mind that while a <code>UIColor</code> is composed of both color space and opacity information, <em>iOS’s default user accessibility settings only allow an app to set captions’ background color, but not opacity.</em> <em>If a UIColor class property is semantically dependant on opacity, you may have unexpected results.</em> For example, <a href="https://developer.apple.com/documentation/uikit/uicolor/1621945-clear"><code>UIColor.clear</code></a> is a grayscale color object set to <code>0.0</code> (black) with an opacity of <code>0.0</code> (not visible). A device with the default user settings would accept the new color, but reject the opacity override, resulting in a black background with 50% opacity (the default) — not ‘clear’ at all.
 @property (nonatomic, readonly, strong) UIColor * _Nullable backgroundColor;
-/// Changes the highlight color and highlight opacity of the text.
-/// note:
-/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
-@property (nonatomic, readonly, strong) UIColor * _Nullable highlightColor;
-/// Overrides the default font style and font size. Supports Dynamic Type.
-/// note:
-/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
-@property (nonatomic, readonly, strong) UIFont * _Nullable font;
 /// The edge style is an option to put emphasis around text. The available options are: none, dropshadow, raised, depressed, and uniform.
 /// note:
-/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions. EIA-608 captions always default to the user’s accessibility settings.
+/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// warning:
+/// EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly) enum JWCaptionEdgeStyle edgeStyle;
+/// Changes the highlight color <em>including</em> highlight opacity of the text.
+/// note:
+/// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// warning:
+/// EIA-608 captions always default to the user’s accessibility settings.
+@property (nonatomic, readonly, strong) UIColor * _Nullable highlightColor;
 /// The default position of captions displayed in the player.
 /// This position is used if no position is specified by the caption itself, and this is only used with side-loaded captions.
 /// Because SRT captions contain no positional data, SRT captions will always be displayed using what is described by this property. For WebVTT captions, if no positional data is specified within the caption, the default position of the caption will be equal to what is described by this property.
@@ -1283,6 +1299,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 @end
 
 
+enum JWCaptionStyleOverrideStrategy : NSInteger;
 
 /// The builder for JWCaptionStyle.
 SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionStyleBuilder")
@@ -1297,6 +1314,20 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionStyleBuilder")
 ///   </li>
 /// </ul>
 - (JWCaptionStyle * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+/// Sets the font style and font size.
+/// \param font The font to be set on captions.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionStyleBuilder * _Nonnull)font:(UIFont * _Nonnull)font;
+/// Sets the size of the font.
+/// \param fontSize The size for the captions.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionStyleBuilder * _Nonnull)fontSize:(CGFloat)fontSize;
 /// Sets the font color of the captions.
 /// \param fontColor The color for the captions, including its opacity.
 ///
@@ -1311,20 +1342,24 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionStyleBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWCaptionStyleBuilder * _Nonnull)backgroundColor:(UIColor * _Nonnull)backgroundColor;
-/// Sets the highlight color and highlight opacity of the text.
-/// \param highlightColor The color to be set on the highlight of the text.
+/// Sets the opacity for the captions’ overlay window.
+/// Values outside this range will be clamped to within this range.
+/// \param backgroundOpacity The transparency for the captions’ overlay window. Possible values are between 0.0 (transparent) and 1.0 (opaque).
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWCaptionStyleBuilder * _Nonnull)highlightColor:(UIColor * _Nonnull)highlightColor;
-/// Sets the font style and font size.
-/// \param font The font to be set on captions.
+- (JWCaptionStyleBuilder * _Nonnull)backgroundOpacity:(CGFloat)backgroundOpacity;
+/// Sets the opacity for the captions text.
+/// warning:
+/// Low values may make the captions unreadable.
+/// Values outside this range will be clamped to within this range.
+/// \param textOpacity The transparency for the captions text. Possible values are between 0.0 (transparent) and 1.0 (opaque).
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
-- (JWCaptionStyleBuilder * _Nonnull)font:(UIFont * _Nonnull)font;
+- (JWCaptionStyleBuilder * _Nonnull)textOpacity:(CGFloat)textOpacity;
 /// Sets the edge style emphasis around text. The available options are: none, dropshadow, raised, depressed, and uniform.
 /// \param edgeStyle The style to apply to the captions.
 ///
@@ -1332,6 +1367,20 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionStyleBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWCaptionStyleBuilder * _Nonnull)edgeStyle:(enum JWCaptionEdgeStyle)edgeStyle;
+/// Sets the video override strategy. The available options are: <code>videoOverrideOnly</code>, and <code>always</code>.
+/// \param strategy The strategy to use when applying style changes to side-loaded captions.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionStyleBuilder * _Nonnull)overrideStrategy:(enum JWCaptionStyleOverrideStrategy)strategy;
+/// Sets the highlight color and highlight opacity of the text.
+/// \param highlightColor The color to be set on the highlight of the text.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWCaptionStyleBuilder * _Nonnull)highlightColor:(UIColor * _Nonnull)highlightColor;
 /// Sets the default position of side-loaded captions displayed in the player.
 /// This position is used if no position is specified by the caption itself, and this is only used with side-loaded captions.
 /// Because SRT captions contain no positional data, SRT captions will always be displayed using what is described by this property. For WebVTT captions, if no positional data is specified within the caption, the default position of the caption will be equal to what is described by this property.
@@ -1354,6 +1403,18 @@ SWIFT_CLASS("_TtC11JWPlayerKit21JWCaptionStyleBuilder")
 - (JWCaptionStyleBuilder * _Nonnull)allowScaling:(BOOL)allowed;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+/// Indicates which strategy to use when applying the caption styling object to side-loaded captions.
+/// Just as the caption styles available for side-loaded captions follow the styles available to embedded HLS streams,
+/// it can also be made to honor or ignore the device’s caption styles settings that it applies to HLS streams.
+typedef SWIFT_ENUM(NSInteger, JWCaptionStyleOverrideStrategy, open) {
+/// The default strategy. For each property, the player will honor the user’s Accessibility captions style settings,
+/// only applying those set in this object for properties that user has selected “Video Override.”
+  JWCaptionStyleOverrideStrategyVideoOverrideOnly = 0,
+/// The player will ignore the device’s Accessibility captions style settings, and always prefer a value chosen in this
+/// object over the user’s settings. Use with care.
+  JWCaptionStyleOverrideStrategyAlways = 1,
+};
 
 
 /// Provides information about captions or thumbnails. Supports TTML (DFXP), SRT, and WebVTT formats.
@@ -4121,9 +4182,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic, strong) JWNextUpStyle * _Nullable nextUpStyle;
 /// Sets a custom logo to display on the player.
 @property (nonatomic, strong) JWLogo * _Nullable logo;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 /// Called after the controller’s view is loaded into memory. For more information, refer to <code>UIViewController</code> documentation.
 - (void)viewDidLoad;
 /// Called after the view controller is added or removed from a container view controller. For more information, refer to <code>UIViewController</code> documentation.
@@ -4259,6 +4317,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// \param transitionCoordinator The transition coordinator that is managing the transition.
 ///
 - (void)presentationController:(UIPresentationController * _Nonnull)presentationController willPresentWithAdaptiveStyle:(UIModalPresentationStyle)style transitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nullable)transitionCoordinator;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
 
 enum JWVisibilityState : NSInteger;

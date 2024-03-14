@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		LO+ZV9b8XOtU6UX3t5H5Vr3QqVo=
+		IvLyuU025kDrz9QJV/Y/wLKNgUw=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		WR8I0Dp9VLWJOIHilWY3bgykAPg=
+		bLUziUtH8KbKLp7b/7tDfOLohpY=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -106,43 +106,43 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		qTZpDL0ypcvRxFCTqHtSF2UPyq0=
+		8s9jjPDJCpevQ6UsCK8HMzK3s7c=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		Qy7J/LEgwi/aVeKPjkX/omVXW8M=
+		3Ve9no1dyOyCYlVPYtZP+6BqTpI=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		P6jNs4zSHBCsW606dgEz7LCgT/4=
+		e6lq2ZRfGjX20ouY1OK99eMfynM=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		Qy7J/LEgwi/aVeKPjkX/omVXW8M=
+		3Ve9no1dyOyCYlVPYtZP+6BqTpI=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		uA3NZRTLyI2M4XbGuP+0UzcNKRU=
+		/owF37YaMOjaMhBdxr/MxBtLBo0=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		qTZpDL0ypcvRxFCTqHtSF2UPyq0=
+		8s9jjPDJCpevQ6UsCK8HMzK3s7c=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		Dmd5sIbb/papiM/j3OxydM+xgnY=
+		hlkYw5BrJkYxQHBTY2y/KkXaeeo=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		YibpwBX1Sz7Ogl+M7uY9tJISV9o=
+		tsiBoL2O83xHNFjDP9zpWT+Ockg=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		Dmd5sIbb/papiM/j3OxydM+xgnY=
+		hlkYw5BrJkYxQHBTY2y/KkXaeeo=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		BmUSCwqPSlsTL3B/xyTbCMUwnG8=
+		lL/KBhX5BQCu5/gejAhY8jeqtb8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -214,7 +214,7 @@
 		</data>
 		<key>XIBS/VoDInterface.nib</key>
 		<data>
-		jYc1N04caDPa3hYBZlB5yhiv4EA=
+		emQmwIoG+rReuQu8XKtLa+xmPpA=
 		</data>
 		<key>XIBS/VoDMediaInterface.nib</key>
 		<data>
@@ -463,7 +463,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			nEYQtcCcazQa5/E2bzLkBxSyFjlYWaMEHq8SWZUWTco=
+			ClZCoaDUHzttTyXaDdjdOn7V0WjXS9cKD59VfvC2T9k=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -624,70 +624,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			S3fZriU7MciC9vn5nmk7itLlFVpauSfSdE3TvzhGVEg=
+			NghRLxs0TnJ0gxCvVAGXAdT4PO0Ndw710CuZxAI3HBg=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			fGR8MKsT8ua51+XKPSOfiw6cJgOHu47BiP9w4b7W2kY=
+			gXK7lnJwvGmqe4t66E8p6CVISI+TcH0kXCM3YJ2KEic=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DrGn5T9RvYE7vBG6ZWEItldTdIoeRPJSJ8xsz5f0VS4=
+			4a3bGnFFcmrYMxxMRA8kWgheAW5yhIQaK6gtxe2e2Y4=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			fGR8MKsT8ua51+XKPSOfiw6cJgOHu47BiP9w4b7W2kY=
+			gXK7lnJwvGmqe4t66E8p6CVISI+TcH0kXCM3YJ2KEic=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			BC25/tOSXEwCVIZoSfAXBE1wx4BsUogtS1t12/i9GYM=
+			jByiWp+wsdkA6FR/GMYl+03GFPiIOD0lcfV54+mSvRE=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			S3fZriU7MciC9vn5nmk7itLlFVpauSfSdE3TvzhGVEg=
+			NghRLxs0TnJ0gxCvVAGXAdT4PO0Ndw710CuZxAI3HBg=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			m4hROg3d1GiLoOTmn712jdMtt/4WCGnUJfLZBMAajBk=
+			PAqrkjzLy8nuJNtY9lfpO1jC2h7W1hzk9mhrhtYWh5U=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gO6eLpLeA5XCNQ5KFZaeWodJA1PsBBj3YKOSaw/Q/zc=
+			7nttx+7atA/YTKBMHEeKRnsZ5P7oLUSkAPrO4Nv25Ns=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			m4hROg3d1GiLoOTmn712jdMtt/4WCGnUJfLZBMAajBk=
+			PAqrkjzLy8nuJNtY9lfpO1jC2h7W1hzk9mhrhtYWh5U=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YBaCEeoOf4dmmH3aoeqeP8h1TVk23aYPoqTY7D2skKo=
+			+KcRjV4uBCWjz2s9BZx3k5SDyVSlRzMWTmdDgIuHe/M=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -813,7 +813,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			oFAjOCK+mkuXz3Di4qjcEwpjgETUWiDFxKKjdkcp0uM=
+			Sp/NJk3m9yGgn75mtWu/F4mgMyUgBJ3rqm/E2lIG6ms=
 			</data>
 		</dict>
 		<key>XIBS/VoDMediaInterface.nib</key>
