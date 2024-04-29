@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		IvLyuU025kDrz9QJV/Y/wLKNgUw=
+		rOOlIohAvmHLzolsIT6T1C7o1gY=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		bLUziUtH8KbKLp7b/7tDfOLohpY=
+		3qSbI9j/9QV/ec+a1gq1/Kpim7Q=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -106,47 +106,51 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		8s9jjPDJCpevQ6UsCK8HMzK3s7c=
+		06vhLOF6lpj9csjnAxoqYkTHbkA=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		3Ve9no1dyOyCYlVPYtZP+6BqTpI=
+		ukjBLMZtRdyEijJQYURgyDZQE9w=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		e6lq2ZRfGjX20ouY1OK99eMfynM=
+		HTgzifMnf0LqS70JuksfDGyZALI=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		3Ve9no1dyOyCYlVPYtZP+6BqTpI=
+		ukjBLMZtRdyEijJQYURgyDZQE9w=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		/owF37YaMOjaMhBdxr/MxBtLBo0=
+		Nke10b6UeXXaLAUnR5H8cVx6H6s=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		8s9jjPDJCpevQ6UsCK8HMzK3s7c=
+		06vhLOF6lpj9csjnAxoqYkTHbkA=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		hlkYw5BrJkYxQHBTY2y/KkXaeeo=
+		CojqD+CBG15IjRi0SH3DSWWpzYU=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		tsiBoL2O83xHNFjDP9zpWT+Ockg=
+		9qHZwXhMMdqb/4QsSdfIFzmSxA8=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		hlkYw5BrJkYxQHBTY2y/KkXaeeo=
+		CojqD+CBG15IjRi0SH3DSWWpzYU=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		lL/KBhX5BQCu5/gejAhY8jeqtb8=
+		NIQUOsRo8+fnb9bPMcPXok1TlNg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		igvAl1tp4ujHPsydtoHy852s688=
+		</data>
+		<key>PrivacyInfo.xcprivacy</key>
+		<data>
+		jJ16pvM97RPTItus7WRTgj+DXQQ=
 		</data>
 		<key>XIBS/AdControls.nib</key>
 		<data>
@@ -170,7 +174,7 @@
 		</data>
 		<key>XIBS/FloatingInterface.nib</key>
 		<data>
-		xb2s4YXcUOoOD+i1ecM7C0howiI=
+		ao1OCy3LLGnYmTfD2bifCHDdeVg=
 		</data>
 		<key>XIBS/Gallery.storyboardc/Info.plist</key>
 		<data>
@@ -366,7 +370,7 @@
 		</dict>
 		<key>omsdk-v1.js</key>
 		<data>
-		gHGQFei4PigMPCDxMe1k+dLcbPA=
+		xFoo41tIvFKNNRq9NwW500wQtM8=
 		</data>
 		<key>pl.lproj/Localizable.strings</key>
 		<dict>
@@ -463,7 +467,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ClZCoaDUHzttTyXaDdjdOn7V0WjXS9cKD59VfvC2T9k=
+			+XiV/BvNT1INfd+GFTiWpIVythIuCRNhPYBsLHL8J6o=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -624,70 +628,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			NghRLxs0TnJ0gxCvVAGXAdT4PO0Ndw710CuZxAI3HBg=
+			1UyVzuLqj7M3GdA0ntDCloy0ZCmDuK8fkFy49Y2wIYE=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gXK7lnJwvGmqe4t66E8p6CVISI+TcH0kXCM3YJ2KEic=
+			YZGwVA/unwI3XOYkjYd/Nj7YmALDqenQQpO9XzheVGU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4a3bGnFFcmrYMxxMRA8kWgheAW5yhIQaK6gtxe2e2Y4=
+			EtlBvNb6GhZLuazpfTS16MRukzai9S4Mg41ndUEc0WA=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gXK7lnJwvGmqe4t66E8p6CVISI+TcH0kXCM3YJ2KEic=
+			YZGwVA/unwI3XOYkjYd/Nj7YmALDqenQQpO9XzheVGU=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			jByiWp+wsdkA6FR/GMYl+03GFPiIOD0lcfV54+mSvRE=
+			4Z+/wGw/VjaKAdpLp8h1puFws62+9mpBdIz1DNEZa6Q=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			NghRLxs0TnJ0gxCvVAGXAdT4PO0Ndw710CuZxAI3HBg=
+			1UyVzuLqj7M3GdA0ntDCloy0ZCmDuK8fkFy49Y2wIYE=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			PAqrkjzLy8nuJNtY9lfpO1jC2h7W1hzk9mhrhtYWh5U=
+			7729QXt+rxm8G+gH4zc3L/HUszZb1gYYoEp3Hmhhvwg=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			7nttx+7atA/YTKBMHEeKRnsZ5P7oLUSkAPrO4Nv25Ns=
+			H7equ1rLoOkByRgX9ehiMRz7YyNAl4wft7QQ3GXZ8vg=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			PAqrkjzLy8nuJNtY9lfpO1jC2h7W1hzk9mhrhtYWh5U=
+			7729QXt+rxm8G+gH4zc3L/HUszZb1gYYoEp3Hmhhvwg=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			+KcRjV4uBCWjz2s9BZx3k5SDyVSlRzMWTmdDgIuHe/M=
+			CpqR+j9yVnk89o/ko0NpVe8qdD9X90MlkTho2TdAWXM=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -695,6 +699,13 @@
 			<key>hash2</key>
 			<data>
 			Y+uifBg5LMFnTpjKlNqy6kpwojYqTNosWjYhxBjTeXE=
+			</data>
+		</dict>
+		<key>PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			7RjEDEV0at7+brBZ3eZvtcrej1aczgUJVIsZ3RyF3Jk=
 			</data>
 		</dict>
 		<key>XIBS/AdControls.nib</key>
@@ -736,7 +747,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fWracAJ6a0MCArDzd1+O3qqAK3V1tWm8RGbzxoD6hao=
+			p5uZSNXRE591vMhyLGfoDBG/Py9yWdbmOI95efDDrAI=
 			</data>
 		</dict>
 		<key>XIBS/Gallery.storyboardc/Info.plist</key>
@@ -971,7 +982,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			n8WuqMyGPNYJumH+VtISaEBXQFrTsdDte7rIWtThJ/s=
+			iWz5BbK1YoGNpY4Z4ltSUIPxhjj2ubDXxq6kEamQdYU=
 			</data>
 		</dict>
 		<key>pl.lproj/Localizable.strings</key>

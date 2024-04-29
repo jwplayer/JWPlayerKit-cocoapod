@@ -1184,6 +1184,17 @@ SWIFT_CLASS("_TtC11JWPlayerKit17JWCaptionPosition")
 @end
 
 
+@interface JWCaptionPosition (SWIFT_EXTENSION(JWPlayerKit))
+- (nullable instancetype)deepCopy SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+@interface JWCaptionPosition (SWIFT_EXTENSION(JWPlayerKit)) <JWJSONDecodable, JWJSONEncodable>
+- (NSDictionary<NSString *, id> * _Nonnull)toJSONObject SWIFT_WARN_UNUSED_RESULT;
+- (nullable instancetype)initFromJSON:(NSDictionary<NSString *, id> * _Nonnull)json;
+@end
+
+
 /// The builder for creating a <code>JWCaptionPosition</code> and verifying its properties.
 SWIFT_CLASS("_TtC11JWPlayerKit24JWCaptionPositionBuilder")
 @interface JWCaptionPositionBuilder : NSObject
@@ -1252,6 +1263,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 /// Overrides the default font style and font size. Supports Dynamic Type.
 /// note:
 /// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// note:
+/// While a <code>UIFont</code> has many properties, this generally corresponds to the “fontFamily” in JSON and the web API.
 /// warning:
 /// EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly, strong) UIFont * _Nullable font;
@@ -1261,12 +1274,16 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 /// <code>JWCaptionStyle.textOpacity</code>
 /// note:
 /// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// note:
+/// Corresponds to the “color” in JSON and the web API.
 /// warning:
 /// EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly, strong) UIColor * _Nullable fontColor;
 /// Changes the background color and the opacity of the overall window the captions reside in.
 /// note:
 /// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// note:
+/// Corresponds to “windowColor” in JSON and the web API.
 /// warning:
 /// EIA-608 captions always default to the user’s accessibility settings.
 /// important:
@@ -1275,12 +1292,16 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 /// The edge style is an option to put emphasis around text. The available options are: none, dropshadow, raised, depressed, and uniform.
 /// note:
 /// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// note:
+/// Corresponds to “edgeStyle” in JSON and the web API.
 /// warning:
 /// EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly) enum JWCaptionEdgeStyle edgeStyle;
 /// Changes the highlight color <em>including</em> highlight opacity of the text.
 /// note:
 /// Styles specified using this property will only be applied if the user’s accessibility settings allow it, and only for SRT and WebVTT captions.
+/// note:
+/// Corresponds to the “backgroundColor” (RGB component) and “backgroundOpacity” (alpha component) in JSON and the web API.
 /// warning:
 /// EIA-608 captions always default to the user’s accessibility settings.
 @property (nonatomic, readonly, strong) UIColor * _Nullable highlightColor;
@@ -1296,6 +1317,26 @@ SWIFT_CLASS("_TtC11JWPlayerKit14JWCaptionStyle")
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// This initializer uses a JSON dictionary to initialize the style.
+/// This follows the JWP standard here: https://docs.jwplayer.com/players/reference/captions-config-ref
+/// With the addition of <code>allowScaling</code>, which is treated as a Boolean.
+/// warning:
+/// The Apple API and UI have different names for the various properties. <em>This can get very confusing!</em>
+/// Our SDK uses the UI terms for properties (from the SDH menu in iOS Settings App), so <code>background</code> is set by <code>window</code>,
+/// <code>text</code> by <code>foreground</code>, and <code>text highlight</code> by <code>background</code>.
+/// seealso:
+/// See the implementation, and <a href="https://jwplayer.atlassian.net/browse/SDK-11316">SDK-11316</a> for details.
+- (nonnull instancetype)initFromJSON:(NSDictionary<NSString *, id> * _Nonnull)json OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface JWCaptionStyle (SWIFT_EXTENSION(JWPlayerKit))
+- (nullable instancetype)deepCopy SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+@interface JWCaptionStyle (SWIFT_EXTENSION(JWPlayerKit)) <JWJSONDecodable, JWJSONEncodable>
+- (NSDictionary<NSString *, id> * _Nonnull)toJSONObject SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -1694,7 +1735,7 @@ typedef SWIFT_ENUM(NSInteger, JWContentKeyType, open) {
   JWContentKeyTypeNonpersistable = 1,
 };
 
-/// Controls on the player’s interface
+/// Controls on the player’s interface, which are the visual elements that a user interaction with.
 typedef SWIFT_ENUM(NSInteger, JWControlType, open) {
 /// Button to fast-forward
   JWControlTypeFastForwardButton = 0,
@@ -2222,11 +2263,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 @class UIPresentationController;
 @class UITraitCollection;
 @protocol UIViewControllerTransitionCoordinator;
+@protocol UIViewControllerAnimatedTransitioning;
 @class NSBundle;
 
 /// This is the default UIViewController which is used when the player takes over the entire screen.
 SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
-@interface JWFullScreenViewController : UIViewController <UIPopoverPresentationControllerDelegate>
+@interface JWFullScreenViewController : UIViewController <UIPopoverPresentationControllerDelegate, UIViewControllerTransitioningDelegate>
 /// If true, all full screen views are forced into landscape orientation. The default value is <code>true</code>.
 @property (nonatomic) BOOL displayInLandscape;
 @property (nonatomic, readonly) BOOL prefersHomeIndicatorAutoHidden;
@@ -2249,6 +2291,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 /// \param transitionCoordinator The transition coordinator that is managing the transition.
 ///
 - (void)presentationController:(UIPresentationController * _Nonnull)presentationController willPresentWithAdaptiveStyle:(UIModalPresentationStyle)style transitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nullable)transitionCoordinator;
+- (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForPresentedController:(UIViewController * _Nonnull)presented presentingController:(UIViewController * _Nonnull)presenting sourceController:(UIViewController * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+- (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForDismissedController:(UIViewController * _Nonnull)dismissed SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -2374,6 +2418,10 @@ typedef SWIFT_ENUM(NSInteger, JWIdleReason, open) {
 @class JWImaSettings;
 
 /// Used to build a <code>JWAdvertisingConfig</code> object to play ads using the IMA client.
+/// note:
+/// For IMA ads, make sure to add this to the player configuration, even if you provide ad schedules at the <code>JWPlayerItem</code> level.
+/// In that case, this object may be empty, but it is still required in order to declare your intention to use the IMA SDK,
+/// which cannot be inferred from the items’ ad schedule(s) alone.
 SWIFT_CLASS("_TtC11JWPlayerKit29JWImaAdvertisingConfigBuilder")
 @interface JWImaAdvertisingConfigBuilder : NSObject
 /// Builds an advertising config based off the settings provided.
@@ -2591,7 +2639,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWJSONParser")
 ///
 /// returns:
 /// A <code>JWPlayerConfiguration</code> used to configure a <code>JWPlayer</code>.
-+ (JWPlayerConfiguration * _Nullable)configFromJSON:(NSData * _Nonnull)jsonData error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
++ (JWPlayerConfiguration * _Nullable)configFromJSONData:(NSData * _Nonnull)jsonData error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2803,9 +2851,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit11JWMenuStyle")
 @end
 
 
+
 /// The builder for JWMenuStyle.
 SWIFT_CLASS("_TtC11JWPlayerKit18JWMenuStyleBuilder")
 @interface JWMenuStyleBuilder : NSObject
+@property (nonatomic, readonly, strong) JWMenuStyle * _Nonnull outputObject;
+- (nonnull instancetype)initFrom:(JWMenuStyle * _Nullable)prototype OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init;
 /// Builds a <code>JWMenuStyle</code> structure.
 /// <ul>
 ///   <li>
@@ -2837,7 +2889,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWMenuStyleBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWMenuStyleBuilder * _Nonnull)backgroundColor:(UIColor * _Nonnull)backgroundColor;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 @protocol JWProgramDateTimeMetadataDelegate;
@@ -3074,7 +3125,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 ///
 - (void)loadPlaylistWithUrl:(NSURL * _Nonnull)url;
 /// Sets the new playlist to the player.
-/// \param playlist List of content to be played.
+/// \param items List of content to be played.
 ///
 - (void)loadPlaylistWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
 /// Sets the new playlist to the player.
@@ -3501,6 +3552,11 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// seealso:
 /// <code>JWExternalMetadata</code>
 @property (nonatomic, readonly, copy) NSArray<JWExternalMetadata *> * _Nullable externalMetadata;
+/// Custom attributes that you can associate with the item.
+/// Use this property to attach a value that provides additional context to the media item. For example, you can attach flags for
+/// filtering logic elsewhere in the app, or additional JSON data to be included when serializing the item to be sent over the network,
+/// such as credentials for DRM casting to a Chromecast receiver.
+@property (nonatomic, readonly, copy) NSDictionary<NSString *, id> * _Nullable userInfo;
 /// Returns a chapter track, if it exists.
 @property (nonatomic, readonly, strong) JWChapterTrack * _Nullable chapterTrack;
 /// Returns the captions tracks, if they exist.
@@ -3520,6 +3576,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// A <code>JWPlayerItem</code>, or <code>nil</code> if it does not succeed.
 + (nullable instancetype)fromJson:(NSDictionary<NSString *, id> * _Nonnull)json SWIFT_WARN_UNUSED_RESULT;
 @end
+
+
 
 
 /// The builder for JWPlayerItem, ensuring it is built correctly.
@@ -3630,6 +3688,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)mediaTracks:(NSArray<JWMediaTrack *> * _Nonnull)mediaTracks;
 /// Sets a VMAP URL.
+/// important:
+/// For IMA ads, make sure the player configuration has a <code>JwImaAdvertisingConfig</code> object
+/// (even if it is empty) in addition to providing the ad schedule here.
+/// This informs the player of your intention to use the IMA SDK, which cannot be inferred from the ad URL alone.
 /// \param vmapURL Either a local or remote URL of the vmap file.
 ///
 ///
@@ -3637,13 +3699,20 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)adScheduleWithVmapURL:(NSURL * _Nonnull)vmapURL;
 /// Sets the advertising schedule which represents a point in the player item time to play the ad.
+/// <ul>
+///   <li>
+///     important For IMA ads, make sure the player configuration has a <code>JwImaAdvertisingConfig</code> object
+///     (even if it is empty) in addition to providing the ad schedule here.
+///     This informs the player of your intention to use the IMA SDK, which cannot be inferred from the ad URL alone.
+///   </li>
+/// </ul>
 /// \param breaks An array of <code>JWAdBreak</code> objects providing captions for different languages or thumbnail images.
 ///
 ///
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)adScheduleWithBreaks:(NSArray<JWAdBreak *> * _Nullable)breaks;
-/// Sets URL asset .
+/// Sets URL asset.
 /// note:
 /// To see available options, refer to <a href="https://developer.apple.com/documentation/avfoundation/avurlasset/initialization_options">Initialization Options</a>
 /// \param assetOptions A Dictionary of  URLAsset initialization options.
@@ -3670,6 +3739,16 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)externalMetadata:(NSArray<JWExternalMetadata *> * _Nonnull)externalMetadata;
+/// Custom attributes that you can associate with the item.
+/// Use this property to attach a value that provides additional context to the media item. For example, you can attach flags for
+/// filtering logic elsewhere in the app, or additional JSON data to be included when serializing the item to be sent over the network,
+/// such as credentials for DRM casting to a Chromecast receiver.
+/// \param userInfo The property stores any additional data that you want to associate with the item.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerItemBuilder * _Nonnull)userInfo:(NSDictionary<NSString *, id> * _Nonnull)userInfo;
 @end
 
 
@@ -3691,11 +3770,15 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerSkin")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+
 @class JWTimeSliderStyle;
 
 /// The builder for JWPlayerSkin.
 SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerSkinBuilder")
 @interface JWPlayerSkinBuilder : NSObject
+@property (nonatomic, readonly, strong) JWPlayerSkin * _Nonnull outputObject;
+- (nonnull instancetype)initFrom:(JWPlayerSkin * _Nullable)prototype OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init;
 /// Builds a <code>JWPlayerSkin</code> structure for use in interface styling.
 /// <ul>
 ///   <li>
@@ -3787,7 +3870,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerSkinBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerSkinBuilder * _Nonnull)chapterCueColor:(UIColor * _Nonnull)color;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 /// Constants indicating the state of the player.
@@ -4176,6 +4258,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic) BOOL forceLandscapeOnFullScreen;
 /// The style used to customize the player.
 @property (nonatomic, strong) JWPlayerSkin * _Nullable styling;
+/// Indicates whether or not the description should be displayed. The default value is <code>true</code>.
+@property (nonatomic) BOOL descriptionIsVisible;
+/// Indicates whether or not the title should be displayed. The default value is <code>true</code>.
+@property (nonatomic) BOOL titleIsVisible;
 /// The style defining the Next Up card and its behavior.
 /// note:
 /// If nil is set no Next Up card will be displayed.
@@ -4184,6 +4270,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic, strong) JWLogo * _Nullable logo;
 /// Called after the controller’s view is loaded into memory. For more information, refer to <code>UIViewController</code> documentation.
 - (void)viewDidLoad;
+- (void)viewWillLayoutSubviews;
 /// Called after the view controller is added or removed from a container view controller. For more information, refer to <code>UIViewController</code> documentation.
 /// \param parent The parent view controller, or nil if there is no parent.
 ///
@@ -4199,7 +4286,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 ///
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
 /// This method transitions the player to fullscreen mode. If the player is already in fullscreen mode this method does not perform any actions, and the completion closure will not be executed.
-/// \param animated Set to true if the player should animate into full screen.
+/// \param animated Set to true if the player should animate into full screen, if custom transitions have been implemented.
 ///
 /// \param completion This closure is called when the player is done transitioning to full screen mode.
 ///
@@ -4331,7 +4418,7 @@ SWIFT_UNAVAILABLE
 /// \code
 /// [controller setVisibility:FALSE forControls:@[@(JWControlTypePictureInPictureButton)]]
 ///
-/// \endcode\param isVisible The desired visibility of each control that is provided.
+/// \endcode\param visibility The desired visibility of each control that is provided.
 ///
 /// \param controls The controls to set the visibility of.
 ///
@@ -4377,7 +4464,9 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit30JWPlayerViewControllerDelegate_")
 /// Called when the player’s dimensions have changed.
 /// \param controller The JWPlayerViewController emitting the resize event.
 ///
-/// \param size The new size of the player on the screen.
+/// \param oldSize The previous size of the player.
+///
+/// \param newSize The new size of the player on the screen.
 ///
 - (void)playerViewController:(JWPlayerViewController * _Nonnull)controller sizeChangedFrom:(CGSize)oldSize to:(CGSize)newSize;
 /// This method is triggered when the player is tapped. It is not triggered if the user tapped a button or other user interface element.
@@ -4626,9 +4715,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit17JWTimeSliderStyle")
 @end
 
 
+
 /// The builder for JWTimeSliderStyle.
 SWIFT_CLASS("_TtC11JWPlayerKit24JWTimeSliderStyleBuilder")
 @interface JWTimeSliderStyleBuilder : NSObject
+@property (nonatomic, readonly, strong) JWTimeSliderStyle * _Nonnull outputObject;
+- (nonnull instancetype)initFrom:(JWTimeSliderStyle * _Nullable)prototype OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init;
 /// Builds a <code>JWTimeSliderStyle</code> modeled after the specified parameters.
 /// <ul>
 ///   <li>
@@ -4660,7 +4753,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit24JWTimeSliderStyleBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWTimeSliderStyleBuilder * _Nonnull)thumbColor:(UIColor * _Nonnull)thumbColor;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 /// Constants denoting the type of JWTrack.
@@ -4696,6 +4788,22 @@ SWIFT_CLASS("_TtC11JWPlayerKit13JWVideoSource")
 @property (nonatomic, readonly, copy) NSString * _Null_unspecified label;
 /// Determines whether the video source is the default. The default value is <code>false</code>.
 @property (nonatomic, readonly) BOOL defaultVideo;
+/// An object containing drm-specific info if needed.
+/// If generated from a JWPlatform request, the properties will stored in the same structure as the Delivery API.
+/// For example:
+/// \code
+/// if 
+///   let fairplay = drm["fairplay"] as? JSONObject,
+///   let spc  = fairplay["processSpcUrl"] as? String,
+///   let cert = fairplay["certificateUrl"] as? String
+/// {
+///    // provide these urls to your JWDRMContentKeyDataSource
+/// }
+///
+/// \endcodenote:
+/// JWPlatform will also populate this with other supported DRM technology credentials, such as Widevine
+/// for casting DRM content to a Chromecast receiver. See documentation for details.
+@property (nonatomic, readonly, copy) NSDictionary<NSString *, id> * _Nullable drm;
 /// This init is internal so external developers cannot create this structure on their own.
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -4832,6 +4940,7 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 @interface UIStackView (SWIFT_EXTENSION(JWPlayerKit))
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent * _Nullable)event SWIFT_WARN_UNUSED_RESULT;
 @end
+
 
 
 
