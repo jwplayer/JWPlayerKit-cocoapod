@@ -975,7 +975,7 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
   @objc @_Concurrency.MainActor(unsafe) public var isFullScreen: Swift.Bool {
     @objc get
   }
-  @objc @_Concurrency.MainActor(unsafe) public var playerView: any JWPlayerKit.JWPlayerViewProtocol {
+  @objc @_Concurrency.MainActor(unsafe) public var playerView: (any JWPlayerKit.JWPlayerViewProtocol)! {
     @objc get
   }
   @objc @_Concurrency.MainActor(unsafe) public var interfaceBehavior: JWPlayerKit.JWInterfaceBehavior {
@@ -1002,7 +1002,7 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
   @objc @_Concurrency.MainActor(unsafe) open var handleCastingInternally: Swift.Bool {
     @objc get
   }
-  @objc @_Concurrency.MainActor(unsafe) public var player: any JWPlayerKit.JWPlayerProtocol {
+  @objc @_Concurrency.MainActor(unsafe) public var player: (any JWPlayerKit.JWPlayerProtocol)! {
     @objc get
   }
   @objc @_Concurrency.MainActor(unsafe) public var adInterfaceStyle: JWPlayerKit.JWAdInterfaceStyle

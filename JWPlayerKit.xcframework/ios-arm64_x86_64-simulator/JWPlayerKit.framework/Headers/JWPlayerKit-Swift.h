@@ -4224,7 +4224,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// Returns true if the player is currently in fullscreen mode, and false if it is not
 @property (nonatomic, readonly) BOOL isFullScreen;
 /// The view containing the player.
-@property (nonatomic, readonly, strong) id <JWPlayerViewProtocol> _Nonnull playerView;
+/// warning:
+/// Do not access this until the view is loaded.
+@property (nonatomic, readonly, strong) id <JWPlayerViewProtocol> _Null_unspecified playerView;
 /// The behavior desired for the interface. The default value is <code>.normal</code>.
 @property (nonatomic) enum JWInterfaceBehavior interfaceBehavior;
 /// Available playback rates.
@@ -4249,7 +4251,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// <code>true</code> if your <code>JWPlayerViewController</code> subclass lets the SDK handle Chromecast-related UI creation and updates, or <code>false</code> if you intend to display on your own custom UI instead. The default value of this property returns <code>true</code>.
 @property (nonatomic, readonly) BOOL handleCastingInternally;
 /// The JWPlayer interface, used to control playback and configure the player.
-@property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
+/// warning:
+/// Do not access this until the <code>playerView</code> is loaded.
+@property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Null_unspecified player;
 /// The default ad interface style to use when presenting JWP VAST ads.
 @property (nonatomic, strong) JWAdInterfaceStyle * _Nonnull adInterfaceStyle;
 /// If true, the player will go full screen when rotated into landscape orientation. The default value is <code>true</code>.
@@ -9184,7 +9188,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// Returns true if the player is currently in fullscreen mode, and false if it is not
 @property (nonatomic, readonly) BOOL isFullScreen;
 /// The view containing the player.
-@property (nonatomic, readonly, strong) id <JWPlayerViewProtocol> _Nonnull playerView;
+/// warning:
+/// Do not access this until the view is loaded.
+@property (nonatomic, readonly, strong) id <JWPlayerViewProtocol> _Null_unspecified playerView;
 /// The behavior desired for the interface. The default value is <code>.normal</code>.
 @property (nonatomic) enum JWInterfaceBehavior interfaceBehavior;
 /// Available playback rates.
@@ -9209,7 +9215,9 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// <code>true</code> if your <code>JWPlayerViewController</code> subclass lets the SDK handle Chromecast-related UI creation and updates, or <code>false</code> if you intend to display on your own custom UI instead. The default value of this property returns <code>true</code>.
 @property (nonatomic, readonly) BOOL handleCastingInternally;
 /// The JWPlayer interface, used to control playback and configure the player.
-@property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Nonnull player;
+/// warning:
+/// Do not access this until the <code>playerView</code> is loaded.
+@property (nonatomic, readonly, strong) id <JWPlayerProtocol> _Null_unspecified player;
 /// The default ad interface style to use when presenting JWP VAST ads.
 @property (nonatomic, strong) JWAdInterfaceStyle * _Nonnull adInterfaceStyle;
 /// If true, the player will go full screen when rotated into landscape orientation. The default value is <code>true</code>.
