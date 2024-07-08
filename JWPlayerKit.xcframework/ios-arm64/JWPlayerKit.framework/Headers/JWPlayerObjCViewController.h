@@ -42,6 +42,15 @@ JWTimeEventListener>
 /// The delegate to receive JWPlayerViewController events.
 @property (nonatomic, weak, readwrite) id<JWPlayerViewControllerDelegate> _Nullable delegate;
 
+/// The delegate to receive JWPlayerViewControllerFullScreen events.
+@property (nonatomic, weak, readwrite) id<JWPlayerViewControllerFullScreenDelegate> _Nullable fullScreenDelegate;
+
+/// The delegate to receive JWPlayerViewControllerUI events.
+@property (nonatomic, weak, readwrite) id<JWPlayerViewControllerUIDelegate> _Nullable uiDelegate;
+
+/// The delegate to receive JWPlayerViewControllerRelated events.
+@property (nonatomic, weak, readwrite) id<JWPlayerViewControllerRelatedDelegate> _Nullable relatedDelegate;
+
 /// The behavior desired for the interface. The default value is JWInterfaceBehaviorNormal.
 @property (nonatomic, assign, readwrite) JWInterfaceBehavior interfaceBehavior;
 

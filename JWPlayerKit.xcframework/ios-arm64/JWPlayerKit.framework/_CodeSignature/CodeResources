@@ -6,11 +6,11 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		lXlhXn+90UGS37QcowuInYJTDWQ=
+		0upDOmgmn2oReEbt3ashkbO794M=
 		</data>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<data>
-		c0qTfWADein5VZWx8CNKqsVJ1ps=
+		rywIrHmuS40Ajcu7VM6YErzQFF0=
 		</data>
 		<key>Headers/JWPlayerKit.h</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>Headers/JWPlayerObjCViewController.h</key>
 		<data>
-		HPmJJqkyuPjZm92zo/OAiHOu7/c=
+		BNf1+LrwfWUYzoDdq90iXb7xdIU=
 		</data>
 		<key>Headers/OMIDAdEvents.h</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		6oVRkF0+dkM6/Q3GV4q+bYo3VaQ=
+		8UfqgsI7sgfuBUEd9+5pb01YXx8=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -106,23 +106,23 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		nMblLhBYt+jp/tKWSpilcwj/XYM=
+		Axp412ILdn7mVHSkTzN1A1lxGqU=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		V4dVEozix4GNh0ls9y2Q/sFB55w=
+		wDKGvDBeYWqdxW/9bQdP+nq5+h8=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		lLWeIF283suQ4iua8nF8KBV4QOc=
+		u7bor8fosk94p6iEoSCvLCVFuuA=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		V4dVEozix4GNh0ls9y2Q/sFB55w=
+		wDKGvDBeYWqdxW/9bQdP+nq5+h8=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		2vUte5kt1HCKyXbQlTnCn+0OrCo=
+		Cm1I+l0k27oq0LbcKcVg3Sc3xWs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -170,7 +170,7 @@
 		</data>
 		<key>XIBS/Gallery.storyboardc/YGd-jg-2kT-view-93J-aQ-g70.nib</key>
 		<data>
-		p24TPqonNmyTANbXug9YncVPDrE=
+		lw9niEtd+qUiF0ozQhGRZAYIZIY=
 		</data>
 		<key>XIBS/Gallery.storyboardc/fGG-AE-QRC-view-YRh-kC-JDX.nib</key>
 		<data>
@@ -190,7 +190,7 @@
 		</data>
 		<key>XIBS/MenuItemCell.nib</key>
 		<data>
-		lEZIJ0qy8OyDZ03kESMH1QGB6X8=
+		dao2lOD4xNFmpedpO+jdA9jxryU=
 		</data>
 		<key>XIBS/NextUpCard.nib</key>
 		<data>
@@ -440,14 +440,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			SS9LC6PFuW72LtrvDHIb3budkG0ovaLv9GuesWgdRCI=
+			fGW+DJfTOmqsrvbIX9ellVW0Jlr6kvAW41lxS88JInY=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Prhq5F9c04OKvfk2ySF6UYMxYSLx7PMK/dvHwYupDTk=
+			EE+GVMYAq3xoj8+Jg6FiUxZQx/P6pTkq+C6ta4QGFGo=
 			</data>
 		</dict>
 		<key>Headers/JWPlayerKit.h</key>
@@ -461,7 +461,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			M4tnivPXrn6VPZojHHd5ENmH2LdCkDA5s4RAYLzrAPI=
+			J3NFJW6ePdRAg2Yeg07ttsvvF4M4ZhoVUdAoxxWqykI=
 			</data>
 		</dict>
 		<key>Headers/OMIDAdEvents.h</key>
@@ -608,35 +608,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4x4+VabFMaN4QTjeT0z4al2DZDbYkcrlTiLvRenl38Y=
+			PLmg9poTBpzwhJbUYNdk5ClokKN2JUH9yanZrLAnELg=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dg2H3/U/XWGgAl535BLYIMD7L3gXuQLXKu4jWOtB9+Y=
+			Iy29WZRl2B5xe7FBMZLQEzhWJcawTvnLuZH8ON8lZrI=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TCSXDplXKjf1ryPlAH8tjrucNA+Ibh1cN1NtaODo81w=
+			620f07O5K8YZFJ/sH7FeVqCsI+RLJvp4OIl1BFwyg80=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dg2H3/U/XWGgAl535BLYIMD7L3gXuQLXKu4jWOtB9+Y=
+			Iy29WZRl2B5xe7FBMZLQEzhWJcawTvnLuZH8ON8lZrI=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			FnKGP+s4cMcYbPIwgN082PbGNzwdFt2xl/u99/yZTtY=
+			bz3xMfHtstXtr+fTAbHzyFFgCVmrAKhryGo3of2+iPw=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -720,7 +720,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			TslCByTWQifSdOLBTutPTXNEKZ4IqwYflLFD4DZYbtg=
+			wucRt4rJi64a7eSNRDcBuNWCPU6A72qDnIBS7dZJpvg=
 			</data>
 		</dict>
 		<key>XIBS/Gallery.storyboardc/fGG-AE-QRC-view-YRh-kC-JDX.nib</key>
@@ -755,7 +755,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			zbLcglbOuxDTI/qUlZeL+81LMILI8Bh6RjJWUJDlZXk=
+			LHoes1LWWXCP04Ypdfigtd0CbVdKvuSBwxsJSE2JTDs=
 			</data>
 		</dict>
 		<key>XIBS/NextUpCard.nib</key>

@@ -1,7 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
-// swift-module-flags: -target x86_64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name JWPlayerKit
-// swift-module-flags-ignorable: -enable-bare-slash-regex
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target x86_64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name JWPlayerKit
 import AVFAudio
 import AVFoundation
 import AVKit
@@ -723,6 +722,7 @@ extension JWPlayerKit.JWVisibilityState : Swift.CustomStringConvertible {
   case settingsButton
   case languagesButton
   case fullscreenButton
+  case exitFullScreenButton
   public init?(rawValue: Swift.Int)
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
@@ -954,14 +954,21 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
   @objc override dynamic public init()
   @objc deinit
 }
-@objc public protocol JWPlayerViewControllerDelegate {
+@available(*, deprecated, message: "Use either JWPlayerViewControllerFullScreenDelegate, JWPlayerViewControllerUIDelegate, or JWPlayerViewControllerRelatedDelegate.")
+@objc public protocol JWPlayerViewControllerDelegate : JWPlayerKit.JWPlayerViewControllerFullScreenDelegate, JWPlayerKit.JWPlayerViewControllerRelatedDelegate, JWPlayerKit.JWPlayerViewControllerUIDelegate {
+}
+@objc public protocol JWPlayerViewControllerFullScreenDelegate {
   @objc func playerViewControllerWillGoFullScreen(_ controller: JWPlayerKit.JWPlayerViewController) -> JWPlayerKit.JWFullScreenViewController?
   @objc func playerViewControllerDidGoFullScreen(_ controller: JWPlayerKit.JWPlayerViewController)
   @objc func playerViewControllerWillDismissFullScreen(_ controller: JWPlayerKit.JWPlayerViewController)
   @objc func playerViewControllerDidDismissFullScreen(_ controller: JWPlayerKit.JWPlayerViewController)
+}
+@objc public protocol JWPlayerViewControllerUIDelegate {
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, controlBarVisibilityChanged isVisible: Swift.Bool, frame: CoreFoundation.CGRect)
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, sizeChangedFrom oldSize: CoreFoundation.CGSize, to newSize: CoreFoundation.CGSize)
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, screenTappedAt position: CoreFoundation.CGPoint)
+}
+@objc public protocol JWPlayerViewControllerRelatedDelegate {
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, relatedMenuOpenedWithItems items: [JWPlayerKit.JWPlayerItem], withMethod method: JWPlayerKit.JWRelatedInteraction)
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, relatedMenuClosedWithMethod method: JWPlayerKit.JWRelatedInteraction)
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, relatedItemBeganPlaying item: JWPlayerKit.JWPlayerItem, atIndex index: Swift.Int, withMethod method: JWPlayerKit.JWRelatedMethod)
@@ -971,7 +978,11 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
     @objc get
     @objc set
   }
-  @objc weak public var delegate: (any JWPlayerKit.JWPlayerViewControllerDelegate)?
+  @objc @available(*, deprecated, message: "Use either the fullScreenDelegate, uiDelegate, or relatedDelegate.")
+  weak public var delegate: (any JWPlayerKit.JWPlayerViewControllerDelegate)?
+  @objc weak public var fullScreenDelegate: (any JWPlayerKit.JWPlayerViewControllerFullScreenDelegate)?
+  @objc weak public var uiDelegate: (any JWPlayerKit.JWPlayerViewControllerUIDelegate)?
+  @objc weak public var relatedDelegate: (any JWPlayerKit.JWPlayerViewControllerRelatedDelegate)?
   @objc public var isFullScreen: Swift.Bool {
     @objc get
   }
