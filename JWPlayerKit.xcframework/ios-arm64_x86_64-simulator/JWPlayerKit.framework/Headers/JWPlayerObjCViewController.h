@@ -57,8 +57,14 @@ JWTimeEventListener>
 /// If YES, the player will go full screen when rotated into landscape orientation. The default value is YES.
 @property (nonatomic, assign, readwrite) BOOL forceFullScreenOnLandscape;
 
-/// If true, the player rotates into landscape when it goes into fullscreen. The default value is YES.
+/// If YES, the player rotates into landscape when it goes into fullscreen. The default value is YES.
 @property (nonatomic, assign, readwrite) BOOL forceLandscapeOnFullScreen;
+
+/// If YES, the player will dismiss full screen when rotated into portrait orientation. The default value is NO.
+@property (nonatomic, assign, readwrite) BOOL forceDismissFullScreenOnPortrait;
+
+/// If YES, the player rotates into portrait when the fullscreen controller is dismissed. The default value is NO.
+@property (nonatomic, assign, readwrite) BOOL forcePortraitOnDismissFullScreen;
 
 /// The poster image to display when there is no Internet connection. By default, it displays the poster image of the current video.
 @property (nonatomic, retain, readwrite) UIImage * _Nullable offlinePosterImage;

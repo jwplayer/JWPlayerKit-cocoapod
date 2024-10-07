@@ -315,6 +315,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class JWVideoSource;
@@ -1143,10 +1144,12 @@ typedef SWIFT_ENUM(NSInteger, JWAirPlayStatus, open) {
 
 /// Reasons why the player buffers.
 typedef SWIFT_ENUM(NSInteger, JWBufferReason, open) {
+/// Player is buffering but the cause is unknown.
+  JWBufferReasonUnknown = 0,
 /// The player is buffering expectedly as it tries to play after an action (e.g. scrubbing or a play attempt).
-  JWBufferReasonLoading = 0,
+  JWBufferReasonLoading = 1,
 /// The player is buffering unexpectedly as it waits to continue playing.
-  JWBufferReasonStalled = 1,
+  JWBufferReasonStalled = 2,
 };
 
 /// Constants describing the text alignment of a caption within the box containing it.
@@ -2010,13 +2013,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWDRMContentLoader")
 /// Loads the supplied items as persistable content.
 /// \param items An array of items to load.
 ///
-- (void)loadWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
+- (void)loadWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items completionHandler:(void (^ _Nonnull)(void))completionHandler;
 /// Loads content from a JW Platform playlist URL.
 /// note:
 /// Only default the JSON format is supported.
 /// \param url The URL designating the playlist. This URL must point to a playlist delivered by the JW Platform Delivery API (signed or unsigned).
 ///
-- (void)loadWithPlaylist:(NSURL * _Nonnull)url;
+- (void)loadWithPlaylist:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(void))completionHandler;
 @end
 
 /// Types of DRM encryption
@@ -3931,12 +3934,6 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// \param reason The reason the player is buffering.
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player isBufferingWithReason:(enum JWBufferReason)reason;
-/// Reports when the content is buffering.
-/// note:
-/// Analagous to the <code>onBuffer</code> event in version 3.x.
-/// \param player The player emitting the event.
-///
-- (void)jwplayerContentIsBuffering:(id <JWPlayer> _Nonnull)player SWIFT_DEPRECATED_MSG("Instead use jwplayer(_ player: JWPlayer, isBufferingWithReason reason: JWBufferReason)");
 /// Reports when additional data has been added to the buffer.
 /// note:
 /// Analagous to the <code>onBufferChange</code> event in version 3.x.
@@ -4090,6 +4087,11 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewProtocol_")
 /// <code>canStartPictureInPictureAutomaticallyFromInline</code> is not set to <code>true</code> when enabling this property, Picture in Picture mode should only be initiated when using a dedicated UI button.
 @property (nonatomic) BOOL allowsPictureInPicturePlayback;
 /// Returns the region where the video is being rendered.
+/// <ul>
+///   <li>
+///     note This property returns <code>CGRect.zero</code> when playing audio-only streams.
+///   </li>
+/// </ul>
 @property (nonatomic, readonly) CGRect videoRect;
 @end
 
@@ -4271,6 +4273,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic) BOOL forceFullScreenOnLandscape;
 /// If true, the player rotates into landscape when it goes into fullscreen. The default value is <code>true</code>.
 @property (nonatomic) BOOL forceLandscapeOnFullScreen;
+/// If true, the player will dismiss the full screen view controller when rotated into portrait orientation. The default value is <code>false</code>.
+@property (nonatomic) BOOL forceDismissFullScreenOnPortrait;
+/// If true, the player rotates into portrait when the fullscreen controller is dismissed. The default value is <code>false</code>.
+@property (nonatomic) BOOL forcePortraitOnDismissFullScreen;
 /// The style used to customize the player.
 @property (nonatomic, strong) JWPlayerSkin * _Nullable styling;
 /// Indicates whether or not the description should be displayed. The default value is <code>true</code>.
@@ -4281,6 +4287,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// note:
 /// If nil is set no Next Up card will be displayed.
 @property (nonatomic, strong) JWNextUpStyle * _Nullable nextUpStyle;
+- (void)viewWillDisappear:(BOOL)animated;
 /// Sets a custom logo to display on the player.
 @property (nonatomic, strong) JWLogo * _Nullable logo;
 /// Called after the controller’s view is loaded into memory. For more information, refer to <code>UIViewController</code> documentation.
@@ -4324,7 +4331,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)jwplayerContentWillComplete:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player willPlayWithReason:(enum JWPlayReason)reason;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player isBufferingWithReason:(enum JWBufferReason)reason;
-- (void)jwplayerContentIsBuffering:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedBuffer:(double)percent position:(JWTimeData * _Nonnull)time;
 - (void)jwplayerContentDidComplete:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didFinishLoadingWithTime:(NSTimeInterval)loadTime;
@@ -4973,6 +4979,7 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 @interface UIStackView (SWIFT_EXTENSION(JWPlayerKit))
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent * _Nullable)event SWIFT_WARN_UNUSED_RESULT;
 @end
+
 
 
 
@@ -5308,6 +5315,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @protocol JWPlayer;
 @class JWMediaSelectionOption;
 @class JWVideoSource;
@@ -6136,10 +6144,12 @@ typedef SWIFT_ENUM(NSInteger, JWAirPlayStatus, open) {
 
 /// Reasons why the player buffers.
 typedef SWIFT_ENUM(NSInteger, JWBufferReason, open) {
+/// Player is buffering but the cause is unknown.
+  JWBufferReasonUnknown = 0,
 /// The player is buffering expectedly as it tries to play after an action (e.g. scrubbing or a play attempt).
-  JWBufferReasonLoading = 0,
+  JWBufferReasonLoading = 1,
 /// The player is buffering unexpectedly as it waits to continue playing.
-  JWBufferReasonStalled = 1,
+  JWBufferReasonStalled = 2,
 };
 
 /// Constants describing the text alignment of a caption within the box containing it.
@@ -7003,13 +7013,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit18JWDRMContentLoader")
 /// Loads the supplied items as persistable content.
 /// \param items An array of items to load.
 ///
-- (void)loadWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items;
+- (void)loadWithItems:(NSArray<JWPlayerItem *> * _Nonnull)items completionHandler:(void (^ _Nonnull)(void))completionHandler;
 /// Loads content from a JW Platform playlist URL.
 /// note:
 /// Only default the JSON format is supported.
 /// \param url The URL designating the playlist. This URL must point to a playlist delivered by the JW Platform Delivery API (signed or unsigned).
 ///
-- (void)loadWithPlaylist:(NSURL * _Nonnull)url;
+- (void)loadWithPlaylist:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(void))completionHandler;
 @end
 
 /// Types of DRM encryption
@@ -8924,12 +8934,6 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit21JWPlayerStateDelegate_")
 /// \param reason The reason the player is buffering.
 ///
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player isBufferingWithReason:(enum JWBufferReason)reason;
-/// Reports when the content is buffering.
-/// note:
-/// Analagous to the <code>onBuffer</code> event in version 3.x.
-/// \param player The player emitting the event.
-///
-- (void)jwplayerContentIsBuffering:(id <JWPlayer> _Nonnull)player SWIFT_DEPRECATED_MSG("Instead use jwplayer(_ player: JWPlayer, isBufferingWithReason reason: JWBufferReason)");
 /// Reports when additional data has been added to the buffer.
 /// note:
 /// Analagous to the <code>onBufferChange</code> event in version 3.x.
@@ -9083,6 +9087,11 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewProtocol_")
 /// <code>canStartPictureInPictureAutomaticallyFromInline</code> is not set to <code>true</code> when enabling this property, Picture in Picture mode should only be initiated when using a dedicated UI button.
 @property (nonatomic) BOOL allowsPictureInPicturePlayback;
 /// Returns the region where the video is being rendered.
+/// <ul>
+///   <li>
+///     note This property returns <code>CGRect.zero</code> when playing audio-only streams.
+///   </li>
+/// </ul>
 @property (nonatomic, readonly) CGRect videoRect;
 @end
 
@@ -9264,6 +9273,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 @property (nonatomic) BOOL forceFullScreenOnLandscape;
 /// If true, the player rotates into landscape when it goes into fullscreen. The default value is <code>true</code>.
 @property (nonatomic) BOOL forceLandscapeOnFullScreen;
+/// If true, the player will dismiss the full screen view controller when rotated into portrait orientation. The default value is <code>false</code>.
+@property (nonatomic) BOOL forceDismissFullScreenOnPortrait;
+/// If true, the player rotates into portrait when the fullscreen controller is dismissed. The default value is <code>false</code>.
+@property (nonatomic) BOOL forcePortraitOnDismissFullScreen;
 /// The style used to customize the player.
 @property (nonatomic, strong) JWPlayerSkin * _Nullable styling;
 /// Indicates whether or not the description should be displayed. The default value is <code>true</code>.
@@ -9274,6 +9287,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// note:
 /// If nil is set no Next Up card will be displayed.
 @property (nonatomic, strong) JWNextUpStyle * _Nullable nextUpStyle;
+- (void)viewWillDisappear:(BOOL)animated;
 /// Sets a custom logo to display on the player.
 @property (nonatomic, strong) JWLogo * _Nullable logo;
 /// Called after the controller’s view is loaded into memory. For more information, refer to <code>UIViewController</code> documentation.
@@ -9317,7 +9331,6 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 - (void)jwplayerContentWillComplete:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player willPlayWithReason:(enum JWPlayReason)reason;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player isBufferingWithReason:(enum JWBufferReason)reason;
-- (void)jwplayerContentIsBuffering:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player updatedBuffer:(double)percent position:(JWTimeData * _Nonnull)time;
 - (void)jwplayerContentDidComplete:(id <JWPlayer> _Nonnull)player;
 - (void)jwplayer:(id <JWPlayer> _Nonnull)player didFinishLoadingWithTime:(NSTimeInterval)loadTime;
@@ -9966,6 +9979,7 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 @interface UIStackView (SWIFT_EXTENSION(JWPlayerKit))
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent * _Nullable)event SWIFT_WARN_UNUSED_RESULT;
 @end
+
 
 
 
