@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name         = "JWPlayerKit"
   s.version      = "4.21.0"
-  s.summary      = "JWPlayerKit for iOS. IMPORTANT: Ver 4.20.0 may have stability issues. We strongly recommend using v4.19.2 for a more reliable experience."
+  s.summary      = "A versatile video playback SDK for iOS with support for HLS, VAST advertising, and player UI customization."
 
   s.homepage     = "https://www.jwplayer.com/mobile-sdk/"
   s.license      = { :type => "Commercial", :file => "LICENSE.md" }
@@ -11,25 +11,24 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "14.0"
   s.documentation_url = "https://developer.jwplayer.com/sdk/ios/docs/developer-guide/"
+  s.changelog    = "https://releases.jwplayer.com/"
   s.source       = { :git => "https://github.com/jwplayer/JWPlayerKit-cocoapod.git", :tag => s.version.to_s }
 
   s.ios.vendored_frameworks = "JWPlayerKit.xcframework"
 
   s.social_media_url = 'https://www.facebook.com/jwplayer/'
-  s.social_media_url = 'https://twitter.com/jwplayer'
-  s.social_media_url = 'https://twitter.com/jwpsupport'
+  s.social_media_url = 'https://x.com/jwplayer'
+  s.social_media_url = 'https://x.com/jwpsupport'
 
   s.requires_arc = true
 
-  # From https://www.jwplayer.com/products/mobile-sdk/
   s.description = <<-DESC
-    IMPORTANT: Version 4.20.0 may have stability issues. 
-    We strongly recommend using v4.19.2 for a more reliable experience.
-    
-    The SDK includes native software classes and methods that enable developers
-    to build HLS video playback, VAST advertising, player UI customization and
-    other features directly into any mobile application to expand your reach to
-    the billions of mobile app users worldwide.
+    A powerful SDK for building better viewer experiences on iPhone & iPad.
+
+    JWPlayerKit includes native classes and methods to enable developers to integrate 
+    HLS video playback, VAST advertising, player UI customization, and advanced 
+    video features directly into their mobile applications. Designed to help you 
+    expand your app's reach to billions of users worldwide.
   DESC
 
 end
