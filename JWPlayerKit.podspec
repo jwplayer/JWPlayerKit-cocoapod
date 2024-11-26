@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "JWPlayerKit"
-  s.version      = "4.20.0"
+  s.version      = "4.21.0"
   s.summary      = "JWPlayerKit for iOS. IMPORTANT: Ver 4.20.0 may have stability issues. We strongly recommend using v4.19.2 for a more reliable experience."
 
   s.homepage     = "https://www.jwplayer.com/mobile-sdk/"
