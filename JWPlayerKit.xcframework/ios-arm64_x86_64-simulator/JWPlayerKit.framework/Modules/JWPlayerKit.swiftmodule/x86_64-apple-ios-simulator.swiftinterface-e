@@ -1474,6 +1474,9 @@ extension JWPlayerKit.JWCaptionStyleOverrideStrategy : Swift.CustomStringConvert
   @objc override dynamic public init()
   @objc deinit
 }
+extension Foundation.URL {
+  public static func from(string: Swift.String, relativeTo url: Foundation.URL? = nil, encodingInvalidCharacters: Swift.Bool = false) -> Foundation.URL?
+}
 @objc @_inheritsConvenienceInitializers @objcMembers public class JWCaptionTrackBuilder : ObjectiveC.NSObject, JWPlayerKit.JWBuilder {
   public typealias Output = JWPlayerKit.JWCaptionTrack
   @objc public func build() throws -> JWPlayerKit.JWCaptionTrack

@@ -4968,7 +4968,6 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 
 
 
-
 @class UIEvent;
 
 @interface UIStackView (SWIFT_EXTENSION(JWPlayerKit))
@@ -9937,7 +9936,6 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 /// The user chose a static quality after playback began, or an API was used to set it.
   JWVisualQualityReasonApi = 2,
 };
-
 
 
 

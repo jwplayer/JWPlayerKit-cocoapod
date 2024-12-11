@@ -4968,7 +4968,6 @@ typedef SWIFT_ENUM(NSInteger, JWVisualQualityReason, open) {
 
 
 
-
 @class UIEvent;
 
 @interface UIStackView (SWIFT_EXTENSION(JWPlayerKit))
