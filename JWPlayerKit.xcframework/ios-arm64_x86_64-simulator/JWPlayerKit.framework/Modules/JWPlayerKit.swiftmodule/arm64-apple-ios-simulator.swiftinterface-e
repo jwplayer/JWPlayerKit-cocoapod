@@ -1492,7 +1492,7 @@ extension Foundation.URL {
   @objc deinit
 }
 public typealias JWPlayerItemCompletion = (JWPlayerKit.JWPlayerItem?) -> ()
-public typealias JWPlayerPlaylistItemCallback = (_ item: JWPlayerKit.JWPlayerItem, _ index: Swift.Int, _ completion: (JWPlayerKit.JWPlayerItem?) -> ()) -> Swift.Void
+public typealias JWPlayerPlaylistItemCallback = (_ item: JWPlayerKit.JWPlayerItem, _ index: Swift.Int, _ completion: @escaping JWPlayerKit.JWPlayerItemCompletion) -> Swift.Void
 @objc public protocol JWPlayerDelegate {
   @objc func jwplayerIsReady(_ player: any JWPlayerKit.JWPlayer)
   @objc func jwplayer(_ player: any JWPlayerKit.JWPlayer, failedWithError code: Swift.UInt, message: Swift.String)

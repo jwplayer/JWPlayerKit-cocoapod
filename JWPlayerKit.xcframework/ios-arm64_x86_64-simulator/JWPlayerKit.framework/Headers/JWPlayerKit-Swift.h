@@ -3118,7 +3118,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// This is a blocking callback, so failure to provide a response to the completion handler will result in unpredictable behavior. Make sure all logical paths do so.
 /// \param callback A <code>JWPlayerPlaylistItemCallback</code> closure used to notify about the next item in a playlist.
 ///
-- (void)setPlaylistItemCallback:(void (^ _Nonnull)(JWPlayerItem * _Nonnull, NSInteger, SWIFT_NOESCAPE void (^ _Nonnull)(JWPlayerItem * _Nullable)))callback;
+- (void)setPlaylistItemCallback:(void (^ _Nonnull)(JWPlayerItem * _Nonnull, NSInteger, void (^ _Nonnull)(JWPlayerItem * _Nullable)))callback;
 /// Removes the playlistItem callback (by deregistering the observer).
 - (void)removePlaylistItemCallback;
 /// Sets the new playlist to the player using its URL.
@@ -8111,7 +8111,7 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit16JWPlayerProtocol_")
 /// This is a blocking callback, so failure to provide a response to the completion handler will result in unpredictable behavior. Make sure all logical paths do so.
 /// \param callback A <code>JWPlayerPlaylistItemCallback</code> closure used to notify about the next item in a playlist.
 ///
-- (void)setPlaylistItemCallback:(void (^ _Nonnull)(JWPlayerItem * _Nonnull, NSInteger, SWIFT_NOESCAPE void (^ _Nonnull)(JWPlayerItem * _Nullable)))callback;
+- (void)setPlaylistItemCallback:(void (^ _Nonnull)(JWPlayerItem * _Nonnull, NSInteger, void (^ _Nonnull)(JWPlayerItem * _Nullable)))callback;
 /// Removes the playlistItem callback (by deregistering the observer).
 - (void)removePlaylistItemCallback;
 /// Sets the new playlist to the player using its URL.
