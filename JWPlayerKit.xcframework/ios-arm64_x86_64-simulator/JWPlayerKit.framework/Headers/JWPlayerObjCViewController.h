@@ -39,9 +39,6 @@ JWTimeEventListener>
 /// The view containing the player.
 @property (nonatomic, readonly) JWPlayerView * _Nonnull playerView;
 
-/// The delegate to receive JWPlayerViewController events.
-@property (nonatomic, weak, readwrite) id<JWPlayerViewControllerDelegate> _Nullable delegate;
-
 /// The delegate to receive JWPlayerViewControllerFullScreen events.
 @property (nonatomic, weak, readwrite) id<JWPlayerViewControllerFullScreenDelegate> _Nullable fullScreenDelegate;
 
