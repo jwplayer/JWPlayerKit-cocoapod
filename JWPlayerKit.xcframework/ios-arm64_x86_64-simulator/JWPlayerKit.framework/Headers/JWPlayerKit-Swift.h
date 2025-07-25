@@ -1064,6 +1064,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWAdsAdvertisingConfigBuilder")
 ///   </li>
 /// </ul>
 - (JWAdvertisingConfig * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+/// Sets the VMAP (Video Multiple Ad Playlist) XML configuration for the player.
+/// \param vmapXML A raw VMAP XML string defining the ad schedule.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWAdsAdvertisingConfigBuilder * _Nonnull)vmapXML:(NSString * _Nonnull)vmapXML;
 /// Sets a VMAP URL.
 /// \param vmapURL Either a local or remote URL of the vmap file.
 ///
@@ -2278,7 +2285,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 /// This is the default UIViewController which is used when the player takes over the entire screen.
 SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 @interface JWFullScreenViewController : UIViewController <UIPopoverPresentationControllerDelegate, UIViewControllerTransitioningDelegate>
-/// If true, all full screen views are forced into landscape orientation. The default value is <code>true</code>.
+/// This property defaults to <code>false</code>.
+/// <ul>
+///   <li>
+///     It is overridden to <code>true</code> by the <code>forceLandscapeOnFullScreen</code> in <code>JWPlayerViewController</code> if it is also <code>true</code>.
+///   </li>
+/// </ul>
 @property (nonatomic) BOOL displayInLandscape;
 @property (nonatomic, readonly) BOOL prefersHomeIndicatorAutoHidden;
 /// The interface orientation to use when presenting the view controller.
@@ -2286,6 +2298,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 /// Called after the controller’s view is loaded into memory.
 - (void)viewDidLoad;
 - (void)viewDidAppear:(BOOL)animated;
+- (void)viewWillLayoutSubviews;
+- (void)viewDidLayoutSubviews;
 /// Asks the delegate for the presentation style to use when the specified set of traits are active.
 /// \param controller The presentation controller that is managing the size change. Use this object to retrieve the view controllers involved in the presentation.
 ///
@@ -2302,6 +2316,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 - (void)presentationController:(UIPresentationController * _Nonnull)presentationController willPresentWithAdaptiveStyle:(UIModalPresentationStyle)style transitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nullable)transitionCoordinator;
 - (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForPresentedController:(UIViewController * _Nonnull)presented presentingController:(UIViewController * _Nonnull)presenting sourceController:(UIViewController * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 - (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForDismissedController:(UIViewController * _Nonnull)dismissed SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, readonly) UIInterfaceOrientationMask supportedInterfaceOrientations;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -3522,6 +3537,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// seealso:
 /// <code>JWMediaTrack</code>
 @property (nonatomic, readonly, copy) NSArray<JWMediaTrack *> * _Nullable mediaTracks;
+/// The XML of the VMAP to load.
+/// note:
+/// Used for JW.
+@property (nonatomic, readonly, copy) NSString * _Nullable vmapXML;
 /// The URL of the VMAP file to load.
 /// note:
 /// Used for JW and IMA.
@@ -3674,6 +3693,17 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)mediaTracks:(NSArray<JWMediaTrack *> * _Nonnull)mediaTracks;
+/// Sets the VMAP (Video Multiple Ad Playlist) XML configuration for the player item.
+/// important:
+/// For IMA ads, make sure the player configuration has a <code>JwImaAdvertisingConfig</code> object
+/// (even if it is empty) in addition to providing the ad schedule here.
+/// This informs the player of your intention to use the IMA SDK, which cannot be inferred from the ad URL alone.
+/// \param vmapXML A raw VMAP XML string defining the ad schedule.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerItemBuilder * _Nonnull)adScheduleWithVmapXML:(NSString * _Nonnull)vmapXML;
 /// Sets a VMAP URL.
 /// important:
 /// For IMA ads, make sure the player configuration has a <code>JwImaAdvertisingConfig</code> object
@@ -6021,6 +6051,13 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWAdsAdvertisingConfigBuilder")
 ///   </li>
 /// </ul>
 - (JWAdvertisingConfig * _Nullable)buildAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+/// Sets the VMAP (Video Multiple Ad Playlist) XML configuration for the player.
+/// \param vmapXML A raw VMAP XML string defining the ad schedule.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWAdsAdvertisingConfigBuilder * _Nonnull)vmapXML:(NSString * _Nonnull)vmapXML;
 /// Sets a VMAP URL.
 /// \param vmapURL Either a local or remote URL of the vmap file.
 ///
@@ -7235,7 +7272,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 /// This is the default UIViewController which is used when the player takes over the entire screen.
 SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 @interface JWFullScreenViewController : UIViewController <UIPopoverPresentationControllerDelegate, UIViewControllerTransitioningDelegate>
-/// If true, all full screen views are forced into landscape orientation. The default value is <code>true</code>.
+/// This property defaults to <code>false</code>.
+/// <ul>
+///   <li>
+///     It is overridden to <code>true</code> by the <code>forceLandscapeOnFullScreen</code> in <code>JWPlayerViewController</code> if it is also <code>true</code>.
+///   </li>
+/// </ul>
 @property (nonatomic) BOOL displayInLandscape;
 @property (nonatomic, readonly) BOOL prefersHomeIndicatorAutoHidden;
 /// The interface orientation to use when presenting the view controller.
@@ -7243,6 +7285,8 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 /// Called after the controller’s view is loaded into memory.
 - (void)viewDidLoad;
 - (void)viewDidAppear:(BOOL)animated;
+- (void)viewWillLayoutSubviews;
+- (void)viewDidLayoutSubviews;
 /// Asks the delegate for the presentation style to use when the specified set of traits are active.
 /// \param controller The presentation controller that is managing the size change. Use this object to retrieve the view controllers involved in the presentation.
 ///
@@ -7259,6 +7303,7 @@ SWIFT_CLASS("_TtC11JWPlayerKit26JWFullScreenViewController")
 - (void)presentationController:(UIPresentationController * _Nonnull)presentationController willPresentWithAdaptiveStyle:(UIModalPresentationStyle)style transitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nullable)transitionCoordinator;
 - (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForPresentedController:(UIViewController * _Nonnull)presented presentingController:(UIViewController * _Nonnull)presenting sourceController:(UIViewController * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 - (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForDismissedController:(UIViewController * _Nonnull)dismissed SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, readonly) UIInterfaceOrientationMask supportedInterfaceOrientations;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -8479,6 +8524,10 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// seealso:
 /// <code>JWMediaTrack</code>
 @property (nonatomic, readonly, copy) NSArray<JWMediaTrack *> * _Nullable mediaTracks;
+/// The XML of the VMAP to load.
+/// note:
+/// Used for JW.
+@property (nonatomic, readonly, copy) NSString * _Nullable vmapXML;
 /// The URL of the VMAP file to load.
 /// note:
 /// Used for JW and IMA.
@@ -8631,6 +8680,17 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)mediaTracks:(NSArray<JWMediaTrack *> * _Nonnull)mediaTracks;
+/// Sets the VMAP (Video Multiple Ad Playlist) XML configuration for the player item.
+/// important:
+/// For IMA ads, make sure the player configuration has a <code>JwImaAdvertisingConfig</code> object
+/// (even if it is empty) in addition to providing the ad schedule here.
+/// This informs the player of your intention to use the IMA SDK, which cannot be inferred from the ad URL alone.
+/// \param vmapXML A raw VMAP XML string defining the ad schedule.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerItemBuilder * _Nonnull)adScheduleWithVmapXML:(NSString * _Nonnull)vmapXML;
 /// Sets a VMAP URL.
 /// important:
 /// For IMA ads, make sure the player configuration has a <code>JwImaAdvertisingConfig</code> object

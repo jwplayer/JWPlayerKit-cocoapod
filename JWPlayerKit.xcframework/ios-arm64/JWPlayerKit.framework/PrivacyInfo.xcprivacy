@@ -3,43 +3,13 @@
 <plist version="1.0">
 <dict>
     <key>NSPrivacyTracking</key>
-    <true/>
+    <false/>
     <key>NSPrivacyTrackingDomains</key>
     <array>
         <string>jwpltx.com</string>
     </array>
     <key>NSPrivacyCollectedDataTypes</key>
     <array>
-        <dict>
-            <key>NSPrivacyCollectedDataType</key>
-            <string>NSPrivacyCollectedDataTypeAdvertisingData</string>
-            <key>NSPrivacyCollectedDataTypeLinked</key>
-            <false/>
-            <key>NSPrivacyCollectedDataTypeTracking</key>
-            <false/>
-            <key>NSPrivacyCollectedDataTypePurposes</key>
-            <array>
-                <string>NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising</string>
-                <string>NSPrivacyCollectedDataTypePurposeAnalytics</string>
-                <string>NSPrivacyCollectedDataTypePurposeProductPersonalization</string>
-                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
-            </array>
-        </dict>
-        <dict>
-            <key>NSPrivacyCollectedDataType</key>
-            <string>NSPrivacyCollectedDataTypeCoarseLocation</string>
-            <key>NSPrivacyCollectedDataTypeLinked</key>
-            <false/>
-            <key>NSPrivacyCollectedDataTypeTracking</key>
-            <false/>
-            <key>NSPrivacyCollectedDataTypePurposes</key>
-            <array>
-                <string>NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising</string>
-                <string>NSPrivacyCollectedDataTypePurposeAnalytics</string>
-                <string>NSPrivacyCollectedDataTypePurposeProductPersonalization</string>
-                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
-            </array>
-        </dict>
         <dict>
             <key>NSPrivacyCollectedDataType</key>
             <string>NSPrivacyCollectedDataTypePerformanceData</string>
@@ -62,9 +32,7 @@
             <false/>
             <key>NSPrivacyCollectedDataTypePurposes</key>
             <array>
-                <string>NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising</string>
                 <string>NSPrivacyCollectedDataTypePurposeAnalytics</string>
-                <string>NSPrivacyCollectedDataTypePurposeProductPersonalization</string>
                 <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
             </array>
         </dict>
@@ -78,9 +46,7 @@
             <key>NSPrivacyCollectedDataTypePurposes</key>
             <array>
                 <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
-                <string>NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising</string>
                 <string>NSPrivacyCollectedDataTypePurposeAnalytics</string>
-                <string>NSPrivacyCollectedDataTypePurposeProductPersonalization</string>
             </array>
         </dict>
     </array>
