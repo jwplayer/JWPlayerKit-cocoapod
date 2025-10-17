@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		VieH4CB7xOKdwGksbDa7vlxXrRA=
+		B752n58X/VU8CSfQPIhgjJHEZ1Q=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		zUp93vZx275+by/JHl0B4HL3ZP8=
+		Z7i9E5BVYXKN73Wm0gRxHN63g1Q=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
@@ -114,7 +114,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		ZSUvaK9shd8cZC2CLUvGyUElf0s=
+		gHFt/B4GioohuOTq2AalOySM+K4=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
@@ -122,7 +122,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		cLfIQnYUtXEpBjNAUWh9nPhZ/2s=
+		SwM/kGOMGzVds+A2HYgIr7P1CoQ=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -608,7 +608,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			JbE/dG+AJzcSy0aMs5rHV0uAD9TyehcKzGB1XdNq3Jc=
+			xJvtZ0dXU8xC3bN6z6uj5enedjoB0R6S7zsF5v/J1Jo=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
@@ -622,7 +622,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			areoM1IJM9o0XEjmxAr0zwhqVksPtY/X1s15DtcbMbw=
+			8vW3YV2UfIVSKIJXPpPxE532kLcyxrL02nP+rRRrj7A=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios.swiftinterface</key>
@@ -636,7 +636,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uWEcYLDE4vETJp5ebCXlp4B3bxhHm1LmpeqoWlBZbQI=
+			fS5edFzdP0YRX6sTsJMHRcLfApKfENg4UEmJ+dzQpB0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
