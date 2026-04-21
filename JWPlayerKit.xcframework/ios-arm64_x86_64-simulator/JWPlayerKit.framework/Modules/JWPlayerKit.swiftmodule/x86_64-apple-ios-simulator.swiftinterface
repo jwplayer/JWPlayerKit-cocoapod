@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.0.3 effective-5.10 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
-// swift-module-flags: -target x86_64-apple-ios15.6-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name JWPlayerKit
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface
+// swift-compiler-version: Apple Swift version 6.3 effective-5.10 (swiftlang-6.3.0.123.5 clang-2100.0.123.102)
+// swift-module-flags: -target x86_64-apple-ios15.6-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name JWPlayerKit
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3
 import AVFAudio
 import AVFoundation
 import AVKit
@@ -138,7 +138,11 @@ public let JWMediaSelectionOptionDefault: Swift.Int
 @objc @_hasMissingDesignatedInitializers @objcMembers public class JWTimeData : ObjectiveC.NSObject {
   @objc public var position: Foundation.TimeInterval
   @objc public var duration: Foundation.TimeInterval
+  @objc public var bufferHealth: Swift.Double
   @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class JWTimeRange : ObjectiveC.NSObject {
@@ -657,6 +661,7 @@ extension JWPlayerKit.JWCaptionPosition {
 @objc @_inheritsConvenienceInitializers @objcMembers final public class JWJSONParser : ObjectiveC.NSObject {
   @objc(configFromUrl:error:) public static func config(from url: Foundation.URL) throws -> JWPlayerKit.JWPlayerConfiguration
   @objc(configFromJSONData:error:) public static func config(from jsonData: Foundation.Data) throws -> JWPlayerKit.JWPlayerConfiguration
+  @objc(playlistItemsFromJSONData:error:) public static func playlistItems(from jsonData: Foundation.Data) throws -> [JWPlayerKit.JWPlayerItem]
   @objc override dynamic public init()
   @objc deinit
 }
@@ -1062,6 +1067,7 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
   @_Concurrency.MainActor @preconcurrency @objc open func jwplayer(_ player: any JWPlayerKit.JWPlayer, isVisible: Swift.Bool)
   @_Concurrency.MainActor @preconcurrency @objc open func jwplayer(_ player: any JWPlayerKit.JWPlayer, didLoadPlaylist playlist: [JWPlayerKit.JWPlayerItem])
   @_Concurrency.MainActor @preconcurrency @objc open func jwplayer(_ player: any JWPlayerKit.JWPlayer, didLoadPlaylistItem item: JWPlayerKit.JWPlayerItem, at index: Swift.UInt)
+  @_Concurrency.MainActor @preconcurrency @objc open func jwplayer(_ player: any JWPlayerKit.JWPlayer, didUpdateItemMetadataForItem item: JWPlayerKit.JWPlayerItem)
   @_Concurrency.MainActor @preconcurrency @objc open func jwplayerPlaylistHasCompleted(_ player: any JWPlayerKit.JWPlayer)
   @_Concurrency.MainActor @preconcurrency @objc open func jwplayer(_ player: any JWPlayerKit.JWPlayer, seekedFrom oldPosition: Foundation.TimeInterval, to newPosition: Foundation.TimeInterval)
   @_Concurrency.MainActor @preconcurrency @objc open func jwplayerHasSeeked(_ player: any JWPlayerKit.JWPlayer)
@@ -1373,10 +1379,10 @@ extension JWPlayerKit.JWIdleReason : Swift.CustomStringConvertible {
   @objc final public var backgroundColor: UIKit.UIColor? {
     get
   }
-  @JWPlayerKit.ZeroToOneClamped final public var backgroundOpacity: CoreFoundation.CGFloat? {
+  @JWPlayerKit.ZeroToOneClamped<CoreFoundation.CGFloat> final public var backgroundOpacity: CoreFoundation.CGFloat? {
     get
   }
-  @JWPlayerKit.ZeroToOneClamped final public var textOpacity: CoreFoundation.CGFloat? {
+  @JWPlayerKit.ZeroToOneClamped<CoreFoundation.CGFloat> final public var textOpacity: CoreFoundation.CGFloat? {
     get
   }
   @objc final public var edgeStyle: JWPlayerKit.JWCaptionEdgeStyle {
@@ -1520,6 +1526,7 @@ public typealias JWPlayerPlaylistItemCallback = (_ item: JWPlayerKit.JWPlayerIte
   @objc func loadPlaylist(items: [JWPlayerKit.JWPlayerItem])
   @objc func loadPlayerItemAt(index: Swift.Int)
   @objc var currentItem: JWPlayerKit.JWPlayerItem? { get }
+  @objc func updateItemMetadata(title: Swift.String?, description: Swift.String?, posterImage: Foundation.URL?)
   @objc func getCues() -> [JWPlayerKit.JWCue]
   @objc func setCues(_ cues: [JWPlayerKit.JWCue])
   @objc func addCues(_ cues: [JWPlayerKit.JWCue])
@@ -2053,6 +2060,7 @@ extension JWPlayerKit.JWBufferReason : Swift.CustomStringConvertible {
   @objc func jwplayerHasSeeked(_ player: any JWPlayerKit.JWPlayer)
   @objc func jwplayer(_ player: any JWPlayerKit.JWPlayer, playbackRateChangedTo rate: Swift.Double, at time: Foundation.TimeInterval)
   @objc func jwplayer(_ player: any JWPlayerKit.JWPlayer, updatedCues cues: [JWPlayerKit.JWCue])
+  @objc optional func jwplayer(_ player: any JWPlayerKit.JWPlayer, didUpdateItemMetadataForItem item: JWPlayerKit.JWPlayerItem)
 }
 @objc public protocol JWAVDelegate {
   @objc func jwplayer(_ player: any JWPlayerKit.JWPlayer, audioTracksUpdated levels: [JWPlayerKit.JWMediaSelectionOption])

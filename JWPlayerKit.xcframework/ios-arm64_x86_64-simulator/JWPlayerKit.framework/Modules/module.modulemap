@@ -7,5 +7,4 @@ framework module JWPlayerKit {
 
 module JWPlayerKit.Swift {
   header "JWPlayerKit-Swift.h"
-  requires objc
 }
