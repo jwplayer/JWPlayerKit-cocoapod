@@ -13,6 +13,7 @@ import CoreMIDI
 import CoreMedia
 import DeveloperToolsSupport
 import Foundation
+import ImageIO
 @_exported import JWPlayerKit
 import JavaScriptCore
 import MediaAccessibility

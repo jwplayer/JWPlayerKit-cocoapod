@@ -1,1 +1,1 @@
-const instance=new NativeLocalStorage,localStorage=new Proxy(instance,{set:(e,t,n)=>(instance.setItem(t,n),!0),get:(e,t)=>instance.getItem(t)});self.localStorage=localStorage;
+const instance=new NativeLocalStorage,localStorage=new Proxy(instance,{set:(e,t,n)=>(instance.setItem(t,n),!0),get:(e,t)=>"getItem"===t?e=>instance.getItem(e):"setItem"===t?(e,n)=>instance.setItem(e,n):"removeItem"===t?e=>instance.removeItem(e):"clear"===t?()=>instance.clear():"key"===t?e=>instance.keys()[e]:"length"===t?instance.size:instance.getItem(t)});self.localStorage=localStorage;
