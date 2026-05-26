@@ -933,6 +933,8 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
   @objc @discardableResult
   public func vmapXML(_ vmapXML: Swift.String) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
   @objc @discardableResult
+  public func liftsVMAPLevelExtensions(_ enabled: Swift.Bool) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
+  @objc @discardableResult
   public func vmapURL(_ vmapURL: Foundation.URL) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
   @objc @discardableResult
   public func schedule(_ schedule: [JWPlayerKit.JWAdBreak]) -> JWPlayerKit.JWAdsAdvertisingConfigBuilder
@@ -1771,6 +1773,9 @@ extension UIKit.UIStackView {
 }
 @_hasMissingDesignatedInitializers @objc public class JWAdvertisingConfig : ObjectiveC.NSObject {
   public var vmapXML: Swift.String? {
+    get
+  }
+  public var liftsVMAPLevelExtensions: Swift.Bool {
     get
   }
   public var skipOffset: Foundation.TimeInterval? {

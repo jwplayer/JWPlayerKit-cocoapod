@@ -1103,6 +1103,19 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWAdsAdvertisingConfigBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWAdsAdvertisingConfigBuilder * _Nonnull)vmapXML:(NSString * _Nonnull)vmapXML;
+/// Opts in to preprocessing the inline <code>vmapXML</code> so that any VMAP-level
+/// <code><vmap:Extensions></code> of supported types (currently <code>skippable</code>) are lifted into
+/// each ad’s inline VAST <code><InLine></code>/<code><Wrapper></code>. Defaults to <code>false</code>.
+/// note:
+/// Only affects inline VMAPs supplied via <code>vmapXML(_:)</code>. Remote VMAPs supplied
+/// via <code>vmapURL(_:)</code> are not modified.
+/// \param enabled When <code>true</code>, the SDK will rewrite the VMAP before handing it
+/// to the headless player. When <code>false</code> (the default), the VMAP is forwarded unchanged.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWAdsAdvertisingConfigBuilder * _Nonnull)liftsVMAPLevelExtensions:(BOOL)enabled;
 /// Sets a VMAP URL.
 /// \param vmapURL Either a local or remote URL of the vmap file.
 ///
