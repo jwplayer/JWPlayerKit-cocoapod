@@ -1109,6 +1109,11 @@ SWIFT_CLASS("_TtC11JWPlayerKit29JWAdsAdvertisingConfigBuilder")
 /// note:
 /// Only affects inline VMAPs supplied via <code>vmapXML(_:)</code>. Remote VMAPs supplied
 /// via <code>vmapURL(_:)</code> are not modified.
+/// note:
+/// Hosts driving configuration from JSON via <code>JWJSONParser</code> can opt in by setting
+/// the <code>liftsVMAPLevelExtensions</code> boolean key inside the <code>advertising</code> object, e.g.
+/// <code>{ "advertising": { "client": "vast", "liftsVMAPLevelExtensions": true, ... } }</code>.
+/// The key is honored only for the <code>vast</code> client; omitting it preserves the default <code>false</code>.
 /// \param enabled When <code>true</code>, the SDK will rewrite the VMAP before handing it
 /// to the headless player. When <code>false</code> (the default), the VMAP is forwarded unchanged.
 ///
@@ -3532,6 +3537,33 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// seealso:
 /// <code>JWExternalMetadata</code>
 @property (nonatomic, readonly, copy) NSArray<JWExternalMetadata *> * _Nullable externalMetadata;
+/// The target distance from the live edge, in seconds, during live stream playback.
+/// When set to a value between 5 and 45, the player targets this many seconds behind the live edge.
+/// This is useful when captions or other synchronized content require additional processing time
+/// that exceeds the player’s default proximity to the live edge.
+/// A value of <code>0</code> (the default), a negative value, or a non-finite value leaves the live edge
+/// targeting at the platform’s native default. Positive values are clamped to the 5–45 second range.
+/// note:
+/// This property only affects live streams. For VOD content it is ignored.
+/// note:
+/// This is a target, not a guarantee. Many live streams advertise a minimum hold-back from
+/// the live edge (the stream’s recommended offset); the player cannot position closer to the live
+/// edge than that minimum, so a value smaller than the stream’s hold-back has no visible effect.
+/// Requesting a <em>larger</em> offset than the stream’s hold-back is honored. The exact minimum is
+/// stream-specific and not known in advance.
+/// note:
+/// Internally maps to <code>AVPlayerItem.configuredTimeOffsetFromLive</code>, and the player also
+/// enables <code>automaticallyPreservesTimeOffsetFromLive</code> for automatic recovery after stalls.
+/// warning:
+/// Setting a large offset increases the delay between the real-time broadcast and what
+/// the viewer sees. Only increase this value if you have a specific need (e.g., caption synchronization).
+/// Using values above 30 seconds may noticeably degrade the viewer’s sense of “liveness” and
+/// can increase memory usage for the playback buffer.
+/// important:
+/// When <code>liveSyncDuration</code> is set, the player’s steady-state position will be approximately
+/// this many seconds behind the true live edge. The SDK’s built-in live UI (the “Live” indicator and
+/// “Go to Live” button) accounts for this offset automatically.
+@property (nonatomic, readonly) NSTimeInterval liveSyncDuration;
 /// Custom attributes that you can associate with the item.
 /// Use this property to attach a value that provides additional context to the media item. For example, you can attach flags for
 /// filtering logic elsewhere in the app, or additional JSON data to be included when serializing the item to be sent over the network,
@@ -3720,6 +3752,38 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)externalMetadata:(NSArray<JWExternalMetadata *> * _Nonnull)externalMetadata;
+/// Sets the target distance from the live edge for live stream playback.
+/// When set, the player will attempt to maintain this many seconds of distance behind the
+/// live edge during playback. This is primarily useful when synchronized content such as
+/// captions needs additional processing time that exceeds the player’s default live edge proximity.
+/// The value is clamped to the range 5–45 seconds. Pass <code>0</code> (or do not call this method)
+/// to use the platform’s native default behavior.
+/// <em>Example — improve caption synchronization on a live stream:</em>
+/// \code
+/// let item = try JWPlayerItemBuilder()
+///     .file(liveStreamURL)
+///     .liveSyncDuration(15) // target 15 seconds behind live edge
+///     .build()
+///
+/// \endcodenote:
+/// This only affects live streams. For VOD content the value is ignored by the player.
+/// note:
+/// This is a target, not a guarantee. A stream may advertise a minimum hold-back from the
+/// live edge; the player cannot get closer to the live edge than that, so a value smaller than the
+/// stream’s hold-back has no visible effect. Larger offsets are honored. The minimum is
+/// stream-specific and not known in advance.
+/// warning:
+/// Increasing this value adds latency between the real-time broadcast and what the
+/// viewer sees. Only increase if you have a specific need such as caption sync. Values above
+/// 30 seconds may noticeably reduce the viewer’s sense of “liveness” and increase buffer memory usage.
+/// \param liveSyncDuration The desired offset in seconds. Positive values are clamped to the
+/// 5–45 second range. A value of <code>0</code>, a negative value, or a non-finite value means unset (use
+/// native defaults).
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerItemBuilder * _Nonnull)liveSyncDuration:(NSTimeInterval)liveSyncDuration;
 /// Custom attributes that you can associate with the item.
 /// Use this property to attach a value that provides additional context to the media item. For example, you can attach flags for
 /// filtering logic elsewhere in the app, or additional JSON data to be included when serializing the item to be sent over the network,
@@ -4064,6 +4128,10 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit20JWPlayerViewProtocol_")
 @property (nonatomic) BOOL allowsPictureInPicturePlayback;
 /// Returns the region where the video is being rendered.
 @property (nonatomic, readonly) CGRect videoRect;
+/// Whether the player automatically tears down its ad session when the
+/// player view is removed from the screen. See the discussion on the
+/// <code>JWPlayerView</code> property of the same name.
+@property (nonatomic) BOOL automaticallyTearsDownAdSessionOnViewRemoval;
 @end
 
 @protocol JWPlayerViewDelegate;
@@ -4091,7 +4159,28 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) Class _Nonnull layer
 /// \param frame The frame rectangle for the view.
 ///
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+/// Whether the player automatically tears down its ad session when this view
+/// is removed from the screen (its window becomes <code>nil</code>).
+/// Google IMA and DAI anchor their ad session on the global
+/// <code>NotificationCenter</code>, which retains the whole player graph — including the
+/// content <code>AVPlayer</code> — so if the view is removed without this teardown the
+/// player leaks and its audio can keep playing off-screen. The default
+/// (<code>true</code>) covers the common case where the player screen is popped or
+/// dismissed.
+/// Set this to <code>false</code> when the integration deliberately keeps a player alive
+/// while its view is detached — reusing player instances across recycled
+/// collection/table cells, or moving the view between containers — and take
+/// responsibility for tearing the player down (release it, or call <code>stop()</code>)
+/// when finished. Left <code>true</code>, those setups lose the ad session (and any
+/// scheduled IMA/DAI ad breaks) each time the view leaves the screen.
+/// note:
+/// This applies only while the view itself is alive. If the view is
+/// deallocated while an ad session is active, the session is always torn
+/// down regardless of this setting, since the ad SDK’s anchor would
+/// otherwise leak the whole player graph with no view left to reattach.
+@property (nonatomic) BOOL automaticallyTearsDownAdSessionOnViewRemoval;
 - (void)didMoveToWindow;
+- (void)didMoveToSuperview;
 /// This init is required, so it is here.
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
 /// Lays out subviews.
@@ -4199,6 +4288,12 @@ SWIFT_CLASS("_TtC11JWPlayerKit22JWPlayerViewController")
 /// warning:
 /// Do not access this until the view is loaded.
 @property (nonatomic, readonly, strong) id <JWPlayerViewProtocol> _Null_unspecified playerView;
+/// Whether the player automatically tears down its ad session when the
+/// player view is removed from the screen (e.g. this controller is popped or
+/// dismissed). Defaults to <code>true</code>. Set to <code>false</code> if you retain and reuse the
+/// player across view detaches (recycled cells, moving between containers)
+/// and manage teardown yourself. Forwards to the underlying <code>JWPlayerView</code>.
+@property (nonatomic) BOOL automaticallyTearsDownAdSessionOnViewRemoval;
 /// The behavior desired for the interface. The default value is <code>.normal</code>.
 @property (nonatomic) enum JWInterfaceBehavior interfaceBehavior;
 /// Available playback rates.

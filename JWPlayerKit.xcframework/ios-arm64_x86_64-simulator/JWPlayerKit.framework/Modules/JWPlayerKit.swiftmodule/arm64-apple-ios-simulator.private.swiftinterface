@@ -425,6 +425,9 @@ extension JWPlayerKit.JWTimeSliderStyle : JWPlayerKit.DeepCopying {
   @objc final public var externalMetadata: [JWPlayerKit.JWExternalMetadata]? {
     get
   }
+  @objc final public var liveSyncDuration: Swift.Double {
+    get
+  }
   @objc final public var userInfo: JWPlayerKit.JSONObject? {
     get
   }
@@ -479,6 +482,8 @@ extension JWPlayerKit.JWTimeSliderStyle : JWPlayerKit.DeepCopying {
   final public func googleDAIStream(_ googleDAIStream: JWPlayerKit.JWGoogleDAIStream) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
   final public func externalMetadata(_ externalMetadata: [JWPlayerKit.JWExternalMetadata]) -> JWPlayerKit.JWPlayerItemBuilder
+  @objc @discardableResult
+  final public func liveSyncDuration(_ liveSyncDuration: Foundation.TimeInterval) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
   final public func userInfo(_ userInfo: JWPlayerKit.JSONObject) -> JWPlayerKit.JWPlayerItemBuilder
   @objc deinit
@@ -840,6 +845,7 @@ extension JWPlayerKit.JWPreload : Swift.CustomStringConvertible {
   @objc var videoGravity: JWPlayerKit.JWVideoGravity { get set }
   @objc var allowsPictureInPicturePlayback: Swift.Bool { get set }
   @objc var videoRect: CoreFoundation.CGRect { get }
+  @objc var automaticallyTearsDownAdSessionOnViewRemoval: Swift.Bool { get set }
 }
 @objc public protocol JWPlayerViewDelegate {
   @objc func playerView(_ view: JWPlayerKit.JWPlayerView, sizeChangedFrom oldSize: CoreFoundation.CGSize, to newSize: CoreFoundation.CGSize)
@@ -893,7 +899,9 @@ extension JWPlayerKit.JWVideoGravity : Swift.CustomStringConvertible {
     @objc set
   }
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc public var automaticallyTearsDownAdSessionOnViewRemoval: Swift.Bool
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func didMoveToWindow()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func didMoveToSuperview()
   @objc deinit
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func layoutSubviews()
 }
@@ -988,6 +996,10 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
   }
   @objc @_Concurrency.MainActor @preconcurrency public var playerView: (any JWPlayerKit.JWPlayerViewProtocol)! {
     @objc get
+  }
+  @objc @_Concurrency.MainActor @preconcurrency public var automaticallyTearsDownAdSessionOnViewRemoval: Swift.Bool {
+    @objc get
+    @objc set
   }
   @objc @_Concurrency.MainActor @preconcurrency public var interfaceBehavior: JWPlayerKit.JWInterfaceBehavior {
     @objc get
