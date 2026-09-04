@@ -428,6 +428,18 @@ extension JWPlayerKit.JWTimeSliderStyle : JWPlayerKit.DeepCopying {
   @objc final public var liveSyncDuration: Swift.Double {
     get
   }
+  @objc final public var titleAccessibilityLabel: Swift.String? {
+    get
+  }
+  @objc final public var titleAccessibilityHint: Swift.String? {
+    get
+  }
+  @objc final public var descriptionAccessibilityLabel: Swift.String? {
+    get
+  }
+  @objc final public var descriptionAccessibilityHint: Swift.String? {
+    get
+  }
   @objc final public var userInfo: JWPlayerKit.JSONObject? {
     get
   }
@@ -458,6 +470,14 @@ extension JWPlayerKit.JWTimeSliderStyle : JWPlayerKit.DeepCopying {
   final public func title(_ title: Swift.String) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
   final public func description(_ description: Swift.String) -> JWPlayerKit.JWPlayerItemBuilder
+  @objc @discardableResult
+  final public func titleAccessibilityLabel(_ label: Swift.String) -> JWPlayerKit.JWPlayerItemBuilder
+  @objc @discardableResult
+  final public func titleAccessibilityHint(_ hint: Swift.String) -> JWPlayerKit.JWPlayerItemBuilder
+  @objc @discardableResult
+  final public func descriptionAccessibilityLabel(_ label: Swift.String) -> JWPlayerKit.JWPlayerItemBuilder
+  @objc @discardableResult
+  final public func descriptionAccessibilityHint(_ hint: Swift.String) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
   final public func posterImage(_ posterImage: Foundation.URL) -> JWPlayerKit.JWPlayerItemBuilder
   @objc @discardableResult
@@ -972,6 +992,8 @@ extension JWPlayerKit.JWRelatedOnClick : Swift.CustomStringConvertible {
   @objc func playerViewControllerDidGoFullScreen(_ controller: JWPlayerKit.JWPlayerViewController)
   @objc func playerViewControllerWillDismissFullScreen(_ controller: JWPlayerKit.JWPlayerViewController)
   @objc func playerViewControllerDidDismissFullScreen(_ controller: JWPlayerKit.JWPlayerViewController)
+  @objc optional func playerViewControllerWillDismissFullScreen(_ controller: JWPlayerKit.JWPlayerViewController, reason: JWPlayerKit.JWFullScreenExitReason)
+  @objc optional func playerViewControllerDidDismissFullScreen(_ controller: JWPlayerKit.JWPlayerViewController, reason: JWPlayerKit.JWFullScreenExitReason)
 }
 @objc public protocol JWPlayerViewControllerUIDelegate {
   @objc func playerViewController(_ controller: JWPlayerKit.JWPlayerViewController, controlBarVisibilityChanged isVisible: Swift.Bool, frame: CoreFoundation.CGRect)
@@ -1377,6 +1399,29 @@ extension JWPlayerKit.JWPauseReason : Swift.CustomStringConvertible {
   }
 }
 extension JWPlayerKit.JWIdleReason : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+@objc public enum JWFullScreenExitReason : Swift.Int {
+  case unknown = 0
+  case userTappedDismissButton = 1
+  case userTappedToggleButton = 2
+  case userSwipedDown = 3
+  case orientationChange = 4
+  case appBackgrounded = 5
+  case pictureInPictureInitiated = 6
+  case contentComplete = 7
+  case adBreakEnd = 8
+  case playbackError = 9
+  case external = 10
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension JWPlayerKit.JWFullScreenExitReason : Swift.CustomStringConvertible {
   public var description: Swift.String {
     get
   }
@@ -2196,6 +2241,9 @@ extension JWPlayerKit.JWPauseReason : Swift.RawRepresentable {}
 extension JWPlayerKit.JWIdleReason : Swift.Equatable {}
 extension JWPlayerKit.JWIdleReason : Swift.Hashable {}
 extension JWPlayerKit.JWIdleReason : Swift.RawRepresentable {}
+extension JWPlayerKit.JWFullScreenExitReason : Swift.Equatable {}
+extension JWPlayerKit.JWFullScreenExitReason : Swift.Hashable {}
+extension JWPlayerKit.JWFullScreenExitReason : Swift.RawRepresentable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.Equatable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.Hashable {}
 extension JWPlayerKit.JWCaptionEdgeStyle : Swift.RawRepresentable {}

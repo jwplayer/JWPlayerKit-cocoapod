@@ -2286,6 +2286,47 @@ SWIFT_CLASS("_TtC11JWPlayerKit31JWFriendlyObstructionsContainer")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+/// Constants indicating the reason fullscreen mode was exited, delivered through the optional
+/// <code>JWPlayerViewControllerFullScreenDelegate</code> dismiss callbacks.
+/// The full set of constants is shared with the Android SDK so both platforms describe the same
+/// situations with the same values. The player does not currently exit fullscreen in every one of
+/// those situations, so some constants are reserved and are never reported today; each is marked
+/// below. Treat any unhandled value as equivalent to <code>.unknown</code> rather than switching exhaustively,
+/// so a reserved reason becoming live is not a breaking change.
+/// Raw values are explicit and appended-only so the integers visible to Objective-C stay stable
+/// across releases.
+typedef SWIFT_ENUM(NSInteger, JWFullScreenExitReason, open) {
+/// The cause could not be determined.
+  JWFullScreenExitReasonUnknown = 0,
+/// Fullscreen exited when the user tapped the dedicated dismiss button: the ‘x’ in the
+/// upper-left corner of the backdrop, or the equivalent button in the related/gallery overlay
+/// top bar. This button only ever leaves fullscreen — it is not a toggle.
+  JWFullScreenExitReasonUserTappedDismissButton = 1,
+/// Fullscreen exited when the user tapped the fullscreen toggle button: the shrink icon in the
+/// VoD, Live, error and ad control bars, or the backdrop’s fullscreen button. The same control
+/// enters fullscreen when the player is windowed.
+  JWFullScreenExitReasonUserTappedToggleButton = 2,
+/// Reserved. Fullscreen presentation has no interactive swipe dismissal, so this is never
+/// reported.
+  JWFullScreenExitReasonUserSwipedDown = 3,
+/// Reserved. Device rotation does not itself dismiss fullscreen, so this is never reported.
+  JWFullScreenExitReasonOrientationChange = 4,
+/// Reserved. Backgrounding the app does not dismiss fullscreen, so this is never reported.
+  JWFullScreenExitReasonAppBackgrounded = 5,
+/// Reserved. Entering Picture in Picture does not dismiss fullscreen, so this is never
+/// reported.
+  JWFullScreenExitReasonPictureInPictureInitiated = 6,
+/// Reserved. Completing playback does not dismiss fullscreen, so this is never reported.
+  JWFullScreenExitReasonContentComplete = 7,
+/// Reserved. The end of an ad break does not dismiss fullscreen, so this is never reported.
+  JWFullScreenExitReasonAdBreakEnd = 8,
+/// Reserved. A playback error does not dismiss fullscreen, so this is never reported.
+  JWFullScreenExitReasonPlaybackError = 9,
+/// Fullscreen exited because of a call to <code>dismissFullScreen(animated:completion:)</code>, i.e.
+/// the request came from outside the player UI.
+  JWFullScreenExitReasonExternal = 10,
+};
+
 @class UIPresentationController;
 @class UITraitCollection;
 @protocol UIViewControllerTransitionCoordinator;
@@ -3564,6 +3605,16 @@ SWIFT_CLASS("_TtC11JWPlayerKit12JWPlayerItem")
 /// this many seconds behind the true live edge. The SDK’s built-in live UI (the “Live” indicator and
 /// “Go to Live” button) accounts for this offset automatically.
 @property (nonatomic, readonly) NSTimeInterval liveSyncDuration;
+/// Custom accessibility label for the title, read aloud by VoiceOver instead of the title text.
+/// Use this to correct misinterpretations (e.g., “3m” read as “meters” instead of “minutes”).
+@property (nonatomic, readonly, copy) NSString * _Nullable titleAccessibilityLabel;
+/// Custom accessibility hint for the title.
+@property (nonatomic, readonly, copy) NSString * _Nullable titleAccessibilityHint;
+/// Custom accessibility label for the description, read aloud by VoiceOver instead of the description text.
+/// Use this to correct misinterpretations (e.g., “3m” read as “meters” instead of “minutes”).
+@property (nonatomic, readonly, copy) NSString * _Nullable descriptionAccessibilityLabel;
+/// Custom accessibility hint for the description.
+@property (nonatomic, readonly, copy) NSString * _Nullable descriptionAccessibilityHint;
 /// Custom attributes that you can associate with the item.
 /// Use this property to attach a value that provides additional context to the media item. For example, you can attach flags for
 /// filtering logic elsewhere in the app, or additional JSON data to be included when serializing the item to be sent over the network,
@@ -3647,6 +3698,36 @@ SWIFT_CLASS("_TtC11JWPlayerKit19JWPlayerItemBuilder")
 /// returns:
 /// The builder, so setters can be chained.
 - (JWPlayerItemBuilder * _Nonnull)description:(NSString * _Nonnull)description;
+/// Sets a custom accessibility label for the title, read aloud by VoiceOver instead of the title text.
+/// Use this to correct misinterpretations (e.g., “3m” read as “meters” instead of “minutes”).
+/// \param label The text VoiceOver should read for the title.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerItemBuilder * _Nonnull)titleAccessibilityLabel:(NSString * _Nonnull)label;
+/// Sets a custom accessibility hint for the title.
+/// \param hint The hint text for the title.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerItemBuilder * _Nonnull)titleAccessibilityHint:(NSString * _Nonnull)hint;
+/// Sets a custom accessibility label for the description, read aloud by VoiceOver instead of the description text.
+/// Use this to correct misinterpretations (e.g., “3m” read as “meters” instead of “minutes”).
+/// \param label The text VoiceOver should read for the description.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerItemBuilder * _Nonnull)descriptionAccessibilityLabel:(NSString * _Nonnull)label;
+/// Sets a custom accessibility hint for the description.
+/// \param hint The hint text for the description.
+///
+///
+/// returns:
+/// The builder, so setters can be chained.
+- (JWPlayerItemBuilder * _Nonnull)descriptionAccessibilityHint:(NSString * _Nonnull)hint;
 /// Sets the poster image url of the player item.
 /// \param posterImage An URL that points to the poster image.
 ///
@@ -4513,6 +4594,19 @@ SWIFT_PROTOCOL("_TtP11JWPlayerKit40JWPlayerViewControllerFullScreenDelegate_")
 /// \param controller The JWPlayerViewController emitting the event.
 ///
 - (void)playerViewControllerDidDismissFullScreen:(JWPlayerViewController * _Nonnull)controller;
+@optional
+/// Called before the player dismisses full screen with the reason for the exit.
+/// \param controller The JWPlayerViewController emitting the event.
+///
+/// \param reason The reason why fullscreen was exited.
+///
+- (void)playerViewControllerWillDismissFullScreen:(JWPlayerViewController * _Nonnull)controller reason:(enum JWFullScreenExitReason)reason;
+/// Called after the player dismisses full screen with the reason for the exit.
+/// \param controller The JWPlayerViewController emitting the event.
+///
+/// \param reason The reason why fullscreen was exited.
+///
+- (void)playerViewControllerDidDismissFullScreen:(JWPlayerViewController * _Nonnull)controller reason:(enum JWFullScreenExitReason)reason;
 @end
 
 SWIFT_ENUM_FWD_DECL(NSInteger, JWRelatedInteraction)
