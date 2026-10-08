@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		0W4kwi1MaGgcYhceQMvh6uoPnNI=
+		AzImYICpg81hzKBR283ndj39htE=
 		</data>
 		<key>JS/jscontext.polyfill.js</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		+sEW4mlwb6e1YVsOobprjOYU3xg=
+		iZWrzWe7V55Np2vsGXn1L03L2r8=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -122,11 +122,11 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		PmyatkGcVen8bdLq1YERszsuFWo=
+		sm/0K4f1PQM1AyCMP860h0DOsEw=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		+sEW4mlwb6e1YVsOobprjOYU3xg=
+		iZWrzWe7V55Np2vsGXn1L03L2r8=
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -142,7 +142,7 @@
 		</data>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		iUE0IEKaUmcnA3SG4ErzSmPECmQ=
+		9tFHCh6FUrZhe1L1st8tSrq8Mn0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -628,7 +628,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			cm+sm93y6W96S4Wdgx7Ltvws+ExUgGVCoK2g113a4z0=
+			kvhWdqYG3x9OSmJqZkQ7oY8Ig5BYlu0FA+g1LtXzrPQ=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
@@ -656,14 +656,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			nL7dd3RyefG2tk2Cz/rmaHWPdPlLhqocSTH1AdjXnqw=
+			rn9APOxEq7QLJT2JL/iOdW7yxnNgLGhAjToy1mjZ8cw=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cm+sm93y6W96S4Wdgx7Ltvws+ExUgGVCoK2g113a4z0=
+			kvhWdqYG3x9OSmJqZkQ7oY8Ig5BYlu0FA+g1LtXzrPQ=
 			</data>
 		</dict>
 		<key>Modules/JWPlayerKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
@@ -691,7 +691,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			NAdL0yUV8C8GoI1pL89KEbROCWEv8p5o2j3M5ms6cUs=
+			kILuu3ZLmgbAWv9ud43xwEqyWD4a5XCerol9YB33C94=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
