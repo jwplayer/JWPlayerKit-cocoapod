@@ -2,7 +2,7 @@
 JW Player SDK for iOS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Document version: 10/08/2026
+Document version: 10/28/2026
 SDK version: 4.28.2
 
 > **FINAL COCOAPODS RELEASE.** This is the last version of JWPlayerKit published to CocoaPods. CocoaPods trunk becomes read-only on December 2, 2026.
